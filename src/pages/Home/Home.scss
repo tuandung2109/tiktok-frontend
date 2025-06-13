@@ -1,0 +1,19 @@
+@import '../../components/GlobalStyles/GlobalStyles.scss';
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; // chiếm full chiều cao màn hình
+    // background-color: #000;
+    padding: 20px;
+}
+
+.video-player {
+    width: 100%;
+    max-width: 420px;   // hoặc 480px nếu muốn to hơn
+    height: 740px;      // tỉ lệ 9:16 cho video dọc
+    border-radius: 12px;
+    object-fit: cover;  // giữ tỷ lệ nội dung video, cắt phần dư nếu có
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}

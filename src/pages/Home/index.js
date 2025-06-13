@@ -1,5 +1,18 @@
+import React from 'react';
+import './Home.scss';
+
 function Home() {
-    return <h2>Home page</h2>;
+    return (
+        <div className="video-container">
+            <video
+                className="video-player"
+                src="/videos/video1.mp4"
+                controls
+                autoPlay
+                loop
+            ></video>
+        </div>
+    );
 }
 
 export default Home;
