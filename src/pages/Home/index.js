@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+// import CommentModal from '../../components/CommentModal';
+import CommentModal from '../../components/CommentModal/CommentModal';
 import './Home.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -6,6 +8,7 @@ function Home() {
     // State để quản lý trạng thái "đã thích" và "đã bookmark"
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false); // State để quản lý modal
 
     // Hàm xử lý khi bấm vào icon trái tim
     const handleLikeClick = () => {
@@ -15,6 +18,16 @@ function Home() {
     // Hàm xử lý khi bấm vào icon bookmark
     const handleBookmarkClick = () => {
         setIsBookmarked(!isBookmarked); // Đảo ngược trạng thái
+    };
+
+    // Hàm xử lý khi bấm vào icon bình luận
+    const handleCommentClick = () => {
+        setIsCommentModalOpen(true); // Mở modal
+    };
+
+    // Hàm xử lý đóng modal
+    const handleCloseModal = () => {
+        setIsCommentModalOpen(false); // Đóng modal
     };
 
     return (
@@ -46,7 +59,7 @@ function Home() {
 
                 {/* Comment */}
                 <div className="action-item">
-                    <div className="icon-wrapper">
+                    <div className="icon-wrapper" onClick={handleCommentClick}>
                         <i className="fa-solid fa-comment icon"></i>
                     </div>
                     <span>380</span>
@@ -68,6 +81,9 @@ function Home() {
                     <span>1418</span>
                 </div>
             </div>
+
+            {/* Sử dụng CommentModal */}
+            <CommentModal isOpen={isCommentModalOpen} onClose={handleCloseModal} />
         </div>
     );
 }
