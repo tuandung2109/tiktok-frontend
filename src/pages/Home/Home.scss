@@ -1,19 +1,97 @@
 @import '../../components/GlobalStyles/GlobalStyles.scss';
 
-.video-container {
+.home-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; // chiếm full chiều cao màn hình
-    // background-color: #000;
-    padding: 20px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.video-container {
+    position: relative;
 }
 
 .video-player {
     width: 100%;
-    max-width: 420px;   // hoặc 480px nếu muốn to hơn
-    height: 740px;      // tỉ lệ 9:16 cho video dọc
+    max-width: 420px;
+    height: 740px;
     border-radius: 12px;
-    object-fit: cover;  // giữ tỷ lệ nội dung video, cắt phần dư nếu có
+    object-fit: cover;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
+
+/* Sidebar bên phải video */
+.action-sidebar {
+    position: absolute;
+    right: calc(50% - 210px - 60px); // video giữa, sidebar cách phải video
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Avatar */
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+    border: 1px solid #cf9494;
+}
+
+.plus-icon {
+    margin-top: -10px;
+    width: 24px;
+    height: 24px;
+    background-color: #ff2e63;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* Icon wrapper for FontAwesome icons */
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px; /* Kích thước vòng tròn */
+    height: 50px;
+    border: 25px solid #cccccc87; /* Màu xám cho viền */
+    border-radius: 50%; /* Bo tròn */
+    background-color: white; /* Nền trắng */
+    cursor: pointer; /* Con trỏ chuột khi hover */
+    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+.icon {
+    font-size: 24px;
+    color: #000; /* Màu mặc định của icon */
+    transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu */
+}
+
+/* Khi icon được bấm (liked) */
+.icon.liked {
+    color: #ff2e63; /* Đổi màu icon trái tim sang đỏ */
+}
+
+/* Khi icon bookmark được bấm (bookmarked) */
+.icon.bookmarked {
+    color: #ffc107; /* Đổi màu icon bookmark sang vàng */
+}
+
