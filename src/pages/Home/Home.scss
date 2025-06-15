@@ -24,7 +24,7 @@
 /* Sidebar bên phải video */
 .action-sidebar {
     position: absolute;
-    right: calc(50% - 210px - 70px); // video giữa, sidebar cách phải video
+    right: calc(50% - 210px - 75px); // video giữa, sidebar cách phải video
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -49,12 +49,14 @@
     border: 2px solid white;
     object-fit: cover;
     border: 1px solid #cf9494;
+    margin-left: 6px;
+    cursor: pointer;
 }
 
 .plus-icon {
     margin-top: -10px;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-color: #ff2e63;
     color: white;
     font-weight: bold;
@@ -62,7 +64,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.plus-icon.followed {
+    background-color: white; /* Nền trắng */
+    color: #ff2e63; /* Màu đỏ cho dấu tích */
+    border: 2px solid #ff2e63; /* Viền đỏ */
 }
 
 /* Icon wrapper for FontAwesome icons */
@@ -72,7 +82,8 @@
     justify-content: center;
     width: 50px; /* Kích thước vòng tròn */
     height: 50px;
-    border: 25px solid #cccccc87; /* Màu xám cho viền */
+    // border: 25px solid #cccccc87; /* Màu xám cho viền */
+    border: 25px solid rgb(204 204 204 / 42%);
     border-radius: 50%; /* Bo tròn */
     background-color: white; /* Nền trắng */
     cursor: pointer; /* Con trỏ chuột khi hover */

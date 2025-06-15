@@ -9,6 +9,7 @@ function Home() {
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+    const [isFollowed, setIsFollowed] = useState(false); // State mới
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
@@ -19,12 +20,12 @@ function Home() {
 
         if (!isBookmarked) {
             toast.success('Bạn đã lưu video này!', {
-                position: "bottom-right", // Đặt vị trí ở góc cuối bên phải
+                position: "bottom-right",
                 autoClose: 3000,
             });
         } else {
             toast.info('Bạn đã bỏ lưu video này!', {
-                position: "bottom-right", // Đặt vị trí ở góc cuối bên phải
+                position: "bottom-right",
                 autoClose: 3000,
             });
         }
@@ -36,6 +37,10 @@ function Home() {
 
     const handleCloseModal = () => {
         setIsCommentModalOpen(false);
+    };
+
+    const handleFollowClick = () => {
+        setIsFollowed(!isFollowed); // Thay đổi trạng thái
     };
 
     return (
@@ -53,7 +58,16 @@ function Home() {
             <div className="action-sidebar">
                 <div className="action-item">
                     <img src="/images/avatar.png" alt="avatar" className="avatar" />
-                    <div className="plus-icon">+</div>
+                    <div
+                        className={`plus-icon ${isFollowed ? 'followed' : ''}`}
+                        onClick={handleFollowClick}
+                    >
+                        {isFollowed ? (
+                            <i className="fa-solid fa-check" style={{ color: '#e70d39' }}></i>
+                        ) : (
+                            <i className="fa-solid fa-plus" style={{ color: '#ffffff' }}></i>
+                        )}
+                    </div>
                 </div>
 
                 <div className="action-item">
