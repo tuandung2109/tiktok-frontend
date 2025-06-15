@@ -2,4 +2,26 @@
     width: 356px;
     padding: 20px 0 26px 8px;
     margin-left: -18px;
+    height: 100vh; // Đảm bảo Sidebar chiếm toàn bộ chiều cao màn hình
+    overflow-y: auto; // Thêm thanh cuộn dọc
+    scrollbar-width: thin; // Làm thanh cuộn mỏng hơn (Firefox)
+}
+
+/* Tùy chỉnh thanh cuộn (Chrome, Edge) */
+.wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.0); // Màu mờ hơn khi không cuộn
+    border-radius: 4px;
+    transition: background-color 0.3s ease; // Hiệu ứng chuyển đổi màu
+}
+
+.wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4); // Màu đậm hơn khi cuộn hoặc hover
+}
+
+.wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
 }

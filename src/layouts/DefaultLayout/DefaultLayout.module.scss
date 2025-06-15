@@ -10,8 +10,28 @@
     padding: 0 var(--default-layout-horizontal-spacer);
     margin-top: var(--default-layout-header-height);
     display: flex;
+    height: calc(100vh - var(--default-layout-header-height)); // Chiều cao trừ đi phần Header
 }
 
 .content {
     flex: 1;
+    overflow-y: scroll; // Cho phép cuộn nội dung
+    scrollbar-width: none; // Ẩn thanh cuộn (Firefox)
+    -ms-overflow-style: none; // Ẩn thanh cuộn (IE, Edge)
+}
+
+.content::-webkit-scrollbar {
+    display: none; // Ẩn thanh cuộn (Chrome, Safari)
+}
+
+.sidebar {
+    width: 356px; // Đặt chiều rộng cố định cho Sidebar
+    overflow-y: scroll; // Cho phép cuộn Sidebar
+    height: 100%; // Sidebar chiếm toàn bộ chiều cao của container
+    scrollbar-width: none; // Ẩn thanh cuộn (Firefox)
+    -ms-overflow-style: none; // Ẩn thanh cuộn (IE, Edge)
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none; // Ẩn thanh cuộn (Chrome, Safari)
 }
