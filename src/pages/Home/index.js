@@ -1,33 +1,41 @@
 import React, { useState } from 'react';
-// import CommentModal from '../../components/CommentModal';
-import CommentModal from '../../components/CommentModal/CommentModal';
+import CommentModal from './CommentModal/CommentModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Home.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Home() {
-    // State để quản lý trạng thái "đã thích" và "đã bookmark"
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
-    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false); // State để quản lý modal
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
-    // Hàm xử lý khi bấm vào icon trái tim
     const handleLikeClick = () => {
-        setIsLiked(!isLiked); // Đảo ngược trạng thái
+        setIsLiked(!isLiked);
     };
 
-    // Hàm xử lý khi bấm vào icon bookmark
     const handleBookmarkClick = () => {
-        setIsBookmarked(!isBookmarked); // Đảo ngược trạng thái
+        setIsBookmarked(!isBookmarked);
+
+        if (!isBookmarked) {
+            toast.success('Bạn đã lưu video này!', {
+                position: "bottom-right", // Đặt vị trí ở góc cuối bên phải
+                autoClose: 3000,
+            });
+        } else {
+            toast.info('Bạn đã bỏ lưu video này!', {
+                position: "bottom-right", // Đặt vị trí ở góc cuối bên phải
+                autoClose: 3000,
+            });
+        }
     };
 
-    // Hàm xử lý khi bấm vào icon bình luận
     const handleCommentClick = () => {
-        setIsCommentModalOpen(true); // Mở modal
+        setIsCommentModalOpen(true);
     };
 
-    // Hàm xử lý đóng modal
     const handleCloseModal = () => {
-        setIsCommentModalOpen(false); // Đóng modal
+        setIsCommentModalOpen(false);
     };
 
     return (
@@ -43,13 +51,11 @@ function Home() {
             </div>
 
             <div className="action-sidebar">
-                {/* Avatar */}
                 <div className="action-item">
                     <img src="/images/avatar.png" alt="avatar" className="avatar" />
                     <div className="plus-icon">+</div>
                 </div>
 
-                {/* Like */}
                 <div className="action-item">
                     <div className="icon-wrapper" onClick={handleLikeClick}>
                         <i className={`fa-solid fa-heart icon ${isLiked ? 'liked' : ''}`}></i>
@@ -57,7 +63,6 @@ function Home() {
                     <span>40.4K</span>
                 </div>
 
-                {/* Comment */}
                 <div className="action-item">
                     <div className="icon-wrapper" onClick={handleCommentClick}>
                         <i className="fa-solid fa-comment icon"></i>
@@ -65,7 +70,6 @@ function Home() {
                     <span>380</span>
                 </div>
 
-                {/* Bookmark */}
                 <div className="action-item">
                     <div className="icon-wrapper" onClick={handleBookmarkClick}>
                         <i className={`fa-solid fa-bookmark icon ${isBookmarked ? 'bookmarked' : ''}`}></i>
@@ -73,7 +77,6 @@ function Home() {
                     <span>4620</span>
                 </div>
 
-                {/* Share */}
                 <div className="action-item">
                     <div className="icon-wrapper">
                         <i className="fa-solid fa-share icon"></i>
@@ -82,8 +85,10 @@ function Home() {
                 </div>
             </div>
 
-            {/* Sử dụng CommentModal */}
             <CommentModal isOpen={isCommentModalOpen} onClose={handleCloseModal} />
+
+            {/* React-Toastify container */}
+            <ToastContainer />
         </div>
     );
 }
