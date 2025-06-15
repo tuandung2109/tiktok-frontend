@@ -1,3 +1,6 @@
+import { MdOutlineExplore } from 'react-icons/md';
+
+
 export const UploadIcon = ({ width = '3.2rem', height = '3.2rem', className }) => (
     <svg
         className={className}
@@ -176,4 +179,22 @@ export const LiveActiveIcon = ({ width = '3.2rem', height = '3.2rem', className 
             fill="white"
         ></path>
     </svg>
+);
+
+export const ExploreIcon = ({ width = '3.2rem', height = '3.2rem', className, color = '#333' }) => (
+    <div
+        className={className}
+        style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+        <MdOutlineExplore style={{ color, fontSize: '28px' }} />
+    </div>
+);
+
+export const ExploreActiveIcon = ({ width = '3.2rem', height = '3.2rem', className, color = '#ff0050' }) => (
+    <div
+        className={className}
+        style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+        <MdOutlineExplore style={{ color, fontSize: '28px' }} />
+    </div>
 );
