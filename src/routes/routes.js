@@ -12,6 +12,7 @@ import Search from '~/pages/Search';
 import Live from '~/pages/Live';
 import Explore from '~/pages/Explore';
 import Friends from '~/pages/Friends';
+import More from '~/pages/More';
 
 // Public routes
 const publicRoutes = [
@@ -23,6 +24,7 @@ const publicRoutes = [
     { path: config.routes.search, component: Search, layout: null },
     { path: config.routes.explore, component: Explore },
     { path: config.routes.friends, component: Friends },
+    { path: config.routes.more, component: More },
 ];
 
 const privateRoutes = [];

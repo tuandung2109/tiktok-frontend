@@ -1,5 +1,6 @@
 import { MdOutlineExplore } from 'react-icons/md';
 import { RiUserFollowLine } from 'react-icons/ri';
+import { MdMoreHoriz } from 'react-icons/md';
 
 export const UploadIcon = ({ width = '3.2rem', height = '3.2rem', className }) => (
     <svg
@@ -207,5 +208,15 @@ export const FollowingIcon = ({ width = '3.2rem', height = '3.2rem', className, 
         style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
         <RiUserFollowLine style={{ color, fontSize: '28px' }} />
+    </div>
+);
+
+// Icon More
+export const MoreIcon = ({ width = '3.2rem', height = '3.2rem', className, color = '#333' }) => (
+    <div
+        className={className}
+        style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+        <MdMoreHoriz style={{ color, fontSize: '28px' }} />
     </div>
 );
