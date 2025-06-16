@@ -4,16 +4,19 @@ import Menu, { MenuItem } from './Menu';
 import {
     HomeIcon,
     HomeActiveIcon,
-    UserGroupIcon,
-    UserGroupActiveIcon,
     LiveIcon,
     LiveActiveIcon,
     ExploreIcon,
-    ExploreActiveIcon, // ✅ thêm dòng này
+    ExploreActiveIcon,
+    UserGroupIcon,
+    UserGroupActiveIcon,
+    FollowingIcon, // Thêm vào đây
+    MoreIcon, // Thêm vào đây
 } from '~/components/Icons';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
 import config from '~/config';
-import { MdOutlineExplore } from 'react-icons/md'; // ✅ Icon Explore từ react-icons
+// import { RiUserFollowLine } from 'react-icons/ri';
+// import { MdMoreHoriz } from 'react-icons/md'; // Thêm dòng này
 
 const cx = classNames.bind(styles);
 
@@ -21,12 +24,7 @@ function Sidebar() {
     return (
         <aside className={cx('wrapper')}>
             <Menu>
-                <MenuItem
-                    title="For You"
-                    to={config.routes.home}
-                    icon={<HomeIcon />}
-                    activeIcon={<HomeActiveIcon />}
-                />
+                <MenuItem title="For You" to={config.routes.home} icon={<HomeIcon />} activeIcon={<HomeActiveIcon />} />
 
                 <MenuItem
                     title="Explore"
@@ -38,18 +36,28 @@ function Sidebar() {
                 <MenuItem
                     title="Following"
                     to={config.routes.following}
+                    icon={<FollowingIcon />}
+                    activeIcon={<FollowingIcon color="#ff0050" />}
+                />
+
+                <MenuItem
+                    title="Friends"
+                    to={config.routes.friends}
                     icon={<UserGroupIcon />}
                     activeIcon={<UserGroupActiveIcon />}
                 />
+
+                <MenuItem title="LIVE" to={config.routes.live} icon={<LiveIcon />} activeIcon={<LiveActiveIcon />} />
+
+                {/* Thêm icon More bên dưới LIVE */}
                 <MenuItem
-                    title="LIVE"
-                    to={config.routes.live}
-                    icon={<LiveIcon />}
-                    activeIcon={<LiveActiveIcon />}
+                    title="More"
+                    to={config.routes.more}
+                    icon={<MoreIcon />}
+                    activeIcon={<MoreIcon color="#ff0050" />}
                 />
             </Menu>
 
-            {/* <SuggestedAccounts label="Suggested accounts" /> */}
             <SuggestedAccounts label="Following accounts" />
         </aside>
     );
