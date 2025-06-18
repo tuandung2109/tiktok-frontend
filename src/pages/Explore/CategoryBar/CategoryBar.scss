@@ -1,0 +1,84 @@
+// .bar-wrapper {
+//     display: flex;
+//     align-items: center;
+//     overflow: hidden;
+//     padding: 25px;
+// }
+
+// .bar-wrapper {
+//     position: sticky; // 👈 hoặc fixed nếu muốn luôn luôn dính trên cùng
+//     top: 0;
+//     background-color: white;
+//     z-index: 1000;
+//     padding: 10px;
+// }
+
+.bar-wrapper {
+    position: sticky; // ✅ Dính khi cuộn
+    top: 0px; // ✅ Dính ở vị trí trên cùng
+    background-color: white; // ✅ Có nền để che video bên dưới
+    z-index: 1000; // ✅ Đảm bảo nằm trên video
+    padding: 0 25px; // Chỉ padding ngang, không padding trên/dưới
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); // Nếu muốn, hoặc bỏ đi
+    // margin-top: 10px; // Khoảng cách với phần trên cùng của trang
+}
+
+.bar-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 15px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.bar-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.item {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    background: #eee;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.item.active {
+    background: black;
+    color: white;
+}
+
+.arrow {
+    display: flex; // ✅ Căn giữa icon
+    align-items: center;
+    justify-content: center;
+    width: 100px; // ✅ width = height
+    height: 40px;
+    border-radius: 50%; // ✅ Bo tròn hoàn toàn
+    font-size: 18px;
+    background: white;
+    border: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    padding: 0; // ✅ Xóa padding nếu có
+}
+
+.arrow.left {
+    margin-right: 10px; // 👈 cách ra bên phải
+}
+
+.arrow.right {
+    margin-left: 10px; // 👈 cách ra bên trái
+}
+
+.card video {
+    border-radius: 16px;
+    overflow: hidden;
+}
