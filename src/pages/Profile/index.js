@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Profile.scss';
 
+
 function Profile() {
     const [activeTab, setActiveTab] = useState('videos');
     const user = {
@@ -44,22 +45,41 @@ function Profile() {
                                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                                 />
                             </svg>
+ 
                         </button>
-                        <button className="icon-btn">↗️</button>
+                        <button className="icon-btn">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="size-6"
+                                style={{ width: 20, height: 20, verticalAlign: 'middle' }}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+                                />
+                            </svg>                                
+                        </button>
                     </div>
-
-                    <div className="stats">
-                        <span>
-                            {user.following} <strong>Following</strong>
-                        </span>
-                        <span>
-                            {user.followers} <strong>Followers</strong>
-                        </span>
-                        <span>
-                            {user.likes} <strong>Likes</strong>
-                        </span>
-                    </div>
-
+                    
+                <div className="stats">
+                    <span>
+                        <strong className="number">{user.following}</strong>{' '}
+                        <span className="label">Following</span>
+                    </span>
+                    <span>
+                        <strong className="number">{user.followers}</strong>{' '}
+                        <span className="label">Followers</span>
+                    </span>
+                    <span>
+                        <strong className="number">{user.likes}</strong>{' '}
+                        <span className="label">Likes</span>
+                    </span>
+                </div>
                     <p className="bio">{user.bio}</p>
                 </div>
             </div>
