@@ -6,6 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Home.scss';
 import './SendToModal/SendToModal.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom';  // 👈 để dùng navigate
+import config from '~/config';                   // 👈 để dùng config.routes.profile
+
+
 
 function Home() {
     const [videos, setVideos] = useState([
@@ -20,6 +24,8 @@ function Home() {
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [isSendToOpen, setIsSendToOpen] = useState(false);
     const containerRef = useRef(null);
+    const navigate = useNavigate();
+
 
     const handleLikeClick = (id) => {
         setVideos((prev) => prev.map((video) => (video.id === id ? { ...video, isLiked: !video.isLiked } : video)));
@@ -54,7 +60,14 @@ function Home() {
 
                     <div className="action-sidebar">
                         <div className="action-item">
-                            <img src="/images/avatar.png" alt="avatar" className="avatar" />
+                            {/* <img src="/images/avatar.png" alt="avatar" className="avatar" /> */}
+                            <img
+                                src="/images/avatar.png"
+                                alt="avatar"
+                                className="avatar"
+                                onClick={() => navigate(config.routes.profile)}
+                                style={{ cursor: 'pointer' }}
+                            />
                             <div
                                 className={`plus-icon ${video.isFollowed ? 'followed' : ''}`}
                                 onClick={() => handleFollowClick(video.id)}

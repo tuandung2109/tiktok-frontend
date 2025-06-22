@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Profile.scss';
 
-
 function Profile() {
     const [activeTab, setActiveTab] = useState('videos');
     const user = {
@@ -12,6 +11,48 @@ function Profile() {
         followers: 0,
         likes: 0,
     };
+
+    // Dữ liệu mẫu cho từng tab
+    const videos = [
+        { id: 1, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 2, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 3, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 4, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 5, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 6, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 7, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 8, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 9, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 10, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 11, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 12, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 13, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 14, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 15, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 16, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 17, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 18, url: '/videos/video2.mp4', title: 'Video 2' },
+        { id: 19, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 20, url: '/videos/video2.mp4', title: 'Video 2' },
+    ];
+    const favourites = [
+        { id: 1, url: '/videos/video1.mp4', title: 'Video 1' },
+        // { id: 2, url: '/videos/video2.mp4', title: 'Video 2' },
+    ];
+    const liked = [
+        { id: 1, url: '/videos/video1.mp4', title: 'Video 1' },
+        { id: 2, url: '/videos/video2.mp4', title: 'Video 2' },
+    ];
+
+    // Hàm lấy video theo tab
+    const getVideosByTab = () => {
+        if (activeTab === 'videos') return videos;
+        if (activeTab === 'favorites') return favourites;
+        if (activeTab === 'liked') return liked;
+        return [];
+    };
+
+    const currentVideos = getVideosByTab();
 
     return (
         <div className="profile-container">
@@ -45,7 +86,6 @@ function Profile() {
                                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                                 />
                             </svg>
- 
                         </button>
                         <button className="icon-btn">
                             <svg
@@ -83,8 +123,6 @@ function Profile() {
                     <p className="bio">{user.bio}</p>
                 </div>
             </div>
-
-            {/* icon của video và liked trong https://heroicons.com , còn favorites thì dùng icon bookmark của font awesome */}
 
             {/* Tabs: Videos / Favorites / Liked */}
             <div className="profile-tabs">
@@ -131,9 +169,18 @@ function Profile() {
                 </button>
             </div>
 
-            {/* Empty message */}
-            <div className="video-grid">
-                <p className="no-video">Upload your first video</p>
+            {/* Hiển thị video dạng lưới, kéo lên kéo xuống */}
+            <div className="video-grid grid-layout">
+                {currentVideos.length === 0 ? (
+                    <p className="no-video">No videos in this section</p>
+                ) : (
+                    currentVideos.map((video) => (
+                        <div key={video.id} className="video-item">
+                            <video width="100%" controls src={video.url} />
+                            <div className="video-title">{video.title}</div>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
