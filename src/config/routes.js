@@ -8,6 +8,10 @@ const routes = {
     explore: '/explore',
     friends: '/friends',
     more: '/more',
+    messages: '/messages',
+        messagesDetail: '/messages/:username',
+        
+
 };
 
 export default routes;

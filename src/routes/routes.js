@@ -13,6 +13,10 @@ import Live from '~/pages/Live';
 import Explore from '~/pages/Explore';
 import Friends from '~/pages/Friends';
 import More from '~/pages/More';
+import Messages from '~/pages/Messages/Messages';
+import MessageDetail from '../pages/Messages/MessageDetail/MessageDetail';
+ 
+
 
 // Public routes
 const publicRoutes = [
@@ -25,6 +29,8 @@ const publicRoutes = [
     { path: config.routes.explore, component: Explore },
     { path: config.routes.friends, component: Friends },
     { path: config.routes.more, component: More },
+    { path: config.routes.messages, component: Messages }, 
+    { path: config.routes.messagesDetail, component: MessageDetail }, 
 ];
 
 const privateRoutes = [];
