@@ -10,6 +10,7 @@ const routes = {
     more: '/more',
     messages: '/messages',
         messagesDetail: '/messages/:username',
+    videoDetail: '/video-detail',
         
 
 };

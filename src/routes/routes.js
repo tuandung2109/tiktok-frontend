@@ -15,6 +15,7 @@ import Friends from '~/pages/Friends';
 import More from '~/pages/More';
 import Messages from '~/pages/Messages/Messages';
 import MessageDetail from '../pages/Messages/MessageDetail/MessageDetail';
+import VideoDetail from '~/pages/VideoDetail/VideoDetail'; 
  
 
 
@@ -31,6 +32,7 @@ const publicRoutes = [
     { path: config.routes.more, component: More },
     { path: config.routes.messages, component: Messages }, 
     { path: config.routes.messagesDetail, component: MessageDetail }, 
+    { path: config.routes.videoDetail, component: VideoDetail , layout: null},
 ];
 
 const privateRoutes = [];

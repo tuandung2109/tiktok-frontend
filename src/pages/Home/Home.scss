@@ -24,6 +24,31 @@
     position: relative;
 }
 
+
+.video-container {
+  position: relative;
+
+  .video-info-icon {
+    position: absolute;
+    width: 23px;
+    height: 25px;
+    top: 25px;
+    right: 135px;
+    z-index: 10;
+    font-size: 10px;
+    color: white;
+    background-color: #dfd6d6;
+    padding: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #cec1c1;
+    }
+  }
+}
+
+
 .video-player {
     margin-bottom: 60px;
     width: 100%;

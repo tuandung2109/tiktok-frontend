@@ -8,6 +8,8 @@ import './SendToModal/SendToModal.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useNavigate } from 'react-router-dom';  // 👈 để dùng navigate
 import config from '~/config';                   // 👈 để dùng config.routes.profile
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -57,10 +59,14 @@ function Home() {
             {videos.map((video, index) => (
                 <div key={index} className="video-container">
                     <video className="video-player" src={`/videos/video${video.id}.mp4`} controls autoPlay loop></video>
-
+                    <div
+                    className="video-info-icon"
+                    onClick={() => navigate(config.routes.videoDetail)}
+                    >
+                    <FontAwesomeIcon icon={faEye} style={{ color: '#000000' }} />
+                    </div>
                     <div className="action-sidebar">
                         <div className="action-item">
-                            {/* <img src="/images/avatar.png" alt="avatar" className="avatar" /> */}
                             <img
                                 src="/images/avatar.png"
                                 alt="avatar"
