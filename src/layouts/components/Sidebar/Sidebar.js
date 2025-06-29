@@ -15,8 +15,7 @@ import {
 } from '~/components/Icons';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
 import config from '~/config';
-// import { RiUserFollowLine } from 'react-icons/ri';
-// import { MdMoreHoriz } from 'react-icons/md'; // Thêm dòng này
+
 
 const cx = classNames.bind(styles);
 

@@ -112,9 +112,9 @@ function Header() {
                                 </button>
                             </Tippy>
                             <Tippy delay={[0, 50]} content="Message" placement="bottom">
-                                <button className={cx('action-btn')}>
+                                <Link to="/messages" className={cx('action-btn')}>
                                     <MessageIcon />
-                                </button>
+                                </Link>
                             </Tippy>
                             <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
                                 <button className={cx('action-btn')}>
@@ -134,7 +134,6 @@ function Header() {
                         {currentUser ? (
                             <Image
                                 className={cx('user-avatar')}
-                                // src="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
                                 src="/images/avatar.png"
                                 alt="Nguyen Van A"
                             />
