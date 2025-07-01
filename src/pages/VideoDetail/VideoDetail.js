@@ -10,15 +10,25 @@ import {
   faPaperPlane,
   faShare,
 } from '@fortawesome/free-solid-svg-icons';
+import { Heart as HeartIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import EmojiPicker from 'emoji-picker-react';
 import { Smile } from 'lucide-react';
 
+// Import the additional icons needed for video controls
+import { faTimes, faSearch, faEllipsisV, faArrowLeft, faArrowRight, faExpand, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fab, faTimes, faSearch, faEllipsisV, faArrowLeft, faArrowRight, faExpand, faVolumeUp, faChevronUp, faChevronDown, faEllipsisH);
+
 library.add(fab);
 
 export default function VideoDetail() {
+  const navigate = useNavigate();
 
     const fakeComments = [
       {
@@ -26,16 +36,19 @@ export default function VideoDetail() {
         avatar: "https://i.pravatar.cc/40?img=1",
         text: "Ae đừng giúp, để như ý lấy trung anh 🤣🤣",
         reply: { user: "Như Ý 👑", text: "Không thấy 1 ai luôn..." },
+        likes: 0, // thêm dòng này
       },
       {
         user: "Đinh Tuấn Dũng",
         avatar: "https://i.pravatar.cc/40?img=1",
         text: "content để rước trung anh về nhà 🤣",
+        likes: 0, // thêm dòng này
       },
       {
         user: "Mạnh Tiến Nguyễn",
         avatar: "https://i.pravatar.cc/40?img=1",
         text: "Sao ko ai hóng Như Ý có bạn bi a mới nhỉ?",
+        likes: 0, // thêm dòng này
       },
         {
         user: "Nguyễn Vân Anh",
@@ -115,13 +128,40 @@ const handleDevFeature = () => {
   return (
     <div className="video-detail-wrapper">
       <div className="video-section">
-        <video
-          className="detail-video-player"
-          src="/videos/video1.mp4"
-          controls
-          autoPlay
-          loop
-        ></video>
+          <video
+            className="detail-video-player"
+            src="/videos/video1.mp4"
+            controls
+            autoPlay
+            loop
+          ></video>
+          {/* Close button */}
+          <button className="video-control close-btn" onClick={() => navigate(-1)}>
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+          {/* Menu button */}
+          <button className="video-control menu-btn" onClick={() => alert("Open menu")}>
+            <FontAwesomeIcon icon={faEllipsisH} />
+          </button>
+
+          {/* Full-screen toggle */}
+          <button className="video-control fullscreen-btn" onClick={() => alert("Toggle fullscreen")}>
+            <FontAwesomeIcon icon={faExpand} />
+          </button>
+          {/* Volume control */}
+          <button className="video-control volume-btn" onClick={() => alert("Toggle volume")}>
+            <FontAwesomeIcon icon={faVolumeUp} />
+          </button>
+
+          {/* New vertical nav buttons */}
+          <div className="vertical-nav-buttons">
+            <button className="vertical-nav-btn" onClick={() => alert("Previous video")}>
+              <FontAwesomeIcon icon={faChevronUp} />
+            </button>
+            <button className="vertical-nav-btn" onClick={() => alert("Next video")}>
+              <FontAwesomeIcon icon={faChevronDown} />
+            </button>
+          </div>
       </div>
 
       <div className="info-section light-mode">
@@ -246,61 +286,66 @@ const handleDevFeature = () => {
 
         <div className="tab-content">
           {activeTab === 'comments' ? (
-<div className="comments-section">
-  {allComments.map((comment, index) => (
-    <div key={index} className="comment full-comment">
-      <img src={comment.avatar} alt="avatar" className="comment-avatar" />
-      <div className="comment-body">
-        <div className="comment-top">
-          <div className="comment-main">
-            <span className="comment-user">{comment.user}</span>
-            <span className="comment-text">{comment.text}</span>
-            <div className="comment-actions">
-              <span className="comment-time">{comment.time || "1h ago"}</span>
-              <span className="comment-reply">Reply</span>
+            <div className="comments-section">
+              {allComments.map((comment, index) => (
+                <div key={index} className="comment full-comment">
+                  <img src={comment.avatar} alt="avatar" className="comment-avatar" />
+                  <div className="comment-body">
+                    <div className="comment-top">
+                      <div className="comment-main">
+                        <span className="comment-user">{comment.user}</span>
+                        <span className="comment-text">{comment.text}</span>
+                        <div className="comment-actions">
+                          <span className="comment-time">{comment.time || "1h ago"}</span>
+                          <span className="comment-reply">Reply</span>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`comment-like-icon ${comment.liked ? 'liked' : ''}`}
+                        onClick={() => {
+                          const updatedComments = [...allComments];
+                          updatedComments[index].liked = !updatedComments[index].liked;
+                          updatedComments[index].likes += updatedComments[index].liked ? 1 : -1;
+                          setAllComments(updatedComments);
+                        }}
+                        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }} // thêm dòng này
+                      >
+                        <HeartIcon
+                          size={23}
+                          color={comment.liked ? "#fe2c55" : "#111"}
+                          fill={comment.liked ? "#fe2c55" : "#fff"}
+                          strokeWidth={2}
+                          style={{ transition: 'all 0.2s' }}
+                        />
+                        <span style={{ fontSize: 15 }}>{comment.likes}</span>
+                      </div>
+                    </div>
+
+                    {comment.reply && (
+                      <>
+                        <div
+                          className="view-reply"
+                          onClick={() => {
+                            const updatedComments = [...allComments];
+                            updatedComments[index].showReply = !updatedComments[index].showReply;
+                            setAllComments(updatedComments);
+                          }}
+                        >
+                          {comment.showReply ? 'Hide reply' : 'View 1 reply'}
+                        </div>
+                        {comment.showReply && (
+                          <div className="reply-comment">
+                            <span className="comment-user">{comment.reply.user}</span>
+                            <span className="comment-text">{comment.reply.text}</span>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-
-          <div
-            className={`comment-like-icon ${comment.liked ? 'liked' : ''}`}
-            onClick={() => {
-              const updatedComments = [...allComments];
-              updatedComments[index].liked = !updatedComments[index].liked;
-              updatedComments[index].likes += updatedComments[index].liked ? 1 : -1;
-              setAllComments(updatedComments);
-            }}
-          >
-            <FontAwesomeIcon icon={faHeart} />
-            <span>{comment.likes}</span>
-          </div>
-        </div>
-
-        {comment.reply && (
-          <>
-            <div
-              className="view-reply"
-              onClick={() => {
-                const updatedComments = [...allComments];
-                updatedComments[index].showReply = !updatedComments[index].showReply;
-                setAllComments(updatedComments);
-              }}
-            >
-              {comment.showReply ? 'Hide reply' : 'View 1 reply'}
-            </div>
-            {comment.showReply && (
-              <div className="reply-comment">
-                <span className="comment-user">{comment.reply.user}</span>
-                <span className="comment-text">{comment.reply.text}</span>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    </div>
-  ))}
-</div>
-
-
 
           ) : (
             <div className="creator-videos">
