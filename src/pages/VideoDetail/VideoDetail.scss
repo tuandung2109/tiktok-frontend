@@ -15,8 +15,8 @@
   position: relative;
 
   .detail-video-player {
-    height: 98%;
-    max-height: 800px;
+    height: 100%;
+    max-height: 810px;
     border-radius: 10px;
   }
 }
@@ -31,58 +31,95 @@
   overflow: hidden;
 
   .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background-color: #f9f7f7;
+  border-radius: 14px;
+  margin-bottom: 5px;
+  max-height: 175px;
+
+  .avatar {
+    width: 56px; // tăng kích thước avatar
+    height: 56px;
+    border-radius: 50%;
     flex-shrink: 0;
-    max-height: 80px;
-    overflow: hidden;
-    background-color: #f5f0f0;
-    border-radius: 14px;
+  }
 
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-    }
+  .user-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 
-    .user-meta {
-      .username {
-        font-weight: bold;
-        font-size: 16px;
+    .user-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-        .follow {
-          margin-left: 8px;
-          font-size: 14px;
-          color: #007aff;
-          cursor: pointer;
+      .user-names {
+        display: flex;
+        flex-direction: column;
+
+        .username {
+          font-weight: bold;
+          font-size: 20px; // tăng từ 18px lên 20px
+        }
+
+        .displayname {
+          font-size: 17px; // tăng từ 15px lên 17px
+          color: #666;
         }
       }
 
-      .caption {
-        margin-top: 4px;
-        font-size: 15px;
-      }
+      .follow-btn {
+        padding: 10px 20px; // to hơn
+        font-size: 16px;    // chữ to hơn
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        background-color: #fe2c55; // đỏ
+        color: white;
 
-      .music {
-        margin-top: 4px;
-        font-size: 14px;
-        color: #555;
+        &.following {
+          background-color: white;
+          color: #333;
+          border: 1px solid #ccc;
+        }
       }
     }
+
+    .caption {
+      font-size: 18px; // tăng từ 16px lên 18px
+      color: #111;
+
+      .hashtags {
+        color: #0b57d0;
+        font-weight: 500;
+      }
+    }
+
+    .music {
+      font-size: 17px; // tăng từ 15px lên 17px
+      color: #555;
+    }
   }
+}
+
 
   .action-buttons-horizontal {
     margin: 12px 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0px;
 
     // Nhóm 1: Có số (❤️, 💬, 📌)
     .action-group1 {
       display: flex;
-      gap: 28px; // tăng khoảng cách giữa các action-item nếu muốn
+      gap: 20px; // tăng khoảng cách giữa các action-item nếu muốn
       align-items: center;
 
       .action-item {
@@ -116,13 +153,13 @@
     // Nhóm 2: Chỉ icon (🔄, </>, 📤, fb, whatsapp, share)
     .action-group2 {
       display: flex;
-      gap: 12px; // giảm khoảng cách giữa các icon
+      gap: 12px;
       align-items: center;
 
       .icon-circle {
-        width: 22px;      // nhỏ hơn trước
-        height: 22px;
-        font-size: 12px;  // nhỏ hơn trước
+        width: 26px;
+        height: 26px;
+        font-size: 13px;
         border-radius: 50%;
         background-color: #f2f2f2;
         display: flex;
@@ -134,22 +171,18 @@
         &.yellow {
           background-color: #fcd535;
         }
-
         &.dark {
           background-color: #333;
           color: white;
         }
-
         &.pink {
           background-color: #f43f5e;
           color: white;
         }
-
         &.facebook {
           background-color: #1877f2;
           color: white;
         }
-
         &.whatsapp {
           background-color: #25d366;
           color: white;
@@ -158,23 +191,33 @@
     }
   }
 
-  .tabs {
-    display: flex;
-    margin-bottom: 10px;
+.tabs {
+  display: flex;
+  justify-content: space-between; // hoặc space-evenly nếu muốn đều nhau
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding: 2px 16px;
+  // border: 1px solid #000;
 
-    button {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      background: #eee;
-      cursor: pointer;
+  button {
+    flex: 1;
+    text-align: center;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    padding-bottom: 10px;
 
-      &.active {
-        background: #ccc;
-        font-weight: bold;
-      }
+    &.active {
+      color: #000;
+      font-weight: 600;
+      border-bottom: 2px solid #000;
     }
   }
+}
+
+
 
   .tab-content {
     flex: 1;
@@ -237,7 +280,7 @@
       border-radius: 20px;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.5s ease;
     }
   }
 }
@@ -247,4 +290,231 @@
   bottom: 80px;
   right: 20px;
   z-index: 10000;
+}
+
+.video-link-wrapper {
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f1f1;
+  padding: 8px 16px;
+  border-radius: 11px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.video-link {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.copy-link-button {
+  background: none;
+  border: none;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.icon-circle.heart.liked {
+  color: #fe2c55 !important;
+  background-color: #ffe5eb;
+  transition: color 0.2s;
+}
+
+.icon-circle.bookmark.bookmarked {
+  color: #fcd535 !important;
+  background-color: #fffbe6;
+  transition: color 0.2s;
+}
+
+.full-comment {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+
+  .comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .comment-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .comment-user {
+        font-weight: bold;
+        font-size: 15px;
+        color: #333;
+      }
+
+      .comment-time {
+        font-size: 13px;
+        color: #aaa;
+      }
+    }
+
+    .comment-text {
+      font-size: 15px;
+      color: #222;
+    }
+
+    .reply {
+      margin-top: 4px;
+      margin-left: 8px;
+      font-size: 14px;
+      color: #555;
+
+      .comment-user {
+        font-weight: 600;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+.mini-bookmark-msg,
+.mini-copy-msg {
+  position: fixed;
+  top: 32px; // Dịch xuống một chút so với mép trên
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(34, 34, 34, 0.96);
+  color: #fff;
+  padding: 14px 40px;
+  border-radius: 0 0 10px 10px;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  z-index: 10001;
+  animation: fadeInOut 2s;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px);}
+  10% { opacity: 1; transform: translateY(0);}
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px);}
+}
+
+.comments-section {
+  .full-comment {
+    display: flex;
+    padding: 10px 0;
+    align-items: flex-start;
+
+    .comment-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .comment-body {
+      flex: 1;
+
+      .comment-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .comment-main {
+          display: flex;
+          flex-direction: column;
+
+          .comment-user {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+          }
+
+          .comment-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+          }
+
+          .comment-actions {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: #aaa;
+
+            .comment-reply {
+              cursor: pointer;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+
+        .comment-like-icon {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          color: #999;
+          cursor: pointer;
+
+          &.liked {
+            color: #fe2c55;
+          }
+
+          svg {
+            font-size: 14px;
+          }
+
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .view-reply {
+        font-size: 13px;
+        color: #666;
+        margin-top: 4px;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .reply-comment {
+        margin-top: 6px;
+        padding-left: 12px;
+        border-left: 2px solid #eee;
+        font-size: 14px;
+
+        .comment-user {
+          font-weight: 600;
+          margin-right: 4px;
+        }
+
+        .comment-text {
+          color: #333;
+        }
+      }
+    }
+  }
 }

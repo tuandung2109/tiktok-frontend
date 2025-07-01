@@ -19,10 +19,51 @@ import { Smile } from 'lucide-react';
 library.add(fab);
 
 export default function VideoDetail() {
+
+    const fakeComments = [
+      {
+        user: "Trần Quang Đại",
+        avatar: "https://i.pravatar.cc/40?img=1",
+        text: "Ae đừng giúp, để như ý lấy trung anh 🤣🤣",
+        reply: { user: "Như Ý 👑", text: "Không thấy 1 ai luôn..." },
+      },
+      {
+        user: "Đinh Tuấn Dũng",
+        avatar: "https://i.pravatar.cc/40?img=1",
+        text: "content để rước trung anh về nhà 🤣",
+      },
+      {
+        user: "Mạnh Tiến Nguyễn",
+        avatar: "https://i.pravatar.cc/40?img=1",
+        text: "Sao ko ai hóng Như Ý có bạn bi a mới nhỉ?",
+      },
+        {
+        user: "Nguyễn Vân Anh",
+        avatar: "https://i.pravatar.cc/40?img=1",
+        time: "2 giờ trước",
+        text: "Ae đừng giúp, để như ý lấy trung anh 🤣🤣",
+        likes: 10,
+        reply: {
+          user: "Như Ý 👑",
+          text: "Không thấy 1 ai luôn...",
+          time: "1 giờ trước",
+        },
+      },
+    ];
+
   const [activeTab, setActiveTab] = useState('comments');
   const [comment, setComment] = useState('');
   const [showEmoji, setShowEmoji] = useState(false);
   const emojiRef = useRef(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(9773);
+  const [allComments, setAllComments] = useState(fakeComments);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [bookmarkCount, setBookmarkCount] = useState(205);
+  const [showBookmarkMsg, setShowBookmarkMsg] = useState(false);
+  const [showCopyMsg, setShowCopyMsg] = useState(false);
+  const [showDevMsg, setShowDevMsg] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -38,12 +79,38 @@ export default function VideoDetail() {
     };
   }, [showEmoji]);
 
-  const handleSend = () => {
-    if (comment.trim()) {
-      console.log('Gửi:', comment);
-      setComment('');
-    }
-  };
+const handleSend = () => {
+  if (comment.trim()) {
+    const newComment = {
+      user: "Bạn",
+      text: comment,
+      time: "Vừa xong",
+      avatar: "/images/avatar.png", // Thay bằng URL ảnh đại diện của bạn
+      likes: 0,
+    };
+    setAllComments([newComment, ...allComments]);
+    setComment('');
+    setShowEmoji(false);
+  }
+};
+
+const handleBookmark = () => {
+  if (!bookmarked) { // chỉ khi chuyển sang bookmarked
+    setBookmarked(true);
+    setBookmarkCount((prev) => prev + 1);
+    setShowBookmarkMsg(true);
+    setTimeout(() => setShowBookmarkMsg(false), 2000);
+  } else {
+    setBookmarked(false);
+    setBookmarkCount((prev) => prev - 1);
+    // Không hiện thông báo khi bỏ bookmark
+  }
+};
+
+const handleDevFeature = () => {
+  setShowDevMsg(true);
+  setTimeout(() => setShowDevMsg(false), 2000);
+};
 
   return (
     <div className="video-detail-wrapper">
@@ -65,22 +132,44 @@ export default function VideoDetail() {
             alt="avatar"
           />
           <div className="user-meta">
-            <div className="username">
-              nhuy144111 <span className="follow">Follow</span>
+            <div className="user-row">
+              <div className="user-names">
+                <div className="username">@catchla_gapgau</div>
+                <div className="displayname">Catch La - Tiệm Gắp Gấu · 10h ago</div>
+              </div>
+              
+              <button
+                className={`follow-btn ${isFollowing ? 'following' : ''}`}
+                onClick={() => setIsFollowing(!isFollowing)}
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </button>
+              
             </div>
-            <div className="caption">Ét o ét 🥺🙏 #Boxbilliards</div>
-            <div className="music">🎵 nhạc nền - Như Ý 👑</div>
+            <div className="caption">
+              Gắp gấu zui vậy sao 😆😝 Khui hết tủ gấu luôn 🥴 <br />
+              <span className="hashtags">#tiktok #tiktok</span>
+            </div>
+            <div className="music">🎵 nhạc nền - bản quyền - tiktok</div>
           </div>
         </div>
+
 
         {/* ✅ Action buttons chia thành 2 nhóm rõ ràng */}
         <div className="action-buttons-horizontal">
           <div className="action-group1">
             <div className="action-item">
-              <div className="icon-circle">
+              <div
+                className={`icon-circle heart${liked ? ' liked' : ''}`}
+                onClick={() => {
+                  setLiked((prev) => !prev);
+                  setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+                }}
+                style={{ color: liked ? '#fe2c55' : undefined }}
+              >
                 <FontAwesomeIcon icon={faHeart} />
               </div>
-              <span>9773</span>
+              <span>{likeCount}</span>
             </div>
             <div className="action-item">
               <div className="icon-circle">
@@ -89,70 +178,130 @@ export default function VideoDetail() {
               <span>34</span>
             </div>
             <div className="action-item">
-              <div className="icon-circle">
+              <div className={`icon-circle bookmark${bookmarked ? ' bookmarked' : ''}`} onClick={handleBookmark}>
                 <FontAwesomeIcon icon={faBookmark} />
               </div>
-              <span>205</span>
+              <span>{bookmarkCount}</span>
             </div>
           </div>
 
           <div className="action-group2">
-            <div className="icon-circle yellow">
+            <div className="icon-circle yellow" onClick={handleDevFeature}>
               <FontAwesomeIcon icon={faRetweet} />
             </div>
-            <div className="icon-circle dark">
+            <div className="icon-circle dark" onClick={handleDevFeature}>
               <FontAwesomeIcon icon={faCode} />
             </div>
-            <div className="icon-circle pink">
+            <div className="icon-circle pink" onClick={handleDevFeature}>
               <FontAwesomeIcon icon={faPaperPlane} />
             </div>
-            <div className="icon-circle facebook">
+            <div className="icon-circle facebook" onClick={handleDevFeature}>
               <FontAwesomeIcon icon={['fab', 'facebook']} />
             </div>
-            <div className="icon-circle whatsapp">
+            <div className="icon-circle whatsapp" onClick={handleDevFeature}>
               <FontAwesomeIcon icon={['fab', 'whatsapp']} />
             </div>
-            <div className="icon-circle">
+            <div className="icon-circle" onClick={handleDevFeature}>
               <FontAwesomeIcon icon={faShare} />
             </div>
           </div>
         </div>
+
+        <div className="video-link-wrapper">
+          <input
+            type="text"
+            className="video-link"
+            value="https://tiktok-frontend-ten.vercel.app/"
+            readOnly
+          />
+          <button
+            className="copy-link-button"
+            onClick={() => {
+              navigator.clipboard.writeText("https://www.tiktok.com/@catchla_gapgau/video/7521123456789");
+              setShowCopyMsg(true);
+              setTimeout(() => setShowCopyMsg(false), 2000);
+            }}
+          >
+            Copy link
+          </button>
+        </div>
+   
 
         <div className="tabs">
           <button
             className={activeTab === 'comments' ? 'active' : ''}
             onClick={() => setActiveTab('comments')}
           >
-            Bình luận
+            <strong>Comments ({fakeComments.length})</strong>
           </button>
+
           <button
             className={activeTab === 'creator' ? 'active' : ''}
             onClick={() => setActiveTab('creator')}
           >
-            Video của creator
+            Creator videos
           </button>
+
         </div>
 
         <div className="tab-content">
           {activeTab === 'comments' ? (
-            <div className="comments-section">
-              <div className="comment">
-                <span className="comment-user">Trần Quang Đại:</span> Ae đừng
-                giúp, để như ý lấy trung anh 🤣🤣
-                <div className="reply">
-                  <span className="comment-user">Như Ý 👑:</span> Không thấy 1
-                  ai luôn...
-                </div>
-              </div>
-              <div className="comment">
-                <span className="comment-user">...</span> content để rước trung
-                anh về nhà 🤣
-              </div>
-              <div className="comment">
-                <span className="comment-user">Mạnh Tiến Nguyễn:</span> Sao ko
-                ai hóng Như Ý có bạn bi a mới nhỉ?
-              </div>
+<div className="comments-section">
+  {allComments.map((comment, index) => (
+    <div key={index} className="comment full-comment">
+      <img src={comment.avatar} alt="avatar" className="comment-avatar" />
+      <div className="comment-body">
+        <div className="comment-top">
+          <div className="comment-main">
+            <span className="comment-user">{comment.user}</span>
+            <span className="comment-text">{comment.text}</span>
+            <div className="comment-actions">
+              <span className="comment-time">{comment.time || "1h ago"}</span>
+              <span className="comment-reply">Reply</span>
             </div>
+          </div>
+
+          <div
+            className={`comment-like-icon ${comment.liked ? 'liked' : ''}`}
+            onClick={() => {
+              const updatedComments = [...allComments];
+              updatedComments[index].liked = !updatedComments[index].liked;
+              updatedComments[index].likes += updatedComments[index].liked ? 1 : -1;
+              setAllComments(updatedComments);
+            }}
+          >
+            <FontAwesomeIcon icon={faHeart} />
+            <span>{comment.likes}</span>
+          </div>
+        </div>
+
+        {comment.reply && (
+          <>
+            <div
+              className="view-reply"
+              onClick={() => {
+                const updatedComments = [...allComments];
+                updatedComments[index].showReply = !updatedComments[index].showReply;
+                setAllComments(updatedComments);
+              }}
+            >
+              {comment.showReply ? 'Hide reply' : 'View 1 reply'}
+            </div>
+            {comment.showReply && (
+              <div className="reply-comment">
+                <span className="comment-user">{comment.reply.user}</span>
+                <span className="comment-text">{comment.reply.text}</span>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
+
+
           ) : (
             <div className="creator-videos">
               <p>Video khác của creator sẽ hiện ở đây...</p>
@@ -184,6 +333,19 @@ export default function VideoDetail() {
             </div>
           )}
         </div>
+
+        {/* Mini thông báo bookmark */}
+        {showBookmarkMsg && (
+          <div className="mini-bookmark-msg">Đã lưu video vào bookmark!</div>
+        )}
+        {/* Mini thông báo copy link */}
+        {showCopyMsg && (
+          <div className="mini-copy-msg">Đã sao chép liên kết!</div>
+        )}
+        {/* Mini thông báo tính năng đang phát triển */}
+        {showDevMsg && (
+          <div className="mini-copy-msg">Chức năng đang được phát triển</div>
+        )}
       </div>
     </div>
   );
