@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import CommentModal from './CommentModal/CommentModal';
-import SendToModal from './SendToModal/SendToModal';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import SendToModal from '~/components/SendToModal/SendToModal';
 import './Home.scss';
-import './SendToModal/SendToModal.scss';
+import '~/components/SendToModal/SendToModal.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom';
+import config from '~/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 function Home() {
     const [videos, setVideos] = useState([
@@ -19,27 +21,36 @@ function Home() {
 
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [isSendToOpen, setIsSendToOpen] = useState(false);
+    const [bookmarkMessage, setBookmarkMessage] = useState('');
     const containerRef = useRef(null);
+    const navigate = useNavigate();
 
     const handleLikeClick = (id) => {
-        setVideos((prev) => prev.map((video) => (video.id === id ? { ...video, isLiked: !video.isLiked } : video)));
+        setVideos((prev) =>
+            prev.map((video) => (video.id === id ? { ...video, isLiked: !video.isLiked } : video))
+        );
     };
 
     const handleBookmarkClick = (id) => {
         setVideos((prev) =>
-            prev.map((video) => (video.id === id ? { ...video, isBookmarked: !video.isBookmarked } : video)),
+            prev.map((video) => (video.id === id ? { ...video, isBookmarked: !video.isBookmarked } : video))
         );
+
         const video = videos.find((video) => video.id === id);
         if (!video.isBookmarked) {
-            toast.success('Bạn đã lưu video này!', { position: 'bottom-right', autoClose: 3000 });
+            setBookmarkMessage('Bạn đã lưu video này!');
         } else {
-            toast.info('Bạn đã bỏ lưu video này!', { position: 'bottom-right', autoClose: 3000 });
+            setBookmarkMessage('Bạn đã bỏ lưu video này!');
         }
+
+        setTimeout(() => {
+            setBookmarkMessage('');
+        }, 3000);
     };
 
     const handleFollowClick = (id) => {
         setVideos((prev) =>
-            prev.map((video) => (video.id === id ? { ...video, isFollowed: !video.isFollowed } : video)),
+            prev.map((video) => (video.id === id ? { ...video, isFollowed: !video.isFollowed } : video))
         );
     };
 
@@ -51,10 +62,21 @@ function Home() {
             {videos.map((video, index) => (
                 <div key={index} className="video-container">
                     <video className="video-player" src={`/videos/video${video.id}.mp4`} controls autoPlay loop></video>
-
+                    <div
+                        className="video-info-icon"
+                        onClick={() => navigate(config.routes.videoDetail)}
+                    >
+                        <FontAwesomeIcon icon={faEye} style={{ color: '#000000' }} />
+                    </div>
                     <div className="action-sidebar">
                         <div className="action-item">
-                            <img src="/images/avatar.png" alt="avatar" className="avatar" />
+                            <img
+                                src="/images/avatar.png"
+                                alt="avatar"
+                                className="avatar"
+                                onClick={() => navigate(config.routes.profile)}
+                                style={{ cursor: 'pointer' }}
+                            />
                             <div
                                 className={`plus-icon ${video.isFollowed ? 'followed' : ''}`}
                                 onClick={() => handleFollowClick(video.id)}
@@ -83,9 +105,7 @@ function Home() {
 
                         <div className="action-item">
                             <div className="icon-wrapper" onClick={() => handleBookmarkClick(video.id)}>
-                                <i
-                                    className={`fa-solid fa-bookmark icon ${video.isBookmarked ? 'bookmarked' : ''}`}
-                                ></i>
+                                <i className={`fa-solid fa-bookmark icon ${video.isBookmarked ? 'bookmarked' : ''}`}></i>
                             </div>
                             <span>4620</span>
                         </div>
@@ -102,7 +122,6 @@ function Home() {
 
             <CommentModal isOpen={isCommentModalOpen} onClose={handleCloseModal} />
             <SendToModal isOpen={isSendToOpen} onClose={() => setIsSendToOpen(false)} />
-            <ToastContainer />
 
             <div className="scroll-buttons">
                 <button onClick={() => containerRef.current.scrollBy({ top: -window.innerHeight, behavior: 'smooth' })}>
@@ -112,6 +131,12 @@ function Home() {
                     <i className="fa-solid fa-chevron-down"></i>
                 </button>
             </div>
+
+            {bookmarkMessage && (
+                <div className="bookmark-message">
+                    {bookmarkMessage}
+                </div>
+            )}
         </div>
     );
 }

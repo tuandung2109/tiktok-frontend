@@ -175,3 +175,50 @@
     }
 }
 
+.bookmark-message {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #302f2f;          /* Màu xanh lá tươi */
+  color: white;
+  padding: 15px 30px;           /* To hơn */
+  border-radius: 12px;
+  font-size: 20px;              /* Cỡ chữ lớn */
+  font-weight: 600;             /* Đậm */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  z-index: 9999;
+  animation: bounceInOut 3s forwards;
+}
+
+/* Animation bounce */
+@keyframes bounceInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+  }
+}
+
+
+
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+

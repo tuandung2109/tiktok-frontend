@@ -50,38 +50,60 @@ function SendToModal({ isOpen, onClose }) {
                     <div className="sendto-carousel">
                         <button className="scroll-btn" onClick={() => scrollLeft(shareListRef)}>&lt;</button>
                         <div className="share-options" ref={shareListRef}>
-                            <div className="share-item" onClick={handleCopyLink}>
-                                <i className="fa-solid fa-link"></i>
-                                <span>Copy link</span>
+                        
+                        <div className="share-item" onClick={handleCopyLink}>
+                            <div className="icon-circle">
+                            <i className="fa-solid fa-link"></i>
                             </div>
-                            <div className="share-item">
-                                <i className="fa-brands fa-facebook-messenger"></i>
-                                <span>Messenger</span>
-                            </div>
-                            <div className="share-item">
-                                <i className="fa-brands fa-facebook"></i>
-                                <span>Facebook</span>
-                            </div>
-                            <div className="share-item">
-                                <i className="fa-brands fa-twitter"></i>
-                                <span>Twitter</span>
-                            </div>
-                            <div className="share-item">
-                                <i className="fa-brands fa-whatsapp"></i>
-                                <span>WhatsApp</span>
-                            </div>
-                            <div className="share-item">
-                                <i className="fa-brands fa-telegram"></i>
-                                <span>Telegram</span>
-                            </div>
+                            <span>Copy link</span>
+                        </div>
+
                         <div className="share-item">
+                            <div className="icon-circle">
+                            <i className="fa-brands fa-facebook-messenger"></i>
+                            </div>
+                            <span>Messenger</span>
+                        </div>
+
+                        <div className="share-item">
+                            <div className="icon-circle">
+                            <i className="fa-brands fa-facebook"></i>
+                            </div>
+                            <span>Facebook</span>
+                        </div>
+
+                        <div className="share-item">
+                            <div className="icon-circle">
+                            <i className="fa-brands fa-twitter"></i>
+                            </div>
+                            <span>Twitter</span>
+                        </div>
+
+                        <div className="share-item">
+                            <div className="icon-circle">
+                            <i className="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <span>WhatsApp</span>
+                        </div>
+
+                        <div className="share-item">
+                            <div className="icon-circle">
+                            <i className="fa-brands fa-telegram"></i>
+                            </div>
+                            <span>Telegram</span>
+                        </div>
+
+                        <div className="share-item">
+                            <div className="icon-circle">
                             <i className="fa-solid fa-envelope"></i>
+                            </div>
                             <span>Email</span>
                         </div>
+                        
                         </div>
                         <button className="scroll-btn" onClick={() => scrollRight(shareListRef)}>&gt;</button>
                     </div>
-                </div>
+                    </div>
             </div>
         </div>
     );
