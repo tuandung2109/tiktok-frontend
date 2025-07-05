@@ -1,9 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './SendToModal.scss';
 
 function SendToModal({ isOpen, onClose }) {
-    const userListRef = useRef(null);    // ✅ Đưa lên trên
-    const shareListRef = useRef(null);   // ✅ Đưa lên trên
+    const [show, setShow] = useState(false);
+    const userListRef = useRef(null);
+    const shareListRef = useRef(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            setShow(true);
+        } else {
+            const timeout = setTimeout(() => setShow(false), 180); // giảm từ 300 xuống 180
+            return () => clearTimeout(timeout);
+        }
+    }, [isOpen]);
 
     const scrollLeft = (ref) => {
         ref.current.scrollBy({ left: -100, behavior: 'smooth' });
@@ -18,11 +28,24 @@ function SendToModal({ isOpen, onClose }) {
         alert('Link copied!');
     };
 
-    if (!isOpen) return null;  // ✅ để sau useRef là đúng
+    const fakeAvatars = [
+        "https://randomuser.me/api/portraits/men/32.jpg",
+        "https://randomuser.me/api/portraits/women/44.jpg",
+        "https://randomuser.me/api/portraits/men/65.jpg",
+        "https://randomuser.me/api/portraits/women/68.jpg",
+        "https://randomuser.me/api/portraits/men/12.jpg",
+        "https://randomuser.me/api/portraits/women/21.jpg",
+        "https://randomuser.me/api/portraits/men/77.jpg",
+        "https://randomuser.me/api/portraits/women/82.jpg",
+        "https://randomuser.me/api/portraits/men/90.jpg",
+        "https://randomuser.me/api/portraits/women/99.jpg"
+    ];
+
+    if (!isOpen && !show) return null;
 
     return (
-        <div className="sendto-overlay" onClick={onClose}>
-            <div className="sendto-modal" onClick={(e) => e.stopPropagation()}>
+        <div className={`sendto-overlay ${isOpen ? 'open' : 'close'}`} onClick={onClose}>
+            <div className={`sendto-modal ${isOpen ? 'open' : 'close'}`} onClick={e => e.stopPropagation()}>
             <div className="sendto-header">
                 <h3 className="sendto-title">Send to</h3>
                 <button className="close-btn" onClick={onClose}>&times;</button>
@@ -34,10 +57,10 @@ function SendToModal({ isOpen, onClose }) {
                     <div className="sendto-carousel">
                         <button className="scroll-btn" onClick={() => scrollLeft(userListRef)}>&lt;</button>
                         <div className="user-list" ref={userListRef}>
-                            {[1, 2, 3, 4, 5, 6, 7, 8,9,10].map((i) => (
+                            {fakeAvatars.map((url, i) => (
                                 <div key={i} className="user-avatar">
-                                    <img src={`/images/avatar.png`} alt={`User ${i}`} />
-                                    <span>User {i}</span>
+                                    <img src={url} alt={`User ${i + 1}`} />
+                                    <span>User {i + 1}</span>
                                 </div>
                             ))}
                         </div>
@@ -55,7 +78,7 @@ function SendToModal({ isOpen, onClose }) {
                             <div className="icon-circle">
                             <i className="fa-solid fa-link"></i>
                             </div>
-                            <span>Copy link</span>
+                            <span>Copy</span>
                         </div>
 
                         <div className="share-item">

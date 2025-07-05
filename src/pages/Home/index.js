@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import CommentModal from './CommentModal/CommentModal';
+import CommentModal from '~/components/CommentModal/CommentModal'; // <--- Thay đổi ở đây
 import SendToModal from '~/components/SendToModal/SendToModal';
 import './Home.scss';
 import '~/components/SendToModal/SendToModal.scss';

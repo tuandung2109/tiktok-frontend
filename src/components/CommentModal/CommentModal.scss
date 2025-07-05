@@ -1,0 +1,157 @@
+.tiktok-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+}
+
+.tiktok-modal-content {
+  width: 35%;
+  max-height: 80%;
+  background: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  position: relative;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.close-button {
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.comment-body {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 10px;
+  max-height: 50vh;
+}
+
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-info {
+  flex: 1;
+}
+
+.username {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.text {
+  margin: 0 0 4px 0;
+}
+
+.comment-meta {
+  font-size: 12px;
+  color: gray;
+  display: flex;
+  gap: 10px;
+}
+
+.like-icon i {
+  font-size: 20px;
+  transition: color 0.2s ease;
+}
+
+.like-icon .fa-heart {
+  color: #222 !important;
+  font-size: 18px;
+}
+
+.like-icon .fa-solid.fa-heart {
+  color: #ff2e63 !important;
+  font-size: 18px;
+}
+
+.view-replies {
+  font-size: 14px;
+  color: #555;
+  margin: 8px 0 16px 50px;
+  cursor: pointer;
+}
+
+.comment-footer {
+  border-top: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  gap: 10px;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+  
+  input {
+    width: 100%;
+    padding: 8px 36px 8px 10px; // padding phải chừa chỗ emoji
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+
+  .emoji-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+}
+
+.comment-footer button:last-child {
+  background-color: transparent;
+  color: #ff2e63;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  z-index: 2000;
+}
+
+.emoji-button i {
+  font-size: 18px;
+  color: #333; // màu đen xám
+}
