@@ -1,5 +1,5 @@
 .profile-container {
-    max-width: 800px;
+    max-width: 100%;
     margin: auto;
     padding: 20px;
 }
@@ -140,7 +140,7 @@
 .video-grid.grid-layout {
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Cố định 4 cột */
+    grid-template-columns: repeat(5, 1fr); /* Cố định 4 cột */
     gap: 24px;
     max-height: 480px;
     overflow-y: auto;

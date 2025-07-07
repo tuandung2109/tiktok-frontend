@@ -34,10 +34,10 @@ export default function VideoDetail() {
       {
         user: "Trần Quang Đại",
         avatar: "https://i.pravatar.cc/40?img=1",
-        text: "Ae đừng giúp, để như ý lấy trung anh 🤣🤣",
-        reply: { user: "Như Ý 👑", text: "Không thấy 1 ai luôn..." },
+        text: "Phần comment chỉ mang tính chất tượng trưng thoai 🤣🤣",
+        reply: { user: "Như Ý 👑", text: "Reply commnent no1" },
         likes: 0, // thêm dòng này
-      },
+      },  
       {
         user: "Đinh Tuấn Dũng",
         avatar: "https://i.pravatar.cc/40?img=1",
@@ -175,7 +175,7 @@ const handleDevFeature = () => {
             <div className="user-row">
               <div className="user-names">
                 <div className="username">@catchla_gapgau</div>
-                <div className="displayname">Catch La - Tiệm Gắp Gấu · 10h ago</div>
+                <div className="displayname">Tiktok - My project · 10h ago</div>
               </div>
               
               <button
@@ -187,7 +187,7 @@ const handleDevFeature = () => {
               
             </div>
             <div className="caption">
-              Gắp gấu zui vậy sao 😆😝 Khui hết tủ gấu luôn 🥴 <br />
+              Chào mừng đến với tiktok nha 😆😝  <br />
               <span className="hashtags">#tiktok #tiktok</span>
             </div>
             <div className="music">🎵 nhạc nền - bản quyền - tiktok</div>
