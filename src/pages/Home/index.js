@@ -145,7 +145,6 @@
 
 
 
-
 import React, { useState, useRef, useEffect } from 'react';
 import CommentModal from '~/components/CommentModal/CommentModal';
 import SendToModal from '~/components/SendToModal/SendToModal';
@@ -161,6 +160,7 @@ function Home() {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [isSendToOpen, setIsSendToOpen] = useState(false);
   const [bookmarkMessage, setBookmarkMessage] = useState('');
+  const [currentVideoId, setCurrentVideoId] = useState(null);
   const containerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -179,33 +179,31 @@ function Home() {
       .catch((err) => console.error('Lỗi khi fetch video:', err));
   }, []);
 
-const handleLikeClick = async (id) => {
-  const video = videos.find((v) => v._id === id);
-  const isCurrentlyLiked = video.isLiked;
+  const handleLikeClick = async (id) => {
+    const video = videos.find((v) => v._id === id);
+    const isCurrentlyLiked = video.isLiked;
 
-  try {
-    const res = await fetch(`http://localhost:5000/videos/${id}/${isCurrentlyLiked ? 'unlike' : 'like'}`, {
-      method: 'PATCH',
-    });
-    const updatedVideo = await res.json();
+    try {
+      const res = await fetch(`http://localhost:5000/videos/${id}/${isCurrentlyLiked ? 'unlike' : 'like'}`, {
+        method: 'PATCH',
+      });
+      const updatedVideo = await res.json();
 
-    setVideos((prev) =>
-      prev.map((v) =>
-        v._id === id
-          ? {
-              ...v,
-              likesCount: updatedVideo.likesCount,
-              isLiked: !isCurrentlyLiked,
-            }
-          : v
-      )
-    );
-  } catch (err) {
-    console.error('Lỗi khi toggle like video:', err);
-  }
-};
-
-
+      setVideos((prev) =>
+        prev.map((v) =>
+          v._id === id
+            ? {
+                ...v,
+                likesCount: updatedVideo.likesCount,
+                isLiked: !isCurrentlyLiked,
+              }
+            : v
+        )
+      );
+    } catch (err) {
+      console.error('Lỗi khi toggle like video:', err);
+    }
+  };
 
   const handleBookmarkClick = (id) => {
     setVideos((prev) =>
@@ -228,7 +226,11 @@ const handleLikeClick = async (id) => {
     );
   };
 
-  const handleCommentClick = () => setIsCommentModalOpen(true);
+  const handleCommentClick = (videoId) => {
+    setCurrentVideoId(videoId);
+    setIsCommentModalOpen(true);
+  };
+
   const handleCloseModal = () => setIsCommentModalOpen(false);
 
   return (
@@ -270,7 +272,7 @@ const handleLikeClick = async (id) => {
             </div>
 
             <div className="action-item">
-              <div className="icon-wrapper" onClick={handleCommentClick}>
+              <div className="icon-wrapper" onClick={() => handleCommentClick(video._id)}>
                 <i className="fa-solid fa-comment icon"></i>
               </div>
               <span>{video.commentsCount}</span>
@@ -293,7 +295,11 @@ const handleLikeClick = async (id) => {
         </div>
       ))}
 
-      <CommentModal isOpen={isCommentModalOpen} onClose={handleCloseModal} />
+      <CommentModal
+        isOpen={isCommentModalOpen}
+        onClose={handleCloseModal}
+        videoId={currentVideoId}
+      />
       <SendToModal isOpen={isSendToOpen} onClose={() => setIsSendToOpen(false)} />
 
       <div className="scroll-buttons">
@@ -305,11 +311,7 @@ const handleLikeClick = async (id) => {
         </button>
       </div>
 
-      {bookmarkMessage && (
-        <div className="bookmark-message">
-          {bookmarkMessage}
-        </div>
-      )}
+      {bookmarkMessage && <div className="bookmark-message">{bookmarkMessage}</div>}
     </div>
   );
 }

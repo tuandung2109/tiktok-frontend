@@ -6,27 +6,28 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 Modal.setAppElement('#root');
 
-function CommentModal({ isOpen, onClose }) {
+function CommentModal({ isOpen, onClose, videoId }) {
   const [visibleCount, setVisibleCount] = useState(5);
   const [likedStates, setLikedStates] = useState({});
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [commentInput, setCommentInput] = useState('');
+  const [comments, setComments] = useState([]);
 
   const commentBodyRef = useRef(null);
   const emojiPickerRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+    if (isOpen && videoId) {
+      fetch(`http://localhost:5000/comments/${videoId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setComments(data);
+          setVisibleCount(5);
+        })
+        .catch((err) => console.error('Lỗi khi fetch comment:', err));
     }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
+  }, [isOpen, videoId]);
 
-  // Xử lý click ra ngoài để đóng Emoji Picker
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -49,25 +50,7 @@ function CommentModal({ isOpen, onClose }) {
     };
   }, [showEmojiPicker]);
 
-  const avatarUrls = [
-    "https://randomuser.me/api/portraits/men/32.jpg",
-    "https://randomuser.me/api/portraits/women/44.jpg",
-    "https://randomuser.me/api/portraits/men/65.jpg",
-    "https://randomuser.me/api/portraits/women/68.jpg",
-  ];
-
-  const [comments, setComments] = useState(() =>
-    Array.from({ length: 20 }, (_, index) => ({
-      id: index,
-      user: `Người dùng ${index + 1}`,
-      avatar: avatarUrls[index % avatarUrls.length],
-      text: `Đây là bình luận số ${index + 1}`,
-    }))
-  );
-
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 5);
-  };
+  const handleLoadMore = () => setVisibleCount((prev) => prev + 5);
 
   const toggleLike = (id) => {
     setLikedStates((prev) => ({
@@ -79,27 +62,6 @@ function CommentModal({ isOpen, onClose }) {
   const onEmojiClick = (emojiData) => {
     setCommentInput((prev) => prev + emojiData.emoji);
     setShowEmojiPicker(false);
-  };
-
-  const handlePostComment = () => {
-    if (commentInput.trim() === '') return;
-
-    const newComment = {
-      id: Date.now(),
-      user: 'Bạn',
-      avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
-      text: commentInput,
-    };
-
-    setComments((prev) => [newComment, ...prev]);
-    setCommentInput('');
-    setVisibleCount((prev) => prev + 1);
-
-    setTimeout(() => {
-      if (commentBodyRef.current) {
-        commentBodyRef.current.scrollTop = 0;
-      }
-    }, 0);
   };
 
   return (
@@ -119,36 +81,30 @@ function CommentModal({ isOpen, onClose }) {
 
       <div className="comment-body" ref={commentBodyRef}>
         {comments.slice(0, visibleCount).map((comment) => (
-          <div className="comment-item" key={comment.id}>
+          <div className="comment-item" key={comment._id}>
             <img
-              src={comment.avatar}
+              src={comment.userId?.avatarUrl || '/images/avatar.png'}
               alt="avatar"
               className="avatar"
             />
-
             <div className="comment-info">
-              <p className="username">{comment.user}</p>
-              <p className="text">{comment.text}</p>
+              <p className="username">{comment.userId?.username || 'Ẩn danh'}</p>
+              <p className="text">{comment.content}</p>
               <div className="comment-meta">
-                <span>1 giờ trước</span>
+                <span>{new Date(comment.createdAt).toLocaleString()}</span>
                 <span>Trả lời</span>
               </div>
             </div>
-
-            <div
-              className="like-icon"
-              onClick={() => toggleLike(comment.id)}
-            >
+            <div className="like-icon" onClick={() => toggleLike(comment._id)}>
               <i
-                className={likedStates[comment.id] ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}
+                className={likedStates[comment._id] ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}
                 style={{
-                  color: likedStates[comment.id] ? '#ff2e63' : '#74C0FC',
+                  color: likedStates[comment._id] ? '#ff2e63' : '#74C0FC',
                 }}
               ></i>
             </div>
           </div>
         ))}
-
         {visibleCount < comments.length && (
           <div className="view-replies" onClick={handleLoadMore}>
             Xem thêm
@@ -164,14 +120,11 @@ function CommentModal({ isOpen, onClose }) {
             value={commentInput}
             onChange={(e) => setCommentInput(e.target.value)}
           />
-          <button
-            className="emoji-button"
-            onClick={() => setShowEmojiPicker((prev) => !prev)}
-          >
+          <button className="emoji-button" onClick={() => setShowEmojiPicker((prev) => !prev)}>
             <i className="fa-regular fa-face-smile"></i>
           </button>
         </div>
-        <button onClick={handlePostComment}>Đăng</button>
+        <button>Đăng</button>
       </div>
 
       {showEmojiPicker && (
