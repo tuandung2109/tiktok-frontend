@@ -1,0 +1,95 @@
+.login-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #faf2f2;
+}
+
+.login-container {
+  display: flex;
+  width: 900px;
+  height: 550px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.login-left {
+  flex: 1;
+}
+
+.login-right {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-size: 32px;         // 👈 chữ Login to hơn
+      font-weight: 700;        // 👈 đậm hơn
+      margin-bottom: 30px;
+      text-align: center;
+      color: #111;             // 👈 đậm màu hơn
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    input {
+      margin-bottom: 15px;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s;
+
+      &:focus {
+        border-bottom: 1px solid #000;
+      }
+    }
+
+    button {
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #000;     // ✅ Màu đen
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background-color: #333;   // 👈 Màu hover xám đậm
+      }
+    }
+
+    .switch-link {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+
+      a {
+        color: #000;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
