@@ -17,6 +17,7 @@ import Messages from '~/pages/Messages/Messages';
 import MessageDetail from '../pages/Messages/MessageDetail/MessageDetail';
 import VideoDetail from '~/pages/VideoDetail/VideoDetail'; 
 import Login from '~/pages/Login/Login';
+import Register from '~/pages/Register/Register';
 
  
 
@@ -36,6 +37,7 @@ const publicRoutes = [
     { path: config.routes.messagesDetail, component: MessageDetail }, 
     { path: config.routes.videoDetail, component: VideoDetail , layout: null},
     { path: config.routes.login, component: Login, layout: null },
+    { path: config.routes.register, component: Register, layout: null },
 ];
 
 const privateRoutes = [];

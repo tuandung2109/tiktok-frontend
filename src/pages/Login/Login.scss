@@ -93,3 +93,35 @@
     }
   }
 }
+
+.input-wrapper {
+    position: relative;
+
+    input {
+        width: 100%;
+        padding-right: 40px; // chừa chỗ cho icon
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #888;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            color: #fe2c55;
+        }
+    }
+}
+
+.login-logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    width: 100px;
+    z-index: 100;
+}

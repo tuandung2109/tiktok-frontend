@@ -12,6 +12,7 @@ const routes = {
         messagesDetail: '/messages/:username',
     videoDetail: '/video-detail',
     login: '/login',
+    register: '/register',
 
 };
 
