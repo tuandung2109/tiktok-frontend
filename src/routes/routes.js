@@ -38,6 +38,8 @@ const publicRoutes = [
     { path: config.routes.videoDetail, component: VideoDetail , layout: null},
     { path: config.routes.login, component: Login, layout: null },
     { path: config.routes.register, component: Register, layout: null },
+    { path: config.routes.profileById, component: Profile },
+
 ];
 
 const privateRoutes = [];

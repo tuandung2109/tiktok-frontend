@@ -13,6 +13,8 @@ const routes = {
     videoDetail: '/video-detail',
     login: '/login',
     register: '/register',
+    profileById: '/profile/:userId',
+
 
 };
 

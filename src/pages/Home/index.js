@@ -102,7 +102,9 @@ function Home() {
                 src={video.userId?.avatarUrl || '/images/avatar.png'}
                 alt="avatar"
                 className="avatar"
-                onClick={() => navigate(config.routes.profile)}
+                // onClick={() => navigate(config.routes.profile)}
+                onClick={() => navigate(`/profile/${video.userId?._id}`)}
+
                 style={{ cursor: 'pointer' }}
               />
               <div
