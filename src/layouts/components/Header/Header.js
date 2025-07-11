@@ -376,6 +376,7 @@ function Header() {
             case 'logout':
                 localStorage.removeItem('user');
                 navigate('/login');
+                window.location.reload(); // 👈 Thêm dòng này
                 break;
             default:
         }

@@ -28,8 +28,8 @@ function Login() {
             });
 
             localStorage.setItem('user', JSON.stringify(res.data)); // ✅ Lưu user vào localStorage
-            // localStorage.setItem('userId', res.data._id); // Lưu riêng userId
 
+            
             navigate(redirectPath); // ✅ Redirect
         } catch (err) {
             alert('Đăng nhập thất bại: ' + (err.response?.data?.message || 'Lỗi'));
