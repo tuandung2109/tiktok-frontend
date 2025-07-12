@@ -15,6 +15,7 @@ function Home() {
   const [bookmarkMessage, setBookmarkMessage] = useState('');
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [isProcessingLike, setIsProcessingLike] = useState(false);
+  const [isProcessingBookmark, setIsProcessingBookmark] = useState(false);
   const containerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -82,12 +83,7 @@ function Home() {
   }, [videos]);
 
   const handleLikeClick = async (id) => {
-    if (isProcessingLike) return;
-    if (!userId) {
-      alert('Bạn cần đăng nhập để thả tim video.');
-      return;
-    }
-
+    if (isProcessingLike || !userId) return;
     setIsProcessingLike(true);
     const video = videos.find((v) => v._id === id);
     const isCurrentlyLiked = video?.isLiked;
@@ -119,14 +115,39 @@ function Home() {
     }
   };
 
-  const handleBookmarkClick = (id) => {
-    setVideos((prev) =>
-      prev.map((video) => (video._id === id ? { ...video, isBookmarked: !video.isBookmarked } : video))
-    );
+  const handleBookmarkClick = async (videoId) => {
+    if (isProcessingBookmark || !userId) return;
+    setIsProcessingBookmark(true);
 
-    const video = videos.find((video) => video._id === id);
-    setBookmarkMessage(video?.isBookmarked ? 'Bạn đã bỏ lưu video này!' : 'Bạn đã lưu video này!');
-    setTimeout(() => setBookmarkMessage(''), 3000);
+    const video = videos.find((v) => v._id === videoId);
+    const isBookmarked = video?.isBookmarked;
+
+    try {
+      console.log('📦 Bookmark Payload:', { userId, videoId });
+
+      const method = isBookmarked ? 'DELETE' : 'POST';
+
+      await fetch('http://localhost:5000/bookmarks', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, videoId }),
+      });
+
+      setVideos((prev) =>
+        prev.map((v) =>
+          v._id === videoId ? { ...v, isBookmarked: !isBookmarked } : v
+        )
+      );
+
+      setBookmarkMessage(
+        isBookmarked ? 'Bạn đã bỏ lưu video này!' : 'Bạn đã lưu video này!'
+      );
+      setTimeout(() => setBookmarkMessage(''), 3000);
+    } catch (err) {
+      console.error('❌ Lỗi khi toggle bookmark:', err);
+    } finally {
+      setIsProcessingBookmark(false);
+    }
   };
 
   const handleFollowClick = (id) => {
@@ -192,14 +213,14 @@ function Home() {
                 <div className="icon-wrapper" onClick={() => handleBookmarkClick(video._id)}>
                   <i className={`fa-solid fa-bookmark icon ${video.isBookmarked ? 'bookmarked' : ''}`}></i>
                 </div>
-                <span>4620</span>
+                <span>Save</span>
               </div>
 
               <div className="action-item">
                 <div className="icon-wrapper" onClick={() => setIsSendToOpen(true)}>
                   <i className="fa-solid fa-share icon"></i>
                 </div>
-                <span>1418</span>
+                <span>Share</span>
               </div>
             </div>
           </div>
@@ -235,3 +256,4 @@ function Home() {
 }
 
 export default Home;
+
