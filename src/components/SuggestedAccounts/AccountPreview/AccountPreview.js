@@ -1,3 +1,4 @@
+// import PropTypes from 'prop-types';
 // import classNames from 'classnames/bind';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -7,35 +8,43 @@
 
 // const cx = classNames.bind(styles);
 
-// function AccountPreview() {
+// function AccountPreview({ data }) {
 //     return (
 //         <div className={cx('wrapper')}>
 //             <div className={cx('header')}>
-//                 <img
-//                     className={cx('avatar')}
-//                     src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-aiso/65d3c6b1d1e205c75536ccf1f26d552d~c5_100x100.jpeg?x-expires=1660665600&x-signature=hToDdYbvevi4S9Fn5tdnI%2Bk0%2BkM%3D"
-//                     alt=""
-//                 />
-//                 <Button className={cx('follow-btn')} primary>
-//                     Follow
-//                 </Button>
+//                 {/* <img className={cx('avatar')} src={data.avatar} alt={data.full_name} /> */}
+//                 <img className={cx('avatar')} src={data.avatarUrl} alt={data.full_name} />
+
+
+//                 <Button className={cx('follow-btn')} primary>Follow</Button>
 //             </div>
 //             <div className={cx('body')}>
 //                 <p className={cx('nickname')}>
-//                     <strong>quocnguyenphu</strong>
-//                     <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+//                     <strong>{data.nickname}</strong>
+//                     {data.tick && <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />}
 //                 </p>
-//                 <p className={cx('name')}>Quốc Nguyễn Phú</p>
+//                 <p className={cx('name')}>{data.full_name}</p>
 //                 <p className={cx('analytics')}>
-//                     <strong className={cx('value')}>8.2M </strong>
+//                     <strong className={cx('value')}>{data.followers} </strong>
 //                     <span className={cx('label')}>Followers</span>
-//                     <strong className={cx('value')}>8.2M </strong>
+//                     <strong className={cx('value')}>{data.likes} </strong>
 //                     <span className={cx('label')}>Likes</span>
 //                 </p>
 //             </div>
 //         </div>
 //     );
 // }
+
+// AccountPreview.propTypes = {
+//     data: PropTypes.shape({
+//         avatar: PropTypes.string,
+//         full_name: PropTypes.string,
+//         nickname: PropTypes.string,
+//         tick: PropTypes.bool,
+//         followers: PropTypes.string,
+//         likes: PropTypes.string,
+//     }).isRequired,
+// };
 
 // export default AccountPreview;
 
@@ -55,19 +64,26 @@ function AccountPreview({ data }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                <img className={cx('avatar')} src={data.avatar} alt={data.full_name} />
-                <Button className={cx('follow-btn')} primary>Follow</Button>
+                <img
+                    className={cx('avatar')}
+                    src={data.avatarUrl}
+                    alt={data.username}
+                    onError={(e) => { e.target.src = 'https://i.pravatar.cc/150?img=999'; }} // fallback ảnh
+                />
+                <Button className={cx('follow-btn')} primary>
+                    Follow
+                </Button>
             </div>
             <div className={cx('body')}>
                 <p className={cx('nickname')}>
-                    <strong>{data.nickname}</strong>
+                    <strong>{data.username}</strong>
                     {data.tick && <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />}
                 </p>
-                <p className={cx('name')}>{data.full_name}</p>
+                <p className={cx('name')}>@{data.username}</p>
                 <p className={cx('analytics')}>
-                    <strong className={cx('value')}>{data.followers} </strong>
+                    <strong className={cx('value')}>{data.followers || '0'} </strong>
                     <span className={cx('label')}>Followers</span>
-                    <strong className={cx('value')}>{data.likes} </strong>
+                    <strong className={cx('value')}>{data.likes || '0'} </strong>
                     <span className={cx('label')}>Likes</span>
                 </p>
             </div>
@@ -77,12 +93,11 @@ function AccountPreview({ data }) {
 
 AccountPreview.propTypes = {
     data: PropTypes.shape({
-        avatar: PropTypes.string,
-        full_name: PropTypes.string,
-        nickname: PropTypes.string,
+        username: PropTypes.string.isRequired,
+        avatarUrl: PropTypes.string,
         tick: PropTypes.bool,
-        followers: PropTypes.string,
-        likes: PropTypes.string,
+        followers: PropTypes.string, // giả lập hiện tại
+        likes: PropTypes.string,     // giả lập hiện tại
     }).isRequired,
 };
 
