@@ -20,7 +20,7 @@ function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
   // Fetch comment khi mở modal
   useEffect(() => {
     if (isOpen && videoId) {
-      fetch(`http://localhost:5000/comments/${videoId}`)
+      fetch(`${process.env.REACT_APP_API_BASE}/comments/${videoId}`)
         .then((res) => res.json())
         .then((data) => {
           setComments(data);
@@ -59,7 +59,7 @@ const toggleLike = async (id) => {
   const endpoint = alreadyLiked ? 'unlike' : 'like';
 
   try {
-    const res = await fetch(`http://localhost:5000/comments/${id}/${endpoint}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments/${id}/${endpoint}`, {
       method: 'PATCH',
     });
     const updatedComment = await res.json();
@@ -98,7 +98,7 @@ const toggleLike = async (id) => {
 
     try {
       setIsSubmitting(true);
-      const res = await fetch('http://localhost:5000/comments', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

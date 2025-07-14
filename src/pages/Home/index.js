@@ -23,7 +23,7 @@ function Home() {
   const userId = user?._id;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/videos${userId ? `?userId=${userId}` : ''}`)
+    fetch(`${process.env.REACT_APP_API_BASE}/videos${userId ? `?userId=${userId}` : ''}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -89,7 +89,8 @@ function Home() {
     const isCurrentlyLiked = video?.isLiked;
 
     try {
-      const res = await fetch(`http://localhost:5000/videos/${id}/${isCurrentlyLiked ? 'unlike' : 'like'}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}
+/videos/${id}/${isCurrentlyLiked ? 'unlike' : 'like'}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -127,7 +128,7 @@ function Home() {
 
       const method = isBookmarked ? 'DELETE' : 'POST';
 
-      await fetch('http://localhost:5000/bookmarks', {
+      await fetch(`${process.env.REACT_APP_API_BASE}/bookmarks`, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, videoId }),

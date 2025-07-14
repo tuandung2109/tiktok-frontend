@@ -29,7 +29,7 @@ function Profile() {
     // Lấy thông tin user
     useEffect(() => {
         if (!userId) return;
-        axios.get(`http://localhost:5000/users/${userId}`)
+        axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}`)
             .then((res) => {
                 const data = res.data;
                 setUser((prev) => ({
@@ -48,7 +48,8 @@ function Profile() {
     // Lấy video đã đăng
     useEffect(() => {
         if (!userId) return;
-        axios.get(`http://localhost:5000/videos?userId=${storedUserId}&filterByUser=${userId}`)
+        axios.get(`${process.env.REACT_APP_API_BASE}
+/videos?userId=${storedUserId}&filterByUser=${userId}`)
             .then((res) => setVideos(res.data))
             .catch((err) => console.error('❌ Lỗi khi lấy video:', err));
     }, [userId, storedUserId]);
@@ -56,7 +57,8 @@ function Profile() {
     // Lấy video đã like
     useEffect(() => {
         if (activeTab === 'liked' && userId) {
-            axios.get(`http://localhost:5000/users/${userId}/liked-videos`)
+            axios.get(`${process.env.REACT_APP_API_BASE}
+/users/${userId}/liked-videos`)
                 .then((res) => setLikedVideos(res.data))
                 .catch((err) => console.error('❌ Lỗi khi lấy liked videos:', err));
         }
@@ -65,7 +67,8 @@ function Profile() {
     // Lấy video đã bookmark (favorites)
     useEffect(() => {
         if (activeTab === 'favorites' && userId) {
-            axios.get(`http://localhost:5000/users/${userId}/bookmarked-videos`)
+            axios.get(`${process.env.REACT_APP_API_BASE}
+/users/${userId}/bookmarked-videos`)
                 .then((res) => setFavoriteVideos(res.data))
                 .catch((err) => console.error('❌ Lỗi khi lấy favorites:', err));
         }

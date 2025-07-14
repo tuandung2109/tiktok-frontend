@@ -69,7 +69,8 @@
 //     useEffect(() => {
 //         const fetchSuggested = async () => {
 //             try {
-//                 const res = await fetch('http://localhost:5000/users/suggested');
+//                 const res = await fetch('${process.env.REACT_APP_API_BASE}
+// /users/suggested');
 //                 const data = await res.json();
 //                 setAccounts(data);
 //             } catch (err) {
@@ -114,7 +115,7 @@ function SuggestedAccounts({ label }) {
     useEffect(() => {
         const fetchSuggested = async () => {
             try {
-                const res = await fetch('http://localhost:5000/users/suggested');
+                const res = await fetch(`${process.env.REACT_APP_API_BASE}/users/suggested`);
                 const data = await res.json();
                 console.log("📦 Suggested users from backend:", data); // ✅ log để kiểm tra dữ liệu
                 setAccounts(data);
