@@ -23,7 +23,7 @@ function Home() {
   const userId = user?._id;
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_BASE}/videos${userId ? `?userId=${userId}` : ''}`)
+    fetch(`http://localhost:5000/videos${userId ? `?userId=${userId}` : ''}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -89,8 +89,7 @@ function Home() {
     const isCurrentlyLiked = video?.isLiked;
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_BASE}
-/videos/${id}/${isCurrentlyLiked ? 'unlike' : 'like'}`, {
+      const res = await fetch(`http://localhost:5000/videos/${id}/${isCurrentlyLiked ? 'unlike' : 'like'}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -128,7 +127,7 @@ function Home() {
 
       const method = isBookmarked ? 'DELETE' : 'POST';
 
-      await fetch(`${process.env.REACT_APP_API_BASE}/bookmarks`, {
+      await fetch('http://localhost:5000/bookmarks', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, videoId }),
@@ -151,11 +150,37 @@ function Home() {
     }
   };
 
-  const handleFollowClick = (id) => {
-    setVideos((prev) =>
-      prev.map((video) => (video._id === id ? { ...video, isFollowed: !video.isFollowed } : video))
-    );
+  const handleFollowClick = async (targetUserId) => {
+    if (!userId || targetUserId === userId) return;
+
+    const video = videos.find((v) => v.userId?._id === targetUserId);
+    const isFollowed = video?.isFollowed;
+
+    try {
+      const method = isFollowed ? 'DELETE' : 'POST';
+
+      await fetch('http://localhost:5000/follows', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          followerId: userId,
+          followingId: targetUserId,
+        }),
+      });
+
+      // Cập nhật UI
+      setVideos((prev) =>
+        prev.map((v) =>
+          v.userId?._id === targetUserId
+            ? { ...v, isFollowed: !isFollowed }
+            : v
+        )
+      );
+    } catch (err) {
+      console.error('❌ Lỗi khi toggle follow:', err);
+    }
   };
+
 
   const handleCommentClick = (videoId) => {
     setCurrentVideoId(videoId);
@@ -171,7 +196,13 @@ function Home() {
           <div key={video._id} className="video-container">
             <video className="video-player" src={video.videoUrl} controls loop muted></video>
 
-            <div className="video-info-icon" onClick={() => navigate(config.routes.videoDetail)}>
+            <div
+              className="video-info-icon"
+              onClick={() => navigate(config.routes.videoDetail, { state: { 
+                video,
+                videos: videos, // truyền toàn bộ mảng
+               } })}
+            >
               <FontAwesomeIcon icon={faEye} style={{ color: '#000000' }} />
             </div>
 
@@ -186,7 +217,7 @@ function Home() {
                 />
                 <div
                   className={`plus-icon ${video.isFollowed ? 'followed' : ''}`}
-                  onClick={() => handleFollowClick(video._id)}
+                  onClick={() => handleFollowClick(video.userId?._id)} // 👈 dùng userId
                 >
                   {video.isFollowed ? (
                     <i className="fa-solid fa-check" style={{ color: '#e70d39' }}></i>
@@ -194,6 +225,7 @@ function Home() {
                     <i className="fa-solid fa-plus" style={{ color: '#ffffff' }}></i>
                   )}
                 </div>
+
               </div>
 
               <div className="action-item">
@@ -257,4 +289,3 @@ function Home() {
 }
 
 export default Home;
-

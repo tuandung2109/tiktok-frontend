@@ -1,3 +1,210 @@
+// import React, { useState, useEffect, useRef } from 'react';
+// import Modal from 'react-modal';
+// import EmojiPicker from 'emoji-picker-react';
+// import './CommentModal.scss';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
+
+// Modal.setAppElement('#root');
+
+// function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
+//   const [visibleCount, setVisibleCount] = useState(5);
+//   const [likedStates, setLikedStates] = useState({});
+//   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+//   const [commentInput, setCommentInput] = useState('');
+//   const [comments, setComments] = useState([]);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+
+//   const commentBodyRef = useRef(null);
+//   const emojiPickerRef = useRef(null);
+
+//   // Fetch comment khi mở modal
+//   useEffect(() => {
+//     if (isOpen && videoId) {
+//       // fetch(`${process.env.REACT_APP_API_BASE}/comments/${videoId}`)
+//         fetch(`http://localhost:5000/comments/${videoId}`)
+//         .then((res) => res.json())
+//         .then((data) => {
+//           setComments(data);
+//           setVisibleCount(5);
+//         })
+//         .catch((err) => console.error('Lỗi khi fetch comment:', err));
+//     }
+//   }, [isOpen, videoId]);
+
+//   // Đóng emoji khi click ngoài
+//   useEffect(() => {
+//     function handleClickOutside(event) {
+//       if (
+//         emojiPickerRef.current &&
+//         !emojiPickerRef.current.contains(event.target) &&
+//         !event.target.closest('.emoji-button')
+//       ) {
+//         setShowEmojiPicker(false);
+//       }
+//     }
+
+//     if (showEmojiPicker) {
+//       document.addEventListener('mousedown', handleClickOutside);
+//     }
+
+//     return () => {
+//       document.removeEventListener('mousedown', handleClickOutside);
+//     };
+//   }, [showEmojiPicker]);
+
+//   const handleLoadMore = () => setVisibleCount((prev) => prev + 5);
+
+// const toggleLike = async (id) => {
+//   const alreadyLiked = likedStates[id]; // true nếu đã like
+
+//   const endpoint = alreadyLiked ? 'unlike' : 'like';
+
+//   try {
+//     // const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments/${id}/${endpoint}`, {
+//         const res = await fetch(`http://localhost:5000/comments/${id}/${endpoint}`, {
+//       method: 'PATCH',
+//     });
+//     const updatedComment = await res.json();
+
+//     // ✅ Cập nhật comment mới trong danh sách
+//     setComments((prev) =>
+//       prev.map((c) => (c._id === id ? { ...c, likes: updatedComment.likes } : c))
+//     );
+
+//     // ✅ Cập nhật trạng thái like để thay đổi icon
+//     setLikedStates((prev) => ({
+//       ...prev,
+//       [id]: !alreadyLiked,
+//     }));
+//   } catch (err) {
+//     console.error('Lỗi khi like/unlike comment:', err);
+//   }
+// };
+
+
+//   const onEmojiClick = (emojiData) => {
+//     setCommentInput((prev) => prev + emojiData.emoji);
+//     setShowEmojiPicker(false);
+//   };
+
+//   const handleSubmitComment = async () => {
+//     if (!commentInput.trim()) return;
+
+//     const storedUser = JSON.parse(localStorage.getItem('user'));
+//     const currentUserId = storedUser?._id;
+
+//     if (!currentUserId) {
+//       alert('Bạn cần đăng nhập để bình luận!');
+//       return;
+//     }
+
+//     try {
+//       setIsSubmitting(true);
+//       // const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments`, {
+//         const res = await fetch('http://localhost:5000/comments', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           videoId,
+//           userId: currentUserId,
+//           content: commentInput,
+//         }),
+//       });
+
+//       const newComment = await res.json();
+
+//       // ✅ Cập nhật comment mới vào UI
+//       setComments((prev) => [newComment, ...prev]);
+//       setCommentInput('');
+
+//       // ✅ Gọi callback để Home tăng commentsCount
+//       if (onCommentAdded) onCommentAdded();
+//     } catch (err) {
+//       console.error('Lỗi khi gửi bình luận:', err);
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   return (
+//     <Modal
+//       isOpen={isOpen}
+//       onRequestClose={onClose}
+//       contentLabel="Comment Modal"
+//       className="tiktok-modal-content"
+//       overlayClassName="tiktok-modal-overlay"
+//     >
+//       <div className="comment-header">
+//         <span>Bình luận ({comments.length})</span>
+//         <button className="close-button" onClick={onClose}>
+//           &times;
+//         </button>
+//       </div>
+
+//       <div className="comment-body" ref={commentBodyRef}>
+//         {comments.slice(0, visibleCount).map((comment) => (
+//           <div className="comment-item" key={comment._id}>
+//             <img
+//               src={comment.userId?.avatarUrl || '/images/avatar.png'}
+//               alt="avatar"
+//               className="avatar"
+//             />
+//             <div className="comment-info">
+//               <p className="username">{comment.userId?.username || 'Ẩn danh'}</p>
+//               <p className="text">{comment.content}</p>
+//               <div className="comment-meta">
+//                 <span>{new Date(comment.createdAt).toLocaleString()}</span>
+//                 <span>Trả lời</span>
+//               </div>
+//             </div>
+//             <div className="like-icon" onClick={() => toggleLike(comment._id)}>
+//               <i
+//                 className={likedStates[comment._id] ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}
+//                 style={{
+//                   color: likedStates[comment._id] ? '#ff2e63' : '#74C0FC',
+//                 }}
+//               ></i>
+//               <span className="like-count">{comment.likes || 0}</span>
+//             </div>
+//           </div>
+//         ))}
+//         {visibleCount < comments.length && (
+//           <div className="view-replies" onClick={handleLoadMore}>
+//             Xem thêm
+//           </div>
+//         )}
+//       </div>
+
+//       <div className="comment-footer">
+//         <div className="input-wrapper">
+//           <input
+//             type="text"
+//             placeholder="Thêm bình luận..."
+//             value={commentInput}
+//             onChange={(e) => setCommentInput(e.target.value)}
+//           />
+//           <button className="emoji-button" onClick={() => setShowEmojiPicker((prev) => !prev)}>
+//             <i className="fa-regular fa-face-smile"></i>
+//           </button>
+//         </div>
+//         <button onClick={handleSubmitComment} disabled={isSubmitting}>
+//           {isSubmitting ? 'Đang gửi...' : 'Đăng'}
+//         </button>
+//       </div>
+
+//       {showEmojiPicker && (
+//         <div className="emoji-picker-container" ref={emojiPickerRef}>
+//           <EmojiPicker onEmojiClick={onEmojiClick} />
+//         </div>
+//       )}
+//     </Modal>
+//   );
+// }
+
+// export default CommentModal;
+
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import EmojiPicker from 'emoji-picker-react';
@@ -8,27 +215,37 @@ Modal.setAppElement('#root');
 
 function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
   const [visibleCount, setVisibleCount] = useState(5);
-  const [likedStates, setLikedStates] = useState({});
+  const [likedStates, setLikedStates] = useState({}); // Lưu trạng thái liked của từng comment
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [commentInput, setCommentInput] = useState('');
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]); // Danh sách comments từ API
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const commentBodyRef = useRef(null);
   const emojiPickerRef = useRef(null);
 
-  // Fetch comment khi mở modal
+  const userId = JSON.parse(localStorage.getItem('user'))?._id; // Lấy userId hiện tại
+
+  // Fetch comments khi modal mở
   useEffect(() => {
     if (isOpen && videoId) {
-      fetch(`${process.env.REACT_APP_API_BASE}/comments/${videoId}`)
+      fetch(`http://localhost:5000/comments/${videoId}${userId ? `?userId=${userId}` : ''}`) // Thêm userId để API trả về isLiked
         .then((res) => res.json())
         .then((data) => {
           setComments(data);
+          // Khởi tạo likedStates dựa trên dữ liệu fetch về
+          const initialLikedStates = {};
+          data.forEach(comment => {
+            if (comment.isLikedByCurrentUser !== undefined) {
+              initialLikedStates[comment._id] = comment.isLikedByCurrentUser;
+            }
+          });
+          setLikedStates(initialLikedStates);
           setVisibleCount(5);
         })
         .catch((err) => console.error('Lỗi khi fetch comment:', err));
     }
-  }, [isOpen, videoId]);
+  }, [isOpen, videoId, userId]); // Thêm userId vào dependency array
 
   // Đóng emoji khi click ngoài
   useEffect(() => {
@@ -53,32 +270,44 @@ function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
 
   const handleLoadMore = () => setVisibleCount((prev) => prev + 5);
 
-const toggleLike = async (id) => {
-  const alreadyLiked = likedStates[id]; // true nếu đã like
+  const toggleLike = async (id) => {
+    if (!userId) {
+      alert('Bạn cần đăng nhập để like bình luận!');
+      return;
+    }
 
-  const endpoint = alreadyLiked ? 'unlike' : 'like';
+    const alreadyLiked = likedStates[id]; // true nếu đã like
 
-  try {
-    const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments/${id}/${endpoint}`, {
-      method: 'PATCH',
-    });
-    const updatedComment = await res.json();
+    const endpoint = alreadyLiked ? 'unlike' : 'like';
 
-    // ✅ Cập nhật comment mới trong danh sách
-    setComments((prev) =>
-      prev.map((c) => (c._id === id ? { ...c, likes: updatedComment.likes } : c))
-    );
+    try {
+      const res = await fetch(`http://localhost:5000/comments/${id}/${endpoint}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }), // Gửi userId lên để biết ai đang like
+      });
+      const updatedComment = await res.json();
 
-    // ✅ Cập nhật trạng thái like để thay đổi icon
-    setLikedStates((prev) => ({
-      ...prev,
-      [id]: !alreadyLiked,
-    }));
-  } catch (err) {
-    console.error('Lỗi khi like/unlike comment:', err);
-  }
-};
+      if (res.ok) {
+        // Cập nhật comment mới trong danh sách
+        setComments((prev) =>
+          prev.map((c) => (c._id === id ? { ...c, likesCount: updatedComment.likesCount } : c)) // Sử dụng likesCount từ API
+        );
 
+        // Cập nhật trạng thái like để thay đổi icon
+        setLikedStates((prev) => ({
+          ...prev,
+          [id]: !alreadyLiked,
+        }));
+      } else {
+        console.error('Lỗi khi like/unlike comment:', updatedComment);
+      }
+    } catch (err) {
+      console.error('Lỗi khi like/unlike comment:', err);
+    }
+  };
 
   const onEmojiClick = (emojiData) => {
     setCommentInput((prev) => prev + emojiData.emoji);
@@ -88,36 +317,38 @@ const toggleLike = async (id) => {
   const handleSubmitComment = async () => {
     if (!commentInput.trim()) return;
 
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    const currentUserId = storedUser?._id;
-
-    if (!currentUserId) {
+    if (!userId) {
       alert('Bạn cần đăng nhập để bình luận!');
       return;
     }
 
     try {
       setIsSubmitting(true);
-      const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments`, {
+      const res = await fetch('http://localhost:5000/comments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           videoId,
-          userId: currentUserId,
+          userId: userId, // Gửi userId lên server
           content: commentInput,
         }),
       });
 
-      const newComment = await res.json();
+      const newCommentData = await res.json();
 
-      // ✅ Cập nhật comment mới vào UI
-      setComments((prev) => [newComment, ...prev]);
-      setCommentInput('');
+      if (res.ok) {
+        // Cập nhật comment mới vào UI
+        // Đảm bảo newCommentData có cấu trúc đầy đủ, bao gồm userId.avatarUrl và userId.username
+        setComments((prev) => [newCommentData, ...prev]);
+        setCommentInput('');
 
-      // ✅ Gọi callback để Home tăng commentsCount
-      if (onCommentAdded) onCommentAdded();
+        // Gọi callback để Home/VideoDetail tăng commentsCount
+        if (onCommentAdded) onCommentAdded();
+      } else {
+        console.error('Lỗi khi gửi bình luận:', newCommentData);
+      }
     } catch (err) {
       console.error('Lỗi khi gửi bình luận:', err);
     } finally {
@@ -144,12 +375,12 @@ const toggleLike = async (id) => {
         {comments.slice(0, visibleCount).map((comment) => (
           <div className="comment-item" key={comment._id}>
             <img
-              src={comment.userId?.avatarUrl || '/images/avatar.png'}
+              src={comment.userId?.avatarUrl || '/images/avatar.png'} // Lấy avatar từ userId trong comment object
               alt="avatar"
               className="avatar"
             />
             <div className="comment-info">
-              <p className="username">{comment.userId?.username || 'Ẩn danh'}</p>
+              <p className="username">{comment.userId?.username || 'Ẩn danh'}</p> {/* Lấy username từ userId */}
               <p className="text">{comment.content}</p>
               <div className="comment-meta">
                 <span>{new Date(comment.createdAt).toLocaleString()}</span>
@@ -163,7 +394,7 @@ const toggleLike = async (id) => {
                   color: likedStates[comment._id] ? '#ff2e63' : '#74C0FC',
                 }}
               ></i>
-              <span className="like-count">{comment.likes || 0}</span>
+              <span className="like-count">{comment.likesCount || 0}</span> {/* Sử dụng likesCount */}
             </div>
           </div>
         ))}
