@@ -14,6 +14,8 @@ import {
     MoreIcon,
 } from '~/components/Icons';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
+import FollowingAccounts from '~/components/FollowingAccounts';
+
 import config from '~/config';
 
 const cx = classNames.bind(styles);
@@ -60,7 +62,7 @@ function Sidebar() {
                 <SuggestedAccounts label="Suggested accounts" />
             </div>
             <div className={cx('suggested-block')}>
-                <SuggestedAccounts label="Following accounts" />
+                <FollowingAccounts label="Following accounts" />
             </div>
         </aside>
     );

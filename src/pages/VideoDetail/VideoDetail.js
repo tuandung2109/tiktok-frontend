@@ -85,13 +85,19 @@ const [currentIndex, setCurrentIndex] = useState(
     }
   }, [video._id, userId]);
 
-const changeVideo = (direction) => {
+const changeVideo = async (direction) => {
   const newIndex = currentIndex + direction;
   if (newIndex >= 0 && newIndex < videos.length) {
-    setVideo(videos[newIndex]);
+    const newVideo = videos[newIndex];
+    const isFollowingNewUser = await checkFollowStatus(newVideo);
+
+    setVideo(newVideo);
     setCurrentIndex(newIndex);
+    setIsFollowing(isFollowingNewUser);
   }
 };
+
+
 
 useEffect(() => {
   fetchComments(); // refetch khi video thay đổi
@@ -102,33 +108,37 @@ useEffect(() => {
 }, [video]);
 
 
-useEffect(() => {
-  const checkFollowStatus = async () => {
-    if (!userId || !video.userId?._id || userId === video.userId._id) return;
-    try {
-      const res = await fetch('http://localhost:5000/follows/check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          followerId: userId,
-          followingId: video.userId._id,
-        }),
-      });
-      const data = await res.json();
-      setIsFollowing(data.isFollowing); // 👈 cập nhật state đúng
-    } catch (err) {
-      console.error('❌ Lỗi khi kiểm tra trạng thái follow:', err);
-    }
-  };
+// 👇 Đặt bên ngoài VideoDetail()
+const checkFollowStatus = async (v, userId) => {
+  if (!userId || !v.userId?._id || userId === v.userId._id) return false;
+  try {
+    const res = await fetch('http://localhost:5000/follows/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ followerId: userId, followingId: v.userId._id }),
+    });
+    const data = await res.json();
+    return data.isFollowing;
+  } catch (err) {
+    console.error('❌ Lỗi khi kiểm tra follow:', err);
+    return false;
+  }
+};
 
-  checkFollowStatus();
+
+useEffect(() => {
+  const fetchFollow = async () => {
+    const status = await checkFollowStatus(video, userId);
+    setIsFollowing(status);
+  };
+  fetchFollow();
 }, [video, userId]);
 
 
+useEffect(() => {
+  fetchComments();
+}, [fetchComments]);
 
-  useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
 
   useEffect(() => {
     const handler = (e) => {
@@ -287,11 +297,6 @@ useEffect(() => {
     }
   };
 
-  // const handleOpenCommentModal = () => {
-  //   setCurrentVideoId(video._id);
-  //   setIsCommentModalOpen(true);
-  // };
-
   const handleCloseCommentModal = () => {
     setIsCommentModalOpen(false);
     fetchComments();
@@ -372,20 +377,12 @@ useEffect(() => {
         </div>
 
         <div className="vertical-nav-buttons">
-          {/* <button className="vertical-nav-btn" onClick={() => alert("Previous video")}>
-            <FontAwesomeIcon icon={faChevronUp} />
-          </button>
-          <button className="vertical-nav-btn" onClick={() => alert("Next video")}>
-            <FontAwesomeIcon icon={faChevronDown} />
-          </button> */}
-
-<button className="vertical-nav-btn" onClick={() => changeVideo(-1)}>
-  <FontAwesomeIcon icon={faChevronUp} />
-</button>
-<button className="vertical-nav-btn" onClick={() => changeVideo(1)}>
-  <FontAwesomeIcon icon={faChevronDown} />
-</button>
-
+            <button className="vertical-nav-btn" onClick={() => changeVideo(-1)}>
+              <FontAwesomeIcon icon={faChevronUp} />
+            </button>
+            <button className="vertical-nav-btn" onClick={() => changeVideo(1)}>
+              <FontAwesomeIcon icon={faChevronDown} />
+            </button>
         </div>
       </div>
 
@@ -404,31 +401,31 @@ useEffect(() => {
                 <div className="displayname">{video.userId?.displayName || 'Tiktok - My project'} · 10h ago</div>
               </div>
 
-<button
-  className={`follow-btn ${isFollowing ? 'following' : ''}`}
-  onClick={async () => {
-    if (!userId || userId === video.userId?._id) return;
+            <button
+              className={`follow-btn ${isFollowing ? 'following' : ''}`}
+              onClick={async () => {
+                if (!userId || userId === video.userId?._id) return;
 
-    const method = isFollowing ? 'DELETE' : 'POST';
+                const method = isFollowing ? 'DELETE' : 'POST';
 
-    try {
-      await fetch('http://localhost:5000/follows', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          followerId: userId,
-          followingId: video.userId._id,
-        }),
-      });
+                try {
+                  await fetch('http://localhost:5000/follows', {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      followerId: userId,
+                      followingId: video.userId._id,
+                    }),
+                  });
 
-      setIsFollowing(!isFollowing);
-    } catch (err) {
-      console.error('❌ Lỗi khi toggle follow:', err);
-    }
-  }}
->
-  {isFollowing ? 'Following' : 'Follow'}
-</button>
+                  setIsFollowing(!isFollowing);
+                } catch (err) {
+                  console.error('❌ Lỗi khi toggle follow:', err);
+                }
+              }}
+            >
+              {isFollowing ? 'Following' : 'Follow'}
+            </button>
 
 
             </div>
@@ -453,22 +450,17 @@ useEffect(() => {
               <span>{likeCount}</span>
             </div>
             <div className="action-item">
-              {/* <div className="icon-circle" onClick={handleOpenCommentModal}>
-                <FontAwesomeIcon icon={faCommentDots} />
-              </div> */}
               <div className="icon-circle">
                 <FontAwesomeIcon icon={faCommentDots} />
               </div>
-
               <span>{allComments.length}</span>
             </div>
-<div className="action-item">
-  <div className={`icon-circle bookmark${bookmarked ? ' bookmarked' : ''}`} onClick={handleBookmark}>
-    <FontAwesomeIcon icon={faBookmark} />
-  </div>
-  <span>Save</span>
-</div>
-
+                <div className="action-item">
+                  <div className={`icon-circle bookmark${bookmarked ? ' bookmarked' : ''}`} onClick={handleBookmark}>
+                    <FontAwesomeIcon icon={faBookmark} />
+                  </div>
+                  <span>Save</span>
+                </div>
           </div>
 
           <div className="action-group2">
