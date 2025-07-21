@@ -23,6 +23,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import EmojiPicker from 'emoji-picker-react';
 import CommentModal from '~/components/CommentModal/CommentModal';
+import { useParams } from 'react-router-dom';
 
 library.add(fab);
 
@@ -30,13 +31,21 @@ export default function VideoDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   // const video = location.state?.video || {};
-const videos = location.state?.videos || []; // 👈 THIẾU DÒNG NÀY
+  const [video, setVideo] = useState(location.state?.video || null);
+  const [videos, setVideos] = useState(location.state?.videos || []);
+  const { id } = useParams();
 
-const initialVideo = location.state?.video || {};
-const [video, setVideo] = useState(initialVideo);
-const [currentIndex, setCurrentIndex] = useState(
-  videos.findIndex(v => v._id === initialVideo._id)
-);
+  // console.log('🎥 video:', location.state?.video);
+
+  // const [video, setVideo] = useState(initialVideo);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    if (video && videos.length > 0) {
+      const index = videos.findIndex(v => v._id === video._id);
+      setCurrentIndex(index !== -1 ? index : 0);
+    }
+  }, [video, videos]);
+
 
   const userId = JSON.parse(localStorage.getItem('user'))?._id;
 
@@ -63,6 +72,8 @@ const [currentIndex, setCurrentIndex] = useState(
   const emojiRef = useRef(null);
   const volumeButtonRef = useRef(null);
   const volumeSliderRef = useRef(null);
+  const fromProfile = location.state?.fromProfile || false;
+
 
 
   const fetchComments = useCallback(async () => {
@@ -85,59 +96,58 @@ const [currentIndex, setCurrentIndex] = useState(
     }
   }, [video._id, userId]);
 
-const changeVideo = async (direction) => {
-  const newIndex = currentIndex + direction;
-  if (newIndex >= 0 && newIndex < videos.length) {
-    const newVideo = videos[newIndex];
-    const isFollowingNewUser = await checkFollowStatus(newVideo);
+  const changeVideo = async (direction) => {
+    const newIndex = currentIndex + direction;
+    if (newIndex >= 0 && newIndex < videos.length) {
+      const newVideo = videos[newIndex];
+      const isFollowingNewUser = await checkFollowStatus(newVideo);
 
-    setVideo(newVideo);
-    setCurrentIndex(newIndex);
-    setIsFollowing(isFollowingNewUser);
-  }
-};
-
-
-
-useEffect(() => {
-  fetchComments(); // refetch khi video thay đổi
-  setLiked(video.isLiked || false);
-  setLikeCount(video.likesCount || 0);
-  setBookmarked(video.isBookmarked || false);
-  // setBookmarkCount(video.bookmarksCount || 0);
-}, [video]);
-
-
-// 👇 Đặt bên ngoài VideoDetail()
-const checkFollowStatus = async (v, userId) => {
-  if (!userId || !v.userId?._id || userId === v.userId._id) return false;
-  try {
-    const res = await fetch('http://localhost:5000/follows/check', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ followerId: userId, followingId: v.userId._id }),
-    });
-    const data = await res.json();
-    return data.isFollowing;
-  } catch (err) {
-    console.error('❌ Lỗi khi kiểm tra follow:', err);
-    return false;
-  }
-};
-
-
-useEffect(() => {
-  const fetchFollow = async () => {
-    const status = await checkFollowStatus(video, userId);
-    setIsFollowing(status);
+      setVideo(newVideo);
+      setCurrentIndex(newIndex);
+      setIsFollowing(isFollowingNewUser);
+    }
   };
-  fetchFollow();
-}, [video, userId]);
 
 
-useEffect(() => {
-  fetchComments();
-}, [fetchComments]);
+  useEffect(() => {
+    fetchComments(); // refetch khi video thay đổi
+    setLiked(video.isLiked || false);
+    setLikeCount(video.likesCount || 0);
+    setBookmarked(video.isBookmarked || false);
+    // setBookmarkCount(video.bookmarksCount || 0);
+  }, [video]);
+
+
+  // 👇 Đặt bên ngoài VideoDetail()
+  const checkFollowStatus = async (v, userId) => {
+    if (!userId || !v.userId?._id || userId === v.userId._id) return false;
+    try {
+      const res = await fetch('http://localhost:5000/follows/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ followerId: userId, followingId: v.userId._id }),
+      });
+      const data = await res.json();
+      return data.isFollowing;
+    } catch (err) {
+      console.error('❌ Lỗi khi kiểm tra follow:', err);
+      return false;
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchFollow = async () => {
+      const status = await checkFollowStatus(video, userId);
+      setIsFollowing(status);
+    };
+    fetchFollow();
+  }, [video, userId]);
+
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
 
   useEffect(() => {
@@ -181,6 +191,22 @@ useEffect(() => {
     v.addEventListener('timeupdate', updateProgress);
     return () => v.removeEventListener('timeupdate', updateProgress);
   }, []);
+
+
+
+  useEffect(() => {
+    if ((!video || !video.userId) && id) {
+      fetch(`http://localhost:5000/videos/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log('📥 Full fetched video:', data); // ✅ Xem data có userId không
+          setVideo(data);
+        })
+        .catch(err => console.error('❌ Failed to fetch video by ID:', err));
+    }
+  }, [video, id]);
+
+
 
   // New function for click to play/pause
   const handleVideoClick = () => {
@@ -334,7 +360,7 @@ useEffect(() => {
         <video
           ref={videoRef}
           className="detail-video-player"
-          src={video.videoUrl}
+          src={video.videoUrl || video.url}
           controls={false}
           autoPlay
           loop
@@ -376,14 +402,16 @@ useEffect(() => {
           />
         </div>
 
-        <div className="vertical-nav-buttons">
+        {!fromProfile && (
+          <div className="vertical-nav-buttons">
             <button className="vertical-nav-btn" onClick={() => changeVideo(-1)}>
               <FontAwesomeIcon icon={faChevronUp} />
             </button>
             <button className="vertical-nav-btn" onClick={() => changeVideo(1)}>
               <FontAwesomeIcon icon={faChevronDown} />
             </button>
-        </div>
+          </div>
+        )}
       </div>
 
       <div className="info-section light-mode">
@@ -401,31 +429,31 @@ useEffect(() => {
                 <div className="displayname">{video.userId?.displayName || 'Tiktok - My project'} · 10h ago</div>
               </div>
 
-            <button
-              className={`follow-btn ${isFollowing ? 'following' : ''}`}
-              onClick={async () => {
-                if (!userId || userId === video.userId?._id) return;
+              <button
+                className={`follow-btn ${isFollowing ? 'following' : ''}`}
+                onClick={async () => {
+                  if (!userId || userId === video.userId?._id) return;
 
-                const method = isFollowing ? 'DELETE' : 'POST';
+                  const method = isFollowing ? 'DELETE' : 'POST';
 
-                try {
-                  await fetch('http://localhost:5000/follows', {
-                    method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      followerId: userId,
-                      followingId: video.userId._id,
-                    }),
-                  });
+                  try {
+                    await fetch('http://localhost:5000/follows', {
+                      method,
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        followerId: userId,
+                        followingId: video.userId._id,
+                      }),
+                    });
 
-                  setIsFollowing(!isFollowing);
-                } catch (err) {
-                  console.error('❌ Lỗi khi toggle follow:', err);
-                }
-              }}
-            >
-              {isFollowing ? 'Following' : 'Follow'}
-            </button>
+                    setIsFollowing(!isFollowing);
+                  } catch (err) {
+                    console.error('❌ Lỗi khi toggle follow:', err);
+                  }
+                }}
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </button>
 
 
             </div>
@@ -455,12 +483,12 @@ useEffect(() => {
               </div>
               <span>{allComments.length}</span>
             </div>
-                <div className="action-item">
-                  <div className={`icon-circle bookmark${bookmarked ? ' bookmarked' : ''}`} onClick={handleBookmark}>
-                    <FontAwesomeIcon icon={faBookmark} />
-                  </div>
-                  <span>Save</span>
-                </div>
+            <div className="action-item">
+              <div className={`icon-circle bookmark${bookmarked ? ' bookmarked' : ''}`} onClick={handleBookmark}>
+                <FontAwesomeIcon icon={faBookmark} />
+              </div>
+              <span>Save</span>
+            </div>
           </div>
 
           <div className="action-group2">
@@ -634,4 +662,3 @@ useEffect(() => {
     </div>
   );
 }
-

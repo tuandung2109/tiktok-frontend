@@ -198,10 +198,15 @@ function Home() {
 
             <div
               className="video-info-icon"
-              onClick={() => navigate(config.routes.videoDetail, { state: { 
-                video,
-                videos: videos, // truyền toàn bộ mảng
-               } })}
+onClick={() =>
+  navigate(`/video-detail/${video._id}`, {
+    state: {
+      video,
+      videos,
+    },
+  })
+}
+
             >
               <FontAwesomeIcon icon={faEye} style={{ color: '#000000' }} />
             </div>

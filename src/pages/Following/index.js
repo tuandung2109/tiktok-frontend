@@ -13,10 +13,6 @@ function Home() {
     const [videos, setVideos] = useState([
         { id: 1, isLiked: false, isBookmarked: false, isFollowed: false },
         { id: 2, isLiked: false, isBookmarked: false, isFollowed: false },
-        { id: 1, isLiked: false, isBookmarked: false, isFollowed: false },
-        { id: 2, isLiked: false, isBookmarked: false, isFollowed: false },
-        { id: 1, isLiked: false, isBookmarked: false, isFollowed: false },
-        { id: 2, isLiked: false, isBookmarked: false, isFollowed: false },
     ]);
 
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
