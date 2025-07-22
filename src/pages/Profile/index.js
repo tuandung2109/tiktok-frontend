@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Profile.scss';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 function Profile() {
     const [activeTab, setActiveTab] = useState('videos');
@@ -162,7 +162,17 @@ function Profile() {
                                 >
                                     {isFollowing ? 'Following' : 'Follow'}
                                 </button>
-                                <button className="message-btn">Message</button>
+                                <Link
+                                    to={`/messages/${user.username}`}
+                                    state={{
+                                        partnerId: userId,
+                                        name: user.username,
+                                        avatar: user.avatar
+                                    }}
+                                    className="message-btn"
+                                    >
+                                    Message
+                                </Link>
                             </>
                         )}
                         <button className="icon-btn">⚙</button>

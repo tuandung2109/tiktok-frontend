@@ -1,83 +1,8 @@
-import React, { useRef } from "react";
-import { Bell, Users, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Messages.scss";
-
-const mockMessages = [
-  {
-    id: 1,
-    avatar: "https://i.pravatar.cc/100?img=1",
-    name: "Ctoi cần chuỗi nhóm",
-    message: "mchi đã gửi một nhãn dán 😄",
-    time: "3 giờ",
-    badge: "38",
-  },
-  {
-    id: 2,
-    icon: <Bell size={18} />,
-    type: "pink",
-    name: "Hoạt động",
-    message: "Tô là Hoàaa người mà bạn có thể…",
-    time: "8 giờ",
-  },
-  {
-    id: 3,
-    icon: <Bell size={18} />,
-    type: "dark",
-    name: "Thông báo hệ thống",
-    message: "LIVE: Bạn đã nhận được 50 lượt…",
-    time: "16 giờ",
-  },
-  {
-    id: 4,
-    icon: <Users size={18} />,
-    type: "blue",
-    name: "Những Follower mới",
-    message: "hug_trq đã bắt đầu follow bạn.",
-    time: "3 ngày",
-  },
-  {
-    id: 5,
-    icon: <ShoppingBag size={18} />,
-    type: "orange",
-    name: "TikTok Shop",
-    message: "Tin nhắn của người bán được gửi…",
-    time: "3 ngày",
-    badge: "2",
-  },
-    {
-    id: 1,
-    avatar: "https://i.pravatar.cc/100?img=1",
-    name: "Ctoi cần chuỗi nhóm",
-    message: "mchi đã gửi một nhãn dán 😄",
-    time: "3 giờ",
-    badge: "38",
-  },
-    {
-    id: 1,
-    avatar: "https://i.pravatar.cc/100?img=1",
-    name: "Ctoi cần chuỗi nhóm",
-    message: "mchi đã gửi một nhãn dán 😄",
-    time: "3 giờ",
-    badge: "38",
-  },
-    {
-    id: 1,
-    avatar: "https://i.pravatar.cc/100?img=1",
-    name: "Ctoi cần chuỗi nhóm",
-    message: "mchi đã gửi một nhãn dán 😄",
-    time: "3 giờ",
-    badge: "38",
-  },
-    {
-    id: 1,
-    avatar: "https://i.pravatar.cc/100?img=1",
-    name: "Ctoi cần chuỗi nhóm",
-    message: "mchi đã gửi một nhãn dán 😄",
-    time: "3 giờ",
-    badge: "38",
-  },
-];
 
 function slugify(text) {
   return text.toLowerCase().replace(/\s+/g, '');
@@ -85,6 +10,60 @@ function slugify(text) {
 
 export default function Messages() {
   const storyRef = useRef(null);
+  const [users, setUsers] = useState([]);
+  const [conversations, setConversations] = useState([]);
+  const [lastMessages, setLastMessages] = useState({});
+
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const currentUserId = storedUser?._id;
+
+  // 🔹 Lấy danh sách users để hiển thị trong stories
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/users");
+        setUsers(res.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy user:", err);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  // 🔹 Lấy danh sách hội thoại và tin nhắn cuối cùng
+  useEffect(() => {
+    const fetchConversationsAndLastMessages = async () => {
+      try {
+        if (!currentUserId) return;
+
+        const res = await axios.get(`http://localhost:5000/api/conversations/${currentUserId}`);
+        const convs = res.data;
+        setConversations(convs);
+
+        // 🔸 Lấy last message của từng conversation
+        const messagesMap = {};
+
+        await Promise.all(convs.map(async (conv) => {
+          try {
+            const resMsg = await axios.get(`http://localhost:5000/api/messages/${conv._id}`);
+            const msgs = resMsg.data;
+            if (msgs.length > 0) {
+              messagesMap[conv._id] = msgs[msgs.length - 1];
+            }
+          } catch (err) {
+            console.error("Lỗi khi lấy tin nhắn cuối:", err);
+          }
+        }));
+
+        setLastMessages(messagesMap);
+      } catch (err) {
+        console.error("Lỗi khi lấy hội thoại:", err);
+      }
+    };
+
+    fetchConversationsAndLastMessages();
+  }, [currentUserId]);
 
   const scrollStories = (direction) => {
     if (storyRef.current) {
@@ -104,24 +83,24 @@ export default function Messages() {
         </button>
 
         <div className="stories" ref={storyRef}>
-          {[...Array(12)].map((_, i) => {
-            const name = `User ${i + 1}`;
-            const avatar = `https://i.pravatar.cc/100?img=${i + 10}`;
-            return (
+          {users
+            .filter(user => user._id !== currentUserId)
+            .map((user) => (
               <Link
-                to={`/messages/user${i + 1}`}
-                state={{ name, avatar }}
+                to={`/messages/${slugify(user.username)}`}
+                state={{
+                  partnerId: user._id,
+                  name: user.username,
+                  avatar: user.avatarUrl,
+                }}
                 className="story"
-                key={i}
+                key={user._id}
               >
                 <div className="avatar-wrapper">
-                  <img src={avatar} alt="" />
-                  {(i === 2 || i === 3) && <div className="dot" />}
+                  <img src={user.avatarUrl} alt={user.username} />
                 </div>
-                <span>{name}</span>
               </Link>
-            );
-          })}
+            ))}
         </div>
 
         <button className="scroll-btn right" onClick={() => scrollStories('right')}>
@@ -131,30 +110,46 @@ export default function Messages() {
 
       {/* MESSAGE LIST */}
       <div className="messages-list">
-        {mockMessages.map((msg) => (
-          <Link
-            to={`/messages/${slugify(msg.name)}`}
-            state={{ name: msg.name, avatar: msg.avatar || null }}
-            className="message-item"
-            key={msg.id}
-          >
-            {msg.avatar ? (
-              <img className="avatar" src={msg.avatar} alt="" />
-            ) : (
-              <div className={`icon-avatar ${msg.type}`}>{msg.icon}</div>
-            )}
+        {conversations.map((conv) => {
+          const partnerId = conv.members.find(id => id !== currentUserId);
+          const partner = users.find(u => u._id === partnerId);
+          const lastMsg = lastMessages[conv._id];
 
-            <div className="message-content">
-              <div className="top-row">
-                <h4>{msg.name}</h4>
-                <span className="time">{msg.time}</span>
+          if (!partner) return null;
+
+          return (
+            <Link
+              to={`/messages/${slugify(partner.username)}`}
+              state={{
+                partnerId: partner._id,
+                name: partner.username,
+                avatar: partner.avatarUrl,
+              }}
+              className="message-item"
+              key={conv._id}
+            >
+              <img className="avatar" src={partner.avatarUrl} alt={partner.username} />
+              <div className="message-content">
+                <div className="top-row">
+                  <h4>{partner.username}</h4>
+                  <span className="time">
+                    {new Date(conv.updatedAt).toLocaleTimeString("vi-VN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                </div>
+                <p className="last-message">
+                  {lastMsg
+                    ? lastMsg.type === 'image'
+                      ? '📷 Ảnh'
+                      : lastMsg.text
+                    : 'Chưa có tin nhắn'}
+                </p>
               </div>
-              <p>{msg.message}</p>
-            </div>
-
-            {msg.badge && <div className="badge">{msg.badge}</div>}
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

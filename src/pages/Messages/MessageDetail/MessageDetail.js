@@ -3,47 +3,112 @@ import './MessageDetail.scss';
 import { Smile, Image } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 export default function MessageDetail() {
   const location = useLocation();
-  const { name, avatar } = location.state || { name: 'user123', avatar: null };
+  const { name, avatar, partnerId } = location.state || {};
+  const currentUserId = JSON.parse(localStorage.getItem("user"))?._id;
 
-  const [messages, setMessages] = useState([
-    { side: 'left', type: 'text', text: 'Chào bạn 👋' },
-    { side: 'right', type: 'text', text: 'Hello! Có gì mới không?' },
-    { side: 'left', type: 'text', text: 'Tối nay đi xem phim không?' },
-    { side: 'right', type: 'text', text: 'Đi chứ! 😄' },
-    { side: 'left', type: 'text', text: '7h CGV nhé 🍿' },
-    { side: 'right', type: 'text', text: 'Ok luôn. Gặp tại đó nha.' },
-    {
-      side: 'left',
-      type: 'image',
-      fileUrl: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=300&q=80'
-    },
-    { side: 'right', type: 'text', text: 'Đẹp thế! Bạn mới chụp à?' },
-    { side: 'left', type: 'text', text: 'Ừ, sáng nay đó 😁' },
-  ]);
-
+  const [messages, setMessages] = useState([]);
+  const [conversationId, setConversationId] = useState(null);
   const [input, setInput] = useState('');
   const [showEmoji, setShowEmoji] = useState(false);
-  const [viewImage, setViewImage] = useState(null); // ⭐
+  const [viewImage, setViewImage] = useState(null);
 
   const fileRef = useRef(null);
   const endRef = useRef(null);
   const emojiRef = useRef(null);
 
-  const handleSend = () => {
+  // 🔸 Tìm conversation nếu có sẵn (KHÔNG tạo)
+  useEffect(() => {
+    const fetchConversationAndMessages = async () => {
+      if (!currentUserId || !partnerId) return;
+      try {
+        const resConv = await axios.get(`http://localhost:5000/api/conversations/${currentUserId}`);
+        const existing = resConv.data.find((c) => c.members.includes(partnerId));
+        if (existing) {
+          setConversationId(existing._id);
+          const resMsg = await axios.get(`http://localhost:5000/api/messages/${existing._id}`);
+          setMessages(resMsg.data);
+        }
+      } catch (err) {
+        console.error("❌ Lỗi khi tìm hội thoại:", err);
+      }
+    };
+
+    fetchConversationAndMessages();
+  }, [currentUserId, partnerId]);
+
+  // 🔸 Gửi tin nhắn (tạo hội thoại nếu chưa có)
+  const handleSend = async () => {
     if (input.trim() === '') return;
-    setMessages([...messages, { side: 'right', type: 'text', text: input }]);
-    setInput('');
+    try {
+      let convId = conversationId;
+
+      // Nếu chưa có hội thoại, tạo mới
+      if (!conversationId) {
+        const resNewConv = await axios.post("http://localhost:5000/api/conversations", {
+          senderId: currentUserId,
+          receiverId: partnerId,
+        });
+        convId = resNewConv.data._id;
+        setConversationId(convId);
+      }
+
+      const newMsg = {
+        conversationId: convId,
+        senderId: currentUserId,
+        text: input,
+        type: 'text'
+      };
+
+      const res = await axios.post("http://localhost:5000/api/messages", newMsg);
+      setMessages((prev) => [...prev, res.data]);
+      setInput('');
+    } catch (err) {
+      console.error("❌ Lỗi gửi tin nhắn:", err);
+    }
   };
 
-  const handleImageSend = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const imageUrl = URL.createObjectURL(file);
-    setMessages([...messages, { side: 'right', type: 'image', fileUrl: imageUrl }]);
-  };
+  // const handleImageSend = (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+  //   const imageUrl = URL.createObjectURL(file);
+  //   setMessages([...messages, { senderId: currentUserId, type: 'image', fileUrl: imageUrl }]);
+  //   // Bạn có thể upload ảnh lên Cloudinary nếu cần thiết
+  // };
+
+const handleImageSend = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "tiktok"); 
+
+  try {
+    const response = await axios.post(
+      "https://api.cloudinary.com/v1_1/dh2gw9dju/image/upload",
+      formData
+    );
+    const imageUrl = response.data.secure_url;
+
+    const res = await axios.post('http://localhost:5000/api/messages', {
+      conversationId,
+      senderId: currentUserId,
+      type: 'image',
+      text: '',
+      fileUrl: imageUrl
+    });
+
+    setMessages((prev) => [...prev, res.data]);
+  } catch (err) {
+    console.error('Lỗi khi upload ảnh:', err);
+  }
+};
+
+
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -74,14 +139,17 @@ export default function MessageDetail() {
       {/* MESSAGE CONTENT */}
       <div className="chat-messages">
         {messages.map((msg, i) => (
-          <div className={`message ${msg.side}`} key={i}>
+          <div
+            className={`message ${msg.senderId === currentUserId ? 'right' : 'left'}`}
+            key={msg._id || i}
+          >
             {msg.type === 'text' && msg.text}
             {msg.type === 'image' && (
               <img
                 src={msg.fileUrl}
                 alt="sent"
                 className="sent-image"
-                onClick={() => setViewImage(msg.fileUrl)} // 👈 phóng to ảnh
+                onClick={() => setViewImage(msg.fileUrl)}
               />
             )}
           </div>
