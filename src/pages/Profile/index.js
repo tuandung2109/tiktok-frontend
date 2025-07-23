@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './Profile.scss';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import EditProfileModal from '~/components/EditProfileModal/EditProfileModal';
+import { toast } from 'react-toastify';
+
 
 function Profile() {
     const [activeTab, setActiveTab] = useState('videos');
@@ -27,6 +30,8 @@ function Profile() {
     const isCurrentUserProfile = !paramUserId || paramUserId === storedUserId;
     const userId = paramUserId || storedUserId;
     const [isFollowing, setIsFollowing] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+
 
     useEffect(() => {
         if (!isCurrentUserProfile && storedUserId && userId) {
@@ -151,7 +156,7 @@ function Profile() {
                     <div className="btn-group">
                         {isCurrentUserProfile ? (
                             <>
-                                <button className="edit-btn">Edit profile</button>
+                                <button className="edit-btn" onClick={() => setShowEditModal(true)}>Edit profile</button>
                                 <button className="promote-btn">Promote post</button>
                             </>
                         ) : (
@@ -245,7 +250,42 @@ function Profile() {
                     ))
                 )}
             </div>
+                        {showEditModal && (
+                <EditProfileModal
+                    user={user}
+                    onClose={() => setShowEditModal(false)}
+                    // onSave={(updatedData) => {
+                    //     // TODO: Gọi API PUT ở đây
+                    //     console.log('🔁 Dữ liệu cập nhật:', updatedData);
+                    //     setShowEditModal(false);
+                    // }}
+            onSave={async (updatedData) => {
+                try {
+                    await axios.put(`http://localhost:5000/users/${userId}`, updatedData);
+
+                    if (userId === storedUserId) {
+                        localStorage.setItem('user', JSON.stringify({
+                            ...storedUser,
+                            ...updatedData,
+                        }));
+                    }
+
+                    toast.success('Profile updated successfully!');
+                } catch (err) {
+                    console.error("❌ Lỗi khi cập nhật user:", err);
+                    toast.error('❌ Lỗi khi cập nhật profile');
+                } finally {
+                    setShowEditModal(false);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500); // đợi toast hiện xong rồi mới reload
+                }
+            }}
+
+                />
+            )}
         </div>
+        
     );
 }
 

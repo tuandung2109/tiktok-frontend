@@ -14,13 +14,22 @@
   background-color: #000;
   position: relative; 
 
-  .detail-video-player {
-    height: 100%;
-    max-height: 100%;
-    max-width: 70%;
-    border-radius: 10px;
-    object-fit: cover;
+.detail-video-player {
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 10px;
+  background-color: black;
+
+  &.fit-cover {
+    object-fit: cover; // với video dọc
   }
+
+  &.fit-contain {
+    object-fit: contain; // với video ngang
+  }
+}
+
 
   .video-control {
     background: rgba(0, 0, 0, 0.5);

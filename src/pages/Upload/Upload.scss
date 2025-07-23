@@ -1,0 +1,253 @@
+.upload-wrapper {
+    max-width: 900px; // Tăng chiều rộng tổng thể để chứa 2 cột
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+    color: #333;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+        color: #1a1a1a;
+        font-weight: 700;
+    }
+
+    .upload-container {
+        display: flex; // Sử dụng flexbox cho 2 cột
+        gap: 30px; // Khoảng cách giữa 2 cột
+
+        @media (max-width: 768px) {
+            flex-direction: column; // Chuyển sang cột đơn trên màn hình nhỏ
+            gap: 20px;
+        }
+    }
+
+    .video-section {
+        flex: 1; // Chiếm hết không gian còn lại
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px; // Chiều cao tối thiểu cho khu vực video
+        background-color: #f8f8f8;
+        border-radius: 10px;
+        position: relative; // Để định vị nút xóa/sửa
+        overflow: hidden; // Đảm bảo nội dung không tràn ra ngoài
+
+        .drop-zone {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc; // Border dash
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+
+            &:hover, &.drag-over {
+                border-color: #fe2c55;
+                background-color: #fff0f3; // Màu nền nhẹ khi hover/drag
+                color: #fe2c55;
+            }
+
+            .upload-icon {
+                font-size: 60px;
+                margin-bottom: 15px;
+                color: #999;
+            }
+
+            h3 {
+                font-size: 20px;
+                margin-bottom: 10px;
+                font-weight: 600;
+            }
+
+            p {
+                font-size: 14px;
+                margin-top: 5px;
+                color: #888;
+            }
+
+            .browse-btn {
+                padding: 10px 20px;
+                background-color: #fe2c55;
+                color: #fff;
+                border: none;
+                border-radius: 25px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-top: 15px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #e6284d;
+                }
+            }
+
+            .file-info {
+                font-size: 12px;
+                margin-top: 20px;
+                color: #b0b0b0;
+            }
+        }
+
+        .preview-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            .preview {
+                width: 100%;
+                height: 100%;
+                max-height: 380px; // Đảm bảo video không quá lớn
+                object-fit: contain; // Giữ nguyên tỷ lệ, không cắt xén
+                border-radius: 10px;
+            }
+
+            .preview-actions {
+                position: absolute;
+                bottom: 15px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 10px;
+                background-color: rgba(0, 0, 0, 0.6); // Nền mờ cho nút
+                padding: 8px 15px;
+                border-radius: 20px;
+
+                .action-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding: 8px 12px;
+                    background: none;
+                    border: none;
+                    color: #fff;
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: #fe2c55;
+                    }
+                    svg {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+
+    .form-section {
+        flex: 1; // Chiếm hết không gian còn lại
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        label {
+            font-size: 15px;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: -10px; // Giảm khoảng cách với input
+        }
+
+        input[type='text'] {
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #fe2c55;
+                box-shadow: 0 0 0 2px rgba(254, 44, 85, 0.2);
+            }
+
+            &::placeholder {
+                color: #a0a0a0;
+            }
+        }
+
+        .char-count {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 5px;
+        }
+
+        .hashtag-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: -15px;
+            margin-bottom: 5px;
+        }
+
+        .upload-btn {
+            width: 100%; // Nút upload chiếm toàn bộ chiều rộng
+            padding: 14px 24px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            background-color: #fe2c55;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+            margin-top: auto; // Đẩy nút xuống dưới cùng của cột
+
+            &:hover {
+                background-color: #e6284d;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+            }
+
+            &:disabled {
+                background-color: #d3d3d3;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 992px) {
+    .upload-wrapper {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 768px) {
+    .upload-wrapper {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 90%;
+    }
+    .upload-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .video-section, .form-section {
+        min-height: auto;
+    }
+    .video-section .preview {
+        max-height: 250px;
+    }
+}

@@ -358,14 +358,23 @@ export default function VideoDetail() {
     <div className="video-detail-wrapper">
       <div className="video-section">
         <video
-          ref={videoRef}
+          ref={(el) => {
+            videoRef.current = el; // vẫn giữ ref gốc để điều khiển
+            if (el) {
+              el.onloadedmetadata = () => {
+                el.classList.remove('fit-cover', 'fit-contain');
+                const isPortrait = el.videoHeight > el.videoWidth;
+                el.classList.add(isPortrait ? 'fit-cover' : 'fit-contain');
+              };
+            }
+          }}
           className="detail-video-player"
           src={video.videoUrl || video.url}
           controls={false}
           autoPlay
           loop
           onClick={handleVideoClick}
-        ></video>
+        />
 
         {/* Custom Progress Bar */}
         <div className="custom-progress-bar">

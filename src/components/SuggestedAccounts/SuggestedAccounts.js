@@ -15,7 +15,7 @@ function SuggestedAccounts({ label }) {
                 // const res = await fetch(`${process.env.REACT_APP_API_BASE}/users/suggested`);
                 const res = await fetch('http://localhost:5000/users/suggested');
                 const data = await res.json();
-                console.log("📦 Suggested users from backend:", data); // ✅ log để kiểm tra dữ liệu
+                // console.log("📦 Suggested users from backend:", data); // ✅ log để kiểm tra dữ liệu
                 setAccounts(data);
             } catch (err) {
                 console.error('❌ Lỗi khi fetch suggested users:', err);

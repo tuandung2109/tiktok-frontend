@@ -60,10 +60,16 @@ function Header() {
             case 'logout':
                 localStorage.removeItem('user');
                 navigate('/login');
-                window.location.reload(); // 👈 Thêm dòng này
+                window.location.reload(); // Reload sau khi logout
                 break;
             default:
         }
+    };
+
+    // ✅ Hàm xử lý khi bấm vào logo → reload toàn bộ app về trang Home
+    const handleLogoClick = (e) => {
+        e.preventDefault(); // Chặn điều hướng mặc định của Link
+        window.location.href = '/'; // Chuyển về trang chủ và reload toàn bộ
     };
 
     const userMenu = [
@@ -94,7 +100,8 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link to={config.routes.home} className={cx('logo-link')}>
+                {/* ✅ Bấm vào logo → reload toàn bộ app về trang Home */}
+                <Link to="/" className={cx('logo-link')} onClick={handleLogoClick}>
                     <img src={images.logo} alt="Tiktok" />
                 </Link>
 
@@ -104,7 +111,7 @@ function Header() {
                     {currentUser ? (
                         <>
                             <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
-                                <button className={cx('action-btn')}>
+                                <button className={cx('action-btn')} onClick={() => navigate('/upload')}>
                                     <UploadIcon />
                                 </button>
                             </Tippy>

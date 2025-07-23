@@ -22,44 +22,45 @@
     justify-content: center;
     align-items: center;
     position: relative;
-}
 
+    .video-info-icon {
+        position: absolute;
+        width: 23px;
+        height: 25px;
+        top: 25px;
+        right: 135px;
+        z-index: 10;
+        font-size: 10px;
+        color: white;
+        background-color: #dfd6d6;
+        padding: 6px;
+        border-radius: 50%;
+        cursor: pointer;
 
-.video-container {
-  position: relative;
-
-  .video-info-icon {
-    position: absolute;
-    width: 23px;
-    height: 25px;
-    top: 25px;
-    right: 135px;
-    z-index: 10;
-    font-size: 10px;
-    color: white;
-    background-color: #dfd6d6;
-    padding: 6px;
-    border-radius: 50%;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #cec1c1;
+        &:hover {
+            background-color: #cec1c1;
+        }
     }
-  }
+
+    .video-player {
+      width: 100%;
+      max-width: 420px;
+      height: 715px;
+      background-color: black;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+
+      &.fit-cover {
+        object-fit: cover; // dùng cho video dọc
+      }
+
+      &.fit-contain {
+        object-fit: contain; // dùng cho video ngang
+      }
+    }
+
 }
 
-
-.video-player {
-    margin-bottom: 60px;
-    width: 100%;
-    max-width: 420px;
-    height: 715px;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-}
-
-/* Sidebar bên phải video */
 .action-sidebar {
     position: absolute;
     right: calc(50% - 210px - 75px); // video giữa, sidebar cách phải video
@@ -79,12 +80,10 @@
     color: #333;
 }
 
-/* Avatar */
 .avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 2px solid white;
     object-fit: cover;
     border: 1px solid #cf9494;
     margin-left: 6px;
@@ -108,45 +107,41 @@
 }
 
 .plus-icon.followed {
-    background-color: white; /* Nền trắng */
-    color: #ff2e63; /* Màu đỏ cho dấu tích */
-    border: 2px solid #ff2e63; /* Viền đỏ */
+    background-color: white;
+    color: #ff2e63;
+    border: 2px solid #ff2e63;
 }
 
-/* Icon wrapper for FontAwesome icons */
 .icon-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px; /* Kích thước vòng tròn */
+    width: 50px;
     height: 50px;
-    // border: 25px solid #cccccc87; /* Màu xám cho viền */
     border: 25px solid rgb(204 204 204 / 42%);
-    border-radius: 50%; /* Bo tròn */
-    background-color: white; /* Nền trắng */
-    cursor: pointer; /* Con trỏ chuột khi hover */
-    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi */
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.icon-wrapper:hover {   
+.icon-wrapper:hover {
     transform: scale(1.1);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 .icon {
     font-size: 24px;
-    color: #000; /* Màu mặc định của icon */
-    transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu */
+    color: #000;
+    transition: color 0.3s ease;
 }
 
-/* Khi icon được bấm (liked) */
 .icon.liked {
-    color: #ff2e63; /* Đổi màu icon trái tim sang đỏ */
+    color: #ff2e63;
 }
 
-/* Khi icon bookmark được bấm (bookmarked) */
 .icon.bookmarked {
-    color: #ffc107; /* Đổi màu icon bookmark sang vàng */
+    color: #ffc107;
 }
 
 .scroll-buttons {
@@ -176,49 +171,55 @@
 }
 
 .bookmark-message {
-  position: fixed;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #302f2f;          /* Màu xanh lá tươi */
-  color: white;
-  padding: 15px 30px;           /* To hơn */
-  border-radius: 12px;
-  font-size: 20px;              /* Cỡ chữ lớn */
-  font-weight: 600;             /* Đậm */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  z-index: 9999;
-  animation: bounceInOut 3s forwards;
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #302f2f;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    animation: bounceInOut 3s forwards;
 }
 
-/* Animation bounce */
 @keyframes bounceInOut {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.8);
-  }
-  10% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  90% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.8);
-  }
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.8);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.8);
+    }
 }
-
-
-
 
 @keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(20px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(20px); }
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
 }
-
-
