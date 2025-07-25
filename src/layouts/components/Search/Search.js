@@ -20,7 +20,6 @@ function Search() {
     const [loading, setLoading] = useState(false);
 
     const debouncedValue = useDebounce(searchValue, 500);
-
     const inputRef = useRef();
 
     useEffect(() => {
@@ -31,10 +30,14 @@ function Search() {
 
         const fetchApi = async () => {
             setLoading(true);
-
             const result = await searchServices.search(debouncedValue);
 
-            setSearchResult(result);
+            // 👇 In kết quả ra console để kiểm tra
+            console.log('🔍 Kết quả API:', result);
+
+            // Nếu API trả về { users: [...] }, thì cần sửa lại như sau:
+            // setSearchResult(result.users || []);
+            setSearchResult(Array.isArray(result) ? result : []);
             setLoading(false);
         };
 
@@ -52,15 +55,13 @@ function Search() {
     };
 
     const handleChange = (e) => {
-        const searchValue = e.target.value;
-        if (!searchValue.startsWith(' ')) {
-            setSearchValue(searchValue);
+        const value = e.target.value;
+        if (!value.startsWith(' ')) {
+            setSearchValue(value);
         }
     };
 
     return (
-        // Using a wrapper <div> tag around the reference element solves
-        // this by creating a new parentNode context.
         <div>
             <HeadlessTippy
                 interactive
@@ -69,10 +70,18 @@ function Search() {
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
                             <h4 className={cx('search-title')}>Accounts</h4>
-                            {searchResult.map((result) => (
-                                <AccountItem key={result.id} data={result} />
-                            ))}
+                            <div className={cx('scroll-wrapper')}>
+                                {searchResult.map((result) => (
+                                    <AccountItem
+                                        key={result._id || result.id}
+                                        data={result}
+                                        onClick={handleHideResult} // ✅ thêm dòng này
+                                    />
+                                ))}
+
+                            </div>
                         </PopperWrapper>
+
                     </div>
                 )}
                 onClickOutside={handleHideResult}
@@ -92,7 +101,6 @@ function Search() {
                         </button>
                     )}
                     {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-
                     <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
                         <SearchIcon />
                     </button>
@@ -103,3 +111,4 @@ function Search() {
 }
 
 export default Search;
+

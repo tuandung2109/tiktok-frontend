@@ -526,13 +526,13 @@ export default function VideoDetail() {
           <input
             type="text"
             className="video-link"
-            value="https://tiktok-frontend-ten.vercel.app/"
+            value="https://tiktokvibes.vercel.app/"
             readOnly
           />
           <button
             className="copy-link-button"
             onClick={() => {
-              navigator.clipboard.writeText("https://www.tiktok.com/@catchla_gapgau/video/7521123456789");
+              navigator.clipboard.writeText("https://tiktokvibes.vercel.app/");
               setShowCopyMsg(true);
               setTimeout(() => setShowCopyMsg(false), 2000);
             }}

@@ -4,6 +4,11 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import EditProfileModal from '~/components/EditProfileModal/EditProfileModal';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVideo } from '@fortawesome/free-solid-svg-icons'; // video cần dùng solid
+import { faBookmark, faHeart } from '@fortawesome/free-regular-svg-icons'; // favorites & liked
+import { faCirclePlay } from '@fortawesome/free-regular-svg-icons';
+
 
 
 function Profile() {
@@ -198,12 +203,32 @@ function Profile() {
                     className={activeTab === 'videos' ? 'active-tab' : ''}
                     onClick={() => setActiveTab('videos')}
                 >
+                    <FontAwesomeIcon icon={faCirclePlay} style={{ marginRight: '8px' }} />
                     Videos
                 </button>
+
                 <button
                     className={activeTab === 'favorites' ? 'active-tab' : ''}
                     onClick={() => setActiveTab('favorites')}
                 >
+                    <FontAwesomeIcon icon={faBookmark} style={{ marginRight: '8px' }} />
+                    Favorites
+                </button>
+
+                <button
+                    className={activeTab === 'liked' ? 'active-tab' : ''}
+                    onClick={() => setActiveTab('liked')}
+                >
+                    <FontAwesomeIcon icon={faHeart} style={{ marginRight: '8px' }} />
+                    Liked
+                </button>
+
+
+                {/* <button
+                    className={activeTab === 'favorites' ? 'active-tab' : ''}
+                    onClick={() => setActiveTab('favorites')}
+                >
+                    
                     Favorites
                 </button>
                 <button
@@ -211,7 +236,7 @@ function Profile() {
                     onClick={() => setActiveTab('liked')}
                 >
                     Liked
-                </button>
+                </button> */}
             </div>
 
             <div className="video-grid grid-layout">
@@ -290,3 +315,4 @@ function Profile() {
 }
 
 export default Profile;
+

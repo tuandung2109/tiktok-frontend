@@ -71,14 +71,6 @@ export default function MessageDetail() {
     }
   };
 
-  // const handleImageSend = (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-  //   const imageUrl = URL.createObjectURL(file);
-  //   setMessages([...messages, { senderId: currentUserId, type: 'image', fileUrl: imageUrl }]);
-  //   // Bạn có thể upload ảnh lên Cloudinary nếu cần thiết
-  // };
-
 const handleImageSend = async (e) => {
   const file = e.target.files[0];
   if (!file) return;

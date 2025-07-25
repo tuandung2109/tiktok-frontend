@@ -35,3 +35,22 @@
     font-size: 1.4rem;
     color: rgba(22, 24, 35, 0.5);
 }
+
+/* ✅ Thêm để gói danh sách AccountItem nếu muốn scroll */
+.scroll-wrapper {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 6px;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
+}

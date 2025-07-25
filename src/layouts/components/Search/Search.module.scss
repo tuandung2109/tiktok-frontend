@@ -91,3 +91,18 @@
         background-color: rgba(22, 24, 35, 0.06);
     }
 }
+
+.scroll-wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 4px; // tránh đè chữ khi có thanh cuộn
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}

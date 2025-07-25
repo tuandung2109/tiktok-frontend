@@ -8,16 +8,24 @@ import styles from './AccountItem.module.scss';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ data }) {
+function AccountItem({ data, onClick }) {
     return (
-        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
-            <Image className={cx('avatar')} src={data.avatar} alt={data.full_name} />
+        <Link
+            to={`/profile/${data._id}`}
+            className={cx('wrapper')}
+            onClick={onClick} // ✅ gắn hàm xử lý
+        >
+            <Image
+                className={cx('avatar')}
+                src={data.avatarUrl || data.avatar}
+                alt={data.full_name || data.name || data.username}
+            />
             <div className={cx('info')}>
                 <h4 className={cx('name')}>
-                    <span>{data.full_name}</span>
+                    <span>{data.full_name || data.name || data.username}</span>
                     {data.tick && <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />}
                 </h4>
-                <span className={cx('username')}>{data.nickname}</span>
+                <span className={cx('username')}>@{data.username}</span>
             </div>
         </Link>
     );
@@ -25,6 +33,8 @@ function AccountItem({ data }) {
 
 AccountItem.propTypes = {
     data: PropTypes.object.isRequired,
+    onClick: PropTypes.func, // ✅ thêm validate prop
 };
+
 
 export default AccountItem;
