@@ -1,79 +1,247 @@
-.wrapper {
-    --search-border-radius: 92px;
-    --search-height: 46px;
-    --search-top-spacer: 9px;
-    --search-button-width: 52px;
+// .wrapper {
+//     --search-border-radius: 92px;
+//     --search-height: 46px;
+//     --search-top-spacer: 9px;
+//     --search-button-width: 52px;
 
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: var(--default-layout-header-height);
-    box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
-    background-color: var(--white);
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     z-index: 9999;
+//     display: flex;
+//     justify-content: center;
+//     width: 100%;
+//     height: var(--default-layout-header-height);
+//     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
+//     background-color: var(--white);
+// }
+
+// .inner {
+//     height: 100%;
+//     width: var(--default-layout-width);
+//     padding: 0 var(--default-layout-horizontal-spacer);
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+// }
+
+// .logo-link {
+//     display: flex;
+// }
+
+// // Actions
+// .actions {
+//     display: flex;
+//     align-items: center;
+// }
+
+// .more-btn {
+//     font-size: 2rem;
+//     margin-left: 28px;
+//     padding: 4px 8px;
+//     background-color: transparent;
+//     cursor: pointer;
+// }
+
+// .action-btn {
+//     position: relative;
+//     display: flex;
+//     font-size: 2.2rem;
+//     color: #161823;
+//     background-color: transparent;
+//     padding: 4px 10px;
+//     cursor: pointer;
+// }
+
+// .badge {
+//     position: absolute;
+//     top: -3px;
+//     right: 0px;
+//     padding: 0px 6px;
+//     height: 2rem;
+//     line-height: 2rem;
+//     border-radius: 10px;
+//     font-size: 1.4rem;
+//     font-weight: 600;
+//     color: var(--white);
+//     font-family: var(--font-family);
+//     background-color: var(--primary);
+// }
+
+// .user-avatar {
+//     border: 1px solid #cf9494;
+//     width: 32px;
+//     height: 32px;
+//     object-fit: cover;
+//     border-radius: 50%;
+//     margin-left: 14px;
+//     cursor: pointer;
+// }
+
+
+
+
+
+$bp-mobile: 768px;
+$bp-tablet: 1024px;
+
+.wrapper {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: var(--default-layout-header-height);
+  background: var(--white);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
 }
 
 .inner {
-    height: 100%;
-    width: var(--default-layout-width);
-    padding: 0 var(--default-layout-horizontal-spacer);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: relative;
+  width: var(--default-layout-width);
+  padding: 0 var(--default-layout-horizontal-spacer);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo-link {
-    display: flex;
+  display: flex;
 }
 
-// Actions
+/* Desktop: show full */
+.wide {
+  display: flex;
+  align-items: center;
+
+  @media (max-width: $bp-tablet) {
+    display: none;
+  }
+}
+
+.search-form {
+  position: relative;      // hoặc bỏ hẳn nếu không cần định vị tuyệt đối
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  max-width: 1px;        // hoặc 600px tuỳ nhu cầu
+  margin: 0 16px;
+}
+
+
+
+
 .actions {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .more-btn {
-    font-size: 2rem;
-    margin-left: 28px;
-    padding: 4px 8px;
-    background-color: transparent;
-    cursor: pointer;
+  font-size: 2rem;
+  margin-left: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .action-btn {
-    position: relative;
-    display: flex;
-    font-size: 2.2rem;
-    color: #161823;
-    background-color: transparent;
-    padding: 4px 10px;
-    cursor: pointer;
+  position: relative;
+  display: flex;
+  font-size: 2.2rem;
+  color: #161823;
+  background: none;
+  padding: 4px 10px;
+  cursor: pointer;
 }
 
 .badge {
-    position: absolute;
-    top: -3px;
-    right: 0px;
-    padding: 0px 6px;
-    height: 2rem;
-    line-height: 2rem;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--white);
-    font-family: var(--font-family);
-    background-color: var(--primary);
+  position: absolute;
+  top: -3px;
+  right: 0;
+  padding: 0 6px;
+  height: 2rem;
+  line-height: 2rem;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--white);
+  background-color: var(--primary);
 }
 
 .user-avatar {
-    border: 1px solid #cf9494;
-    width: 32px;
-    height: 32px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-left: 14px;
-    cursor: pointer;
+  border: 1px solid #cf9494;
+  width: 32px; height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 14px;
+  cursor: pointer;
+}
+
+@media (max-width: $bp-tablet) {
+//   .logo-link,
+//   .search-inline {
+.search-form {
+    display: none !important;
+  }
+}
+
+/* Hamburger for Sidebar */
+.hamburger {
+  display: none;
+  background: none; border: none; cursor: pointer; margin-right: 16px;
+
+  @media (max-width: $bp-tablet) {
+    display: block;
+  }
+}
+
+/* Toggle panel button */
+.toggle-panel-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  font-size: 1.6rem; margin-left: 16px;
+
+  @media (max-width: $bp-tablet) {
+    display: block;
+  }
+}
+
+/* Panel slide-in chứa Search + Actions */
+.panel {
+  display: none;
+  position: fixed;
+  top: var(--default-layout-header-height);
+  right: 0;
+  width: 100%;
+  max-width: 360px;      // hoặc tuỳ chỉnh
+  background: var(--white);
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  padding: 8px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+  z-index: 9998;
+
+  @media (max-width: $bp-tablet) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  /* override Search width trong panel */
+  .search {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  /* panel actions xếp dọc */
+  .actions {
+    flex-direction: column;
+    align-items: center;
+    > * {
+      margin-bottom: 8px;
+    }
+  }
 }

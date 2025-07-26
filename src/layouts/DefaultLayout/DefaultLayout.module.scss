@@ -1,37 +1,93 @@
+// .wrapper {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+// }
+
+// .container {
+//     width: var(--default-layout-width);
+//     max-width: 100%;
+//     padding: 0 var(--default-layout-horizontal-spacer);
+//     margin-top: var(--default-layout-header-height);
+//     display: flex;
+//     height: calc(100vh - var(--default-layout-header-height)); // Chiều cao trừ đi phần Header
+// }
+
+// .content {
+//     flex: 1;
+//     overflow-y: scroll; // Cho phép cuộn nội dung
+//     scrollbar-width: none; // Ẩn thanh cuộn (Firefox)
+//     -ms-overflow-style: none; // Ẩn thanh cuộn (IE, Edge)
+// }
+
+// .content::-webkit-scrollbar {
+//     display: none; // Ẩn thanh cuộn (Chrome, Safari)
+// }
+
+// .sidebar {
+//     width: 356px; // Đặt chiều rộng cố định cho Sidebar
+//     overflow-y: scroll; // Cho phép cuộn Sidebar
+//     height: 100%; // Sidebar chiếm toàn bộ chiều cao của container
+//     scrollbar-width: none; // Ẩn thanh cuộn (Firefox)
+//     -ms-overflow-style: none; // Ẩn thanh cuộn (IE, Edge)
+// }
+
+// .sidebar::-webkit-scrollbar {
+//     display: none; // Ẩn thanh cuộn (Chrome, Safari)
+// }
+
+/* src/layouts/DefaultLayout/DefaultLayout.module.scss */
+
+// Breakpoints
+$bp-mobile: 768px;
+$bp-tablet: 1024px;
+
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container {
-    width: var(--default-layout-width);
-    max-width: 100%;
-    padding: 0 var(--default-layout-horizontal-spacer);
-    margin-top: var(--default-layout-header-height);
-    display: flex;
-    height: calc(100vh - var(--default-layout-header-height)); // Chiều cao trừ đi phần Header
+  position: relative;
+  width: var(--default-layout-width);
+  max-width: 100%;
+  padding: 0 var(--default-layout-horizontal-spacer);
+  margin-top: var(--default-layout-header-height);
+  display: flex;
+  height: calc(100vh - var(--default-layout-header-height));
+
+  @media (max-width: $bp-tablet) {
+    padding: 0 16px;
+  }
+  @media (max-width: $bp-mobile) {
+    padding: 0 12px;
+  }
 }
 
 .content {
-    flex: 1;
-    overflow-y: scroll; // Cho phép cuộn nội dung
-    scrollbar-width: none; // Ẩn thanh cuộn (Firefox)
-    -ms-overflow-style: none; // Ẩn thanh cuộn (IE, Edge)
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.content::-webkit-scrollbar {
-    display: none; // Ẩn thanh cuộn (Chrome, Safari)
-}
+/* Overlay che phủ khi Sidebar mở (chỉ tablet/mobile) */
+.overlay {
+  display: none;
 
-.sidebar {
-    width: 356px; // Đặt chiều rộng cố định cho Sidebar
-    overflow-y: scroll; // Cho phép cuộn Sidebar
-    height: 100%; // Sidebar chiếm toàn bộ chiều cao của container
-    scrollbar-width: none; // Ẩn thanh cuộn (Firefox)
-    -ms-overflow-style: none; // Ẩn thanh cuộn (IE, Edge)
-}
-
-.sidebar::-webkit-scrollbar {
-    display: none; // Ẩn thanh cuộn (Chrome, Safari)
+  @media (max-width: $bp-tablet) {
+    display: block;
+    position: fixed;
+    top: var(--default-layout-header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--default-layout-header-height));
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 900;
+  }
 }
