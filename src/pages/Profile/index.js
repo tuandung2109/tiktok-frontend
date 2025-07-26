@@ -67,11 +67,22 @@ function Profile() {
     }, [userId]);
 
     useEffect(() => {
-        if (!userId) return;
-        axios.get(`http://localhost:5000/videos?userId=${storedUserId}&filterByUser=${userId}`)
-            .then((res) => setVideos(res.data))
-            .catch((err) => console.error('❌ Lỗi khi lấy video:', err));
-    }, [userId, storedUserId]);
+        if (!userId) return;  // nếu url /profile/ không có :userId thì thôi
+
+        // Luôn lấy video của user nào đó
+        const params = { filterByUser: userId };
+
+        // Chỉ thêm storedUserId khi đã login, để server biết viewer là ai
+        if (storedUserId) {
+            params.userId = storedUserId;
+        }
+
+        axios
+            .get('http://localhost:5000/videos', { params })
+            .then(res => setVideos(res.data))
+            .catch(err => console.error('❌ Lỗi khi lấy video:', err));
+        }, [userId, storedUserId]);
+
 
     useEffect(() => {
         if (activeTab === 'liked' && userId) {
