@@ -280,8 +280,13 @@
   .video-container {
     padding-bottom: 1.5rem;
 
+
     .video-player {
       max-width: 100%;
+    }
+    
+    .video-player.fit-cover {
+        margin-top: -10rem !important;
     }
   }
 
