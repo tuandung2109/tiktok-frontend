@@ -223,3 +223,89 @@
         transform: translateY(20px);
     }
 }
+
+/* ============ MEDIA QUERIES ============ */
+
+/* Tablet & mobile lớn (<=1024px) */
+@media (max-width: 1024px) {
+  .video-container {
+    /* Chuyển thành cột để video trên, sidebar dưới */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    padding-bottom: 2rem;
+
+
+    //   .video-info-icon {
+    //     display: none;
+    // }
+    .video-player {
+      max-width: 80%;
+      height: auto;
+    }
+
+    .scroll-buttons {
+        display: none !important;
+    }
+
+    /* Đưa action-sidebar xuống dưới video */
+    .action-sidebar {
+      position: static !important;
+      margin-top: 1.5rem;
+      flex-direction: row;
+      justify-content: center;
+      gap: 2rem;
+      right: auto;
+      top: auto;
+      transform: none;
+    }
+  }
+}
+
+/* Mobile nhỏ (<=480px) */
+@media (max-width: 480px) {
+  .video-container {
+    padding-bottom: 1.5rem;
+
+    .video-player {
+      max-width: 100%;
+    }
+  }
+
+    .video-info-icon {
+    display: none;
+  }
+    .scroll-buttons {
+        display: none !important;
+    }
+
+    
+
+  .action-sidebar {
+    /* Giữ hàng ngang, ẩn chữ */
+    flex-direction: row !important;
+    gap: 1rem;
+    margin-top: 1rem !important;
+
+    .action-item span {
+      display: none;
+    }
+    .icon-wrapper {
+      width: 36px;
+      height: 36px;
+      border-width: 18px;
+    }
+    .icon {
+      font-size: 18px;
+    }
+    .avatar {
+      width: 36px;
+      height: 36px;
+    }
+    .plus-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+    }
+  }
+}
