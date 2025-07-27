@@ -244,20 +244,33 @@
       height: auto;
     }
 
+        .video-info-icon {
+    display: none;
+  }
+
     .scroll-buttons {
         display: none !important;
     }
 
     /* Đưa action-sidebar xuống dưới video */
-    .action-sidebar {
+    // .action-sidebar {
+    //   position: static !important;
+    //   margin-top: 1.5rem;
+    //   flex-direction: row;
+    //   justify-content: center;
+    //   gap: 2rem;
+    //   right: auto;
+    //   top: auto;
+    //   transform: none;
+    // }
+        .action-sidebar {
       position: static !important;
-      margin-top: 1.5rem;
+      /* giảm margin-top từ 1.5rem xuống 1rem để lên cao hơn */
+      margin-top: 1rem !important;
       flex-direction: row;
       justify-content: center;
       gap: 2rem;
-      right: auto;
-      top: auto;
-      transform: none;
+      transform: translateY(-0.5rem); /* đẩy lên thêm 0.5rem */
     }
   }
 }
@@ -286,6 +299,7 @@
     flex-direction: row !important;
     gap: 1rem;
     margin-top: 1rem !important;
+    transform: translateY(-4.5rem) !important; /* đẩy lên thêm 0.25rem */
 
     .action-item span {
       display: none;
