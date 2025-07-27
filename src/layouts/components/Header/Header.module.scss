@@ -1,94 +1,15 @@
-// .wrapper {
-//     --search-border-radius: 92px;
-//     --search-height: 46px;
-//     --search-top-spacer: 9px;
-//     --search-button-width: 52px;
-
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     z-index: 9999;
-//     display: flex;
-//     justify-content: center;
-//     width: 100%;
-//     height: var(--default-layout-header-height);
-//     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
-//     background-color: var(--white);
-// }
-
-// .inner {
-//     height: 100%;
-//     width: var(--default-layout-width);
-//     padding: 0 var(--default-layout-horizontal-spacer);
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-// }
-
-// .logo-link {
-//     display: flex;
-// }
-
-// // Actions
-// .actions {
-//     display: flex;
-//     align-items: center;
-// }
-
-// .more-btn {
-//     font-size: 2rem;
-//     margin-left: 28px;
-//     padding: 4px 8px;
-//     background-color: transparent;
-//     cursor: pointer;
-// }
-
-// .action-btn {
-//     position: relative;
-//     display: flex;
-//     font-size: 2.2rem;
-//     color: #161823;
-//     background-color: transparent;
-//     padding: 4px 10px;
-//     cursor: pointer;
-// }
-
-// .badge {
-//     position: absolute;
-//     top: -3px;
-//     right: 0px;
-//     padding: 0px 6px;
-//     height: 2rem;
-//     line-height: 2rem;
-//     border-radius: 10px;
-//     font-size: 1.4rem;
-//     font-weight: 600;
-//     color: var(--white);
-//     font-family: var(--font-family);
-//     background-color: var(--primary);
-// }
-
-// .user-avatar {
-//     border: 1px solid #cf9494;
-//     width: 32px;
-//     height: 32px;
-//     object-fit: cover;
-//     border-radius: 50%;
-//     margin-left: 14px;
-//     cursor: pointer;
-// }
-
-
-
-
-
-$bp-mobile: 768px;
 $bp-tablet: 1024px;
 
 .wrapper {
+  --search-border-radius: 92px;
+  --search-height: 46px;
+  --search-top-spacer: 9px;
+  --search-button-width: 52px;
+
   position: fixed;
   top: 0; left: 0;
-  width: 100%; height: var(--default-layout-header-height);
+  width: 100%;
+  height: var(--default-layout-header-height);
   background: var(--white);
   box-shadow: 0 1px 1px rgba(0,0,0,0.12);
   z-index: 9999;
@@ -97,7 +18,7 @@ $bp-tablet: 1024px;
 }
 
 .inner {
-    position: relative;
+  position: relative;
   width: var(--default-layout-width);
   padding: 0 var(--default-layout-horizontal-spacer);
   display: flex;
@@ -109,7 +30,21 @@ $bp-tablet: 1024px;
   display: flex;
 }
 
-/* Desktop: show full */
+.search-form {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  max-width: 100%;
+  height: var(--search-height);
+  z-index: 1;
+
+  @media (max-width: $bp-tablet) {
+    display: none !important;
+  }
+}
+
 .wide {
   display: flex;
   align-items: center;
@@ -118,18 +53,6 @@ $bp-tablet: 1024px;
     display: none;
   }
 }
-
-.search-form {
-  position: relative;      // hoặc bỏ hẳn nếu không cần định vị tuyệt đối
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  max-width: 1px;        // hoặc 600px tuỳ nhu cầu
-  margin: 0 16px;
-}
-
-
-
 
 .actions {
   display: flex;
@@ -170,50 +93,46 @@ $bp-tablet: 1024px;
 
 .user-avatar {
   border: 1px solid #cf9494;
-  width: 32px; height: 32px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
   border-radius: 50%;
   margin-left: 14px;
   cursor: pointer;
 }
 
-@media (max-width: $bp-tablet) {
-//   .logo-link,
-//   .search-inline {
-.search-form {
-    display: none !important;
-  }
-}
-
-/* Hamburger for Sidebar */
 .hamburger {
   display: none;
-  background: none; border: none; cursor: pointer; margin-right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 16px;
 
   @media (max-width: $bp-tablet) {
     display: block;
   }
 }
 
-/* Toggle panel button */
 .toggle-panel-btn {
   display: none;
-  background: none; border: none; cursor: pointer;
-  font-size: 1.6rem; margin-left: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  margin-left: 16px;
 
   @media (max-width: $bp-tablet) {
     display: block;
   }
 }
 
-/* Panel slide-in chứa Search + Actions */
 .panel {
   display: none;
   position: fixed;
   top: var(--default-layout-header-height);
   right: 0;
   width: 100%;
-  max-width: 360px;      // hoặc tuỳ chỉnh
+  max-width: 360px;
   background: var(--white);
   box-shadow: -2px 0 8px rgba(0,0,0,0.1);
   padding: 8px;
@@ -230,13 +149,61 @@ $bp-tablet: 1024px;
     transform: translateX(0);
   }
 
-  /* override Search width trong panel */
-  .search {
+  /* === Khi chưa bấm search: show cả hàng icon === */
+  .panel-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 100%;
     margin-bottom: 8px;
   }
+  .panel-search-toggle {
+    display: none;
+    @media (max-width: $bp-tablet) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--search-button-width);
+      height: var(--search-height);
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+  }
 
-  /* panel actions xếp dọc */
+  /* === Khi đã bấm search: chỉ show form === */
+  .panel-search-only {
+    display: none;
+    @media (max-width: $bp-tablet) {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      margin-bottom: 8px;
+
+      .search {
+        width: 100%;
+      }
+    }
+  }
+  .panel-search-close {
+    display: none;
+    @media (max-width: $bp-tablet) {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 32px;
+      height: var(--search-height);
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+  }
+
+  /* Nếu muốn show actions dưới form, giữ nguyên: */
   .actions {
     flex-direction: column;
     align-items: center;
@@ -244,4 +211,14 @@ $bp-tablet: 1024px;
       margin-bottom: 8px;
     }
   }
+}
+
+.overlay {
+  position: fixed;
+  top: var(--default-layout-header-height);
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--default-layout-header-height));
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 9997;
 }
