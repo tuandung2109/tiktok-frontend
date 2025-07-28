@@ -18,7 +18,7 @@ function FollowingAccounts({ label }) {
             }
 
             try {
-                const res = await fetch(`http://localhost:5000/users/following?userId=${userInfo._id}`);
+                const res = await fetch(`${process.env.REACT_APP_API_BASE}/users/following?userId=${userInfo._id}`);
                 const data = await res.json();
                 setAccounts(data);
             } catch (err) {

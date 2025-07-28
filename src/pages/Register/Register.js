@@ -38,7 +38,7 @@ function Register() {
 
         try {
             // await axios.post(`${process.env.REACT_APP_API_BASE}/auth/register`, {
-            await axios.post('http://localhost:5000/auth/register', {
+            await axios.post('${process.env.REACT_APP_API_BASE}/auth/register', {
 
                 username: formData.username,
                 email: formData.email,

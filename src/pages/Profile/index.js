@@ -40,7 +40,7 @@ function Profile() {
 
     useEffect(() => {
         if (!isCurrentUserProfile && storedUserId && userId) {
-            axios.post('http://localhost:5000/follows/check', {
+            axios.post('${process.env.REACT_APP_API_BASE}/follows/check', {
                 followerId: storedUserId,
                 followingId: userId,
             })
@@ -53,7 +53,7 @@ function Profile() {
 
     useEffect(() => {
         if (!userId) return;
-        axios.get(`http://localhost:5000/users/${userId}`)
+        axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}`)
             .then((res) => {
                 const data = res.data;
                 setUser((prev) => ({
@@ -78,7 +78,7 @@ function Profile() {
         }
 
         axios
-            .get('http://localhost:5000/videos', { params })
+            .get('${process.env.REACT_APP_API_BASE}/videos', { params })
             .then(res => setVideos(res.data))
             .catch(err => console.error('❌ Lỗi khi lấy video:', err));
         }, [userId, storedUserId]);
@@ -86,7 +86,7 @@ function Profile() {
 
     useEffect(() => {
         if (activeTab === 'liked' && userId) {
-            axios.get(`http://localhost:5000/users/${userId}/liked-videos`)
+            axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}/liked-videos`)
                 .then((res) => setLikedVideos(res.data))
                 .catch((err) => console.error('❌ Lỗi khi lấy liked videos:', err));
         }
@@ -94,7 +94,7 @@ function Profile() {
 
     useEffect(() => {
         if (activeTab === 'favorites' && userId) {
-            axios.get(`http://localhost:5000/users/${userId}/bookmarked-videos`)
+            axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}/bookmarked-videos`)
                 .then((res) => setFavoriteVideos(res.data))
                 .catch((err) => console.error('❌ Lỗi khi lấy favorites:', err));
         }
@@ -103,7 +103,7 @@ function Profile() {
     useEffect(() => {
         if (!userId) return;
 
-        axios.get(`http://localhost:5000/users/${userId}/stats`)
+        axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}/stats`)
             .then((res) => {
                 setUser((prev) => ({
                     ...prev,
@@ -119,13 +119,13 @@ function Profile() {
         if (!storedUserId || !userId) return;
 
         if (isFollowing) {
-            axios.delete('http://localhost:5000/follows', {
+            axios.delete('${process.env.REACT_APP_API_BASE}/follows', {
                 data: { followerId: storedUserId, followingId: userId },
             })
             .then(() => setIsFollowing(false))
             .catch((err) => console.error('❌ Lỗi khi unfollow:', err));
         } else {
-            axios.post('http://localhost:5000/follows', {
+            axios.post('${process.env.REACT_APP_API_BASE}/follows', {
                 followerId: storedUserId,
                 followingId: userId,
             })
@@ -297,7 +297,7 @@ function Profile() {
                     // }}
             onSave={async (updatedData) => {
                 try {
-                    await axios.put(`http://localhost:5000/users/${userId}`, updatedData);
+                    await axios.put(`${process.env.REACT_APP_API_BASE}/users/${userId}`, updatedData);
 
                     if (userId === storedUserId) {
                         localStorage.setItem('user', JSON.stringify({

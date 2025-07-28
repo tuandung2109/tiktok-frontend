@@ -79,7 +79,7 @@ export default function VideoDetail() {
   const fetchComments = useCallback(async () => {
     if (!video._id) return;
     try {
-      const res = await fetch(`http://localhost:5000/comments/${video._id}${userId ? `?userId=${userId}` : ''}`);
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments/${video._id}${userId ? `?userId=${userId}` : ''}`);
       const data = await res.json();
       const comments = data.map(c => ({
         ...c,
@@ -122,7 +122,7 @@ export default function VideoDetail() {
   const checkFollowStatus = async (v, userId) => {
     if (!userId || !v.userId?._id || userId === v.userId._id) return false;
     try {
-      const res = await fetch('http://localhost:5000/follows/check', {
+      const res = await fetch('${process.env.REACT_APP_API_BASE}/follows/check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ followerId: userId, followingId: v.userId._id }),
@@ -196,7 +196,7 @@ export default function VideoDetail() {
 
   useEffect(() => {
     if ((!video || !video.userId) && id) {
-      fetch(`http://localhost:5000/videos/${id}`)
+      fetch(`${process.env.REACT_APP_API_BASE}/videos/${id}`)
         .then(res => res.json())
         .then(data => {
           console.log('📥 Full fetched video:', data); // ✅ Xem data có userId không
@@ -222,7 +222,7 @@ export default function VideoDetail() {
   const handleSendComment = async () => {
     if (!commentInputText.trim() || !userId || !video._id) return;
     try {
-      const res = await fetch('http://localhost:5000/comments', {
+      const res = await fetch('${process.env.REACT_APP_API_BASE}/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, videoId: video._id, content: commentInputText })
@@ -279,7 +279,7 @@ export default function VideoDetail() {
     const isCurrentlyBookmarked = bookmarked;
     try {
       const method = isCurrentlyBookmarked ? 'DELETE' : 'POST';
-      const endpoint = 'http://localhost:5000/bookmarks';
+      const endpoint = '${process.env.REACT_APP_API_BASE}/bookmarks';
       const res = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -306,7 +306,7 @@ export default function VideoDetail() {
   const handleLikeVideo = async () => {
     if (!userId || !video._id) return;
     try {
-      const res = await fetch(`http://localhost:5000/videos/${video._id}/${liked ? 'unlike' : 'like'}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/videos/${video._id}/${liked ? 'unlike' : 'like'}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -446,7 +446,7 @@ export default function VideoDetail() {
                   const method = isFollowing ? 'DELETE' : 'POST';
 
                   try {
-                    await fetch('http://localhost:5000/follows', {
+                    await fetch('${process.env.REACT_APP_API_BASE}/follows', {
                       method,
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({

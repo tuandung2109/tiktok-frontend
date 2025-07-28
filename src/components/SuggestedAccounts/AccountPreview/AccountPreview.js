@@ -23,7 +23,7 @@ function AccountPreview({ data }) {
     // Lấy stats từ backend
     useEffect(() => {
         if (userId) {
-            fetch(`http://localhost:5000/users/${userId}/stats`)
+            fetch(`${process.env.REACT_APP_API_BASE}/users/${userId}/stats`)
                 .then((res) => res.json())
                 .then((data) => setStats(data))
                 .catch((err) => console.error('❌ Lỗi lấy stats:', err));
@@ -33,7 +33,7 @@ function AccountPreview({ data }) {
     // Kiểm tra trạng thái follow
     useEffect(() => {
         if (storedUserId && userId && storedUserId !== userId) {
-            fetch(`http://localhost:5000/follows/check`, {
+            fetch(`${process.env.REACT_APP_API_BASE}/follows/check`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -50,7 +50,7 @@ function AccountPreview({ data }) {
     const handleFollowToggle = () => {
         if (!storedUserId || !userId) return;
 
-        const url = 'http://localhost:5000/follows';
+        const url = '${process.env.REACT_APP_API_BASE}/follows';
         const method = isFollowing ? 'DELETE' : 'POST';
 
         fetch(url, {

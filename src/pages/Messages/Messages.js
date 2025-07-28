@@ -21,7 +21,7 @@ export default function Messages() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/users");
+        const res = await axios.get("${process.env.REACT_APP_API_BASE}/users");
         setUsers(res.data);
       } catch (err) {
         console.error("Lỗi khi lấy user:", err);
@@ -37,7 +37,7 @@ export default function Messages() {
       try {
         if (!currentUserId) return;
 
-        const res = await axios.get(`http://localhost:5000/api/conversations/${currentUserId}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/conversations/${currentUserId}`);
         const convs = res.data;
         setConversations(convs);
 
@@ -46,7 +46,7 @@ export default function Messages() {
 
         await Promise.all(convs.map(async (conv) => {
           try {
-            const resMsg = await axios.get(`http://localhost:5000/api/messages/${conv._id}`);
+            const resMsg = await axios.get(`${process.env.REACT_APP_API_BASE}/api/messages/${conv._id}`);
             const msgs = resMsg.data;
             if (msgs.length > 0) {
               messagesMap[conv._id] = msgs[msgs.length - 1];

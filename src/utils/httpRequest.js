@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const httpRequest = axios.create({
-    baseURL: 'http://localhost:5000/', // ⚠️ GÁN TRỰC TIẾP PORT BACKEND Ở ĐÂY
+    baseURL: '${process.env.REACT_APP_API_BASE}/', // ⚠️ GÁN TRỰC TIẾP PORT BACKEND Ở ĐÂY
 });
 
 export const get = async (path, options = {}) => {

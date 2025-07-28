@@ -38,6 +38,11 @@
 
 /* src/layouts/DefaultLayout/DefaultLayout.module.scss */
 
+
+
+
+
+
 // Breakpoints
 $bp-mobile: 768px;
 $bp-tablet: 1024px;
@@ -46,6 +51,7 @@ $bp-tablet: 1024px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden; 
 }
 
 .container {

@@ -25,11 +25,11 @@ export default function MessageDetail() {
     const fetchConversationAndMessages = async () => {
       if (!currentUserId || !partnerId) return;
       try {
-        const resConv = await axios.get(`http://localhost:5000/api/conversations/${currentUserId}`);
+        const resConv = await axios.get(`${process.env.REACT_APP_API_BASE}/api/conversations/${currentUserId}`);
         const existing = resConv.data.find((c) => c.members.includes(partnerId));
         if (existing) {
           setConversationId(existing._id);
-          const resMsg = await axios.get(`http://localhost:5000/api/messages/${existing._id}`);
+          const resMsg = await axios.get(`${process.env.REACT_APP_API_BASE}/api/messages/${existing._id}`);
           setMessages(resMsg.data);
         }
       } catch (err) {
@@ -48,7 +48,7 @@ export default function MessageDetail() {
 
       // Nếu chưa có hội thoại, tạo mới
       if (!conversationId) {
-        const resNewConv = await axios.post("http://localhost:5000/api/conversations", {
+        const resNewConv = await axios.post("${process.env.REACT_APP_API_BASE}/api/conversations", {
           senderId: currentUserId,
           receiverId: partnerId,
         });
@@ -63,7 +63,7 @@ export default function MessageDetail() {
         type: 'text'
       };
 
-      const res = await axios.post("http://localhost:5000/api/messages", newMsg);
+      const res = await axios.post("${process.env.REACT_APP_API_BASE}/api/messages", newMsg);
       setMessages((prev) => [...prev, res.data]);
       setInput('');
     } catch (err) {
@@ -86,7 +86,7 @@ const handleImageSend = async (e) => {
     );
     const imageUrl = response.data.secure_url;
 
-    const res = await axios.post('http://localhost:5000/api/messages', {
+    const res = await axios.post('${process.env.REACT_APP_API_BASE}/api/messages', {
       conversationId,
       senderId: currentUserId,
       type: 'image',

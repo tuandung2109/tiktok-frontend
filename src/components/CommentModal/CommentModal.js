@@ -22,7 +22,7 @@ function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
   // Fetch comments khi modal mở
   useEffect(() => {
     if (isOpen && videoId) {
-      fetch(`http://localhost:5000/comments/${videoId}${userId ? `?userId=${userId}` : ''}`) // Thêm userId để API trả về isLiked
+      fetch(`${process.env.REACT_APP_API_BASE}/comments/${videoId}${userId ? `?userId=${userId}` : ''}`) // Thêm userId để API trả về isLiked
         .then((res) => res.json())
         .then((data) => {
           setComments(data);
@@ -74,7 +74,7 @@ function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
     const endpoint = alreadyLiked ? 'unlike' : 'like';
 
     try {
-      const res = await fetch(`http://localhost:5000/comments/${id}/${endpoint}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments/${id}/${endpoint}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
 
     try {
       setIsSubmitting(true);
-      const res = await fetch('http://localhost:5000/comments', {
+      const res = await fetch('${process.env.REACT_APP_API_BASE}/comments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
