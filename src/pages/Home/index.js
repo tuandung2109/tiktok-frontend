@@ -170,7 +170,8 @@ function Home() {
 
             const method = isBookmarked ? 'DELETE' : 'POST';
 
-            await fetch('${process.env.REACT_APP_API_BASE}/bookmarks', {
+            await fetch(`${process.env.REACT_APP_API_BASE}/bookmarks`, {
+            // await fetch('${process.env.REACT_APP_API_BASE}/bookmarks', {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, videoId }),
@@ -202,7 +203,8 @@ function Home() {
         try {
             const method = isFollowed ? 'DELETE' : 'POST';
 
-            await fetch('${process.env.REACT_APP_API_BASE}/follows', {
+            await fetch(`${process.env.REACT_APP_API_BASE}/follows`, {
+            // await fetch('${process.env.REACT_APP_API_BASE}/follows', {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -241,9 +243,18 @@ function Home() {
       <video
         className="video-player"
         src={video.videoUrl}
-        controls
-        loop
-        muted
+        // controls
+        // loop
+        // muted
+        // playsInline            // cho phép phát nội tuyến trên iOS
+        // webkit-playsinline     // tiền tố cho Safari cũ
+          muted
+            autoPlay          // bắt buộc phải có để cho phép autoplay
+            playsInline       // chuẩn HTML5
+            webkit-playsinline// tiền tố cho Safari iOS cũ
+            loop
+            preload="auto"    // (tùy chọn) preload dữ liệu sẵn cho mượt hơn
+            controls
         ref={(el) => {
           if (el) {
             el.onloadedmetadata = () => {

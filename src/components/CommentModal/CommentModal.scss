@@ -178,3 +178,152 @@
 }
 
 
+
+/* Responsive cho Tablet (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .tiktok-modal-content {
+    width: 60%; /* Rộng hơn trên tablet */
+    height: 75%; /* Cao hơn trên tablet */
+  }
+
+  .comment-item {
+    margin-bottom: 15px; /* Tăng khoảng cách giữa các comment */
+  }
+
+  .avatar {
+    width: 45px; /* Avatar lớn hơn */
+    height: 45px;
+    margin-right: 12px;
+  }
+
+  .username {
+    font-size: 18px !important; /* Font size lớn hơn cho username */
+  }
+
+  .text {
+    font-size: 15px; /* Font size lớn hơn cho nội dung comment */
+  }
+
+  .comment-meta {
+    font-size: 13px; /* Font size lớn hơn cho meta */
+  }
+
+  .like-icon {
+    i {
+      font-size: 20px; /* Icon like lớn hơn */
+    }
+    .like-count {
+      font-size: 15px; /* Số like lớn hơn */
+    }
+  }
+
+  .input-wrapper {
+    input {
+      padding: 10px 40px 10px 15px; /* Padding lớn hơn cho input */
+      font-size: 15px;
+    }
+    .emoji-button {
+      right: 15px;
+      font-size: 20px; /* Icon emoji lớn hơn */
+    }
+  }
+
+  .comment-footer button:last-child {
+    font-size: 16px; /* Nút "Đăng" lớn hơn */
+  }
+
+  .emoji-picker-container {
+    bottom: 60px; /* Dịch lên một chút */
+    right: 20px;
+  }
+}
+
+/* Responsive cho Mobile (dưới 768px) */
+@media (max-width: 767px) {
+  .tiktok-modal-content {
+    width: 95%; /* Gần full width trên mobile */
+    height: 57%; /* Gần full height trên mobile */
+    border-radius: 8px; /* Bo góc nhỏ hơn */
+    padding: 8px 12px; /* Padding nhỏ hơn */
+  }
+
+  .comment-header {
+    font-size: 15px; /* Font size nhỏ hơn */
+    padding-bottom: 6px;
+  }
+
+  .close-button {
+    font-size: 20px; /* Nút đóng nhỏ hơn */
+  }
+
+  .comment-body {
+    max-height: 65vh; /* Tăng chiều cao tối đa để hiển thị nhiều comment hơn */
+    margin-top: 8px;
+  }
+
+  .comment-item {
+    margin-bottom: 10px;
+  }
+
+  .avatar {
+    width: 32px; /* Avatar nhỏ hơn */
+    height: 32px;
+    margin-right: 8px;
+  }
+
+  .username {
+    font-size: 16px !important; /* Font size nhỏ hơn cho username */
+  }
+
+  .text {
+    font-size: 13px; /* Font size nhỏ hơn cho nội dung comment */
+  }
+
+  .comment-meta {
+    font-size: 11px; /* Font size nhỏ hơn cho meta */
+  }
+
+  .like-icon {
+    i {
+      font-size: 16px; /* Icon like nhỏ hơn */
+    }
+    .like-count {
+      font-size: 12px; /* Số like nhỏ hơn */
+    }
+  }
+
+  .view-replies {
+    font-size: 12px;
+    margin: 6px 0 12px 40px; /* Điều chỉnh margin */
+  }
+
+  .comment-footer {
+    padding-top: 8px;
+    gap: 8px;
+  }
+
+  .input-wrapper {
+    input {
+      padding: 6px 32px 6px 8px; /* Padding nhỏ hơn cho input */
+      font-size: 13px;
+    }
+    .emoji-button {
+      right: 8px;
+      font-size: 16px; /* Icon emoji nhỏ hơn */
+    }
+  }
+
+  .comment-footer button:last-child {
+    font-size: 14px; /* Nút "Đăng" nhỏ hơn */
+  }
+
+  .emoji-picker-container {
+    bottom: 40px; /* Dịch lên một chút */
+    right: 5px;
+    width: 90%; /* Rộng hơn để phù hợp với màn hình nhỏ */
+    .EmojiPickerReact {
+      width: 100% !important; /* Đảm bảo emoji picker full width */
+      height: 500px !important; /* Chiều cao cố định cho mobile */
+    }
+  }
+}

@@ -86,3 +86,93 @@
     border-radius: 16px;
     overflow: hidden;
 }
+
+// --- MEDIA QUERIES ---
+
+// Đối với các thiết bị di động (điện thoại thông minh, chiều rộng tối đa 768px)
+@media (max-width: 1024px) {
+    .bar-wrapper {
+        height: 50px;
+        padding: 0 15px;
+        top: 0; // Dính sát mép trên hơn
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); // Bóng đổ nhẹ hơn
+    }
+
+    .item {
+        padding: 8px 14px;
+        font-size: 14px;
+        border-radius: 18px;
+    }
+
+    .bar-scroll {
+        gap: 10px;
+    }
+
+    .arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+        margin: 0 5px;
+        // Nếu muốn ẩn mũi tên trên mobile, bỏ comment dòng dưới:
+        // display: none;
+    }
+    .arrow.left,
+    .arrow.right {
+        width: 70px;
+    }
+}
+
+// Đối với các thiết bị di động nhỏ hơn (small phones, chiều rộng tối đa 480px)
+@media (max-width: 480px) {
+    .bar-wrapper {
+        padding: 0 10px;
+        height: 45px;
+    }
+
+    .item {
+        padding: 6px 12px;
+        font-size: 13px;
+        border-radius: 16px;
+    }
+
+    .arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        margin: 0 3px;
+    }
+
+    .arrow.left,
+    .arrow.right {
+        width: 106px;
+    }
+}
+
+// Đối với Tablet (chiều rộng từ 769px đến 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+    .bar-wrapper {
+        padding: 0 20px;
+    }
+
+    .item {
+        padding: 9px 16px;
+        font-size: 14.5px;
+    }
+
+    .arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+    }
+}
+
+// --- Gợi ý cho Responsive ảnh (file React): ---
+// Trong file Explore.js, phần Bootstrap bạn đã có sẵn:
+// <div className="col-md-4 mb-4" key={i}>
+// `col-md-4` nghĩa là trên màn hình medium (768px) trở lên, mỗi ảnh chiếm 4 cột (3 ảnh/hàng).
+// Để responsive tốt hơn cho mobile, bạn có thể thêm:
+// - `col-6` (2 ảnh/hàng trên màn hình extra small/small)
+// - `col-sm-6` (2 ảnh/hàng trên màn hình small trở lên)
+// Ví dụ:
+// <div className="col-6 col-sm-6 col-md-4 mb-4" key={i}>
+// Điều này sẽ hiển thị 2 ảnh/hàng trên mobile và 3 ảnh/hàng trên tablet/desktop.

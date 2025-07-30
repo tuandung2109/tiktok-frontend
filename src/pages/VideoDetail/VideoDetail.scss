@@ -677,3 +677,573 @@
     transition: width 0.2s;
   }
 }
+
+
+// --- Media Query cho Tablet (ví dụ: màn hình nhỏ hơn 1024px) ---
+@media (max-width: 1024px) {
+    .video-detail-wrapper {
+        flex-direction: column; // Chuyển sang bố cục cột (video trên, info dưới)
+        overflow-y: auto; // Cho phép cuộn toàn bộ trang nếu nội dung dài
+        position: static; // Loại bỏ fixed để cho phép cuộn trên trang
+
+        .video-section {
+            flex: none; // Hủy flex grow
+            width: 100%; // Chiếm toàn bộ chiều rộng
+            height: 55vh; // Đặt chiều cao tương đối cho video (giảm so với trước để chừa chỗ)
+            min-height: 280px; // Chiều cao tối thiểu để video không quá nhỏ
+            max-height: 480px; // Chiều cao tối đa để video không quá lớn
+            padding-bottom: 40px; // TĂNG padding dưới để KHÔNG ĐÈ lên controls video
+
+            .detail-video-player {
+                height: 100%; // Video chiếm toàn bộ chiều cao của video-section
+                object-fit: contain; // Ưu tiên 'contain' trên tablet để video không bị cắt
+            }
+
+            // Các nút điều khiển trên video
+            .video-control {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+
+                &.close-btn {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 18px;
+                    top: 10px;
+                    left: 10px;
+                }
+
+                &.menu-btn {
+                    width: 36px;
+                    height: 36px;
+                    font-size: 18px;
+                    top: 10px;
+                    right: 10px;
+                }
+            }
+
+            // Các nút điều khiển ở dưới cùng bên phải, nằm cùng hàng
+            .bottom-right-controls {
+                bottom: 15px; // Giảm khoảng cách từ dưới lên
+                right: 15px; // Giảm khoảng cách từ phải vào
+                gap: 8px;
+            }
+
+            .volume-slider-vertical {
+                bottom: 60px; // Điều chỉnh vị trí slider cho phù hợp (trên nút volume)
+                right: 15px; // Căn chỉnh với nút volume
+                height: 100px; // Giảm chiều cao slider
+                right: -20px; // Căn chỉnh lại cho phù hợp với kích thước nút nhỏ hơn
+
+                input[type='range'] {
+                    width: 80px; // Giảm chiều rộng (chiều dài khi xoay)
+                }
+            }
+
+            .vertical-nav-buttons {
+                display: none; // Thường ẩn nút điều hướng video lên/xuống trên tablet/mobile
+            }
+        }
+
+        .info-section.light-mode {
+            flex: 1; // Cho phép phần thông tin chiếm hết không gian còn lại
+            padding: 15px; // Giảm padding tổng thể cho info section
+            overflow-y: auto; // Cho phép cuộn trong phần thông tin
+            height: auto; // Tự động điều chỉnh chiều cao
+            min-height: 350px; // Chiều cao tối thiểu
+            border-top-left-radius: 20px; // Làm tròn góc trên
+            border-top-right-radius: 20px; // Làm tròn góc trên
+            margin-top: 0; // Đảm bảo không kéo lên che video controls
+            position: relative; // Đảm bảo các phần tử con có thể định vị tương đối
+            z-index: 1; // Đặt z-index cao hơn video một chút
+
+            .user-info {
+                display: flex; // Đây là container cho avatar và user-meta
+                flex-direction: row; // Giữ avatar và user-meta theo hàng trên tablet
+                align-items: flex-start; // Căn trên
+                gap: 15px; // Khoảng cách giữa avatar và user-meta
+                padding-bottom: 10px; // Padding dưới user-info
+
+                .avatar {
+                    width: 50px; // Kích thước avatar
+                    height: 50px;
+                    flex-shrink: 0; // Đảm bảo avatar không co lại
+                }
+
+                .user-meta {
+                    width: 100%; // Chiếm toàn bộ chiều rộng còn lại
+                    display: flex;
+                    flex-direction: column; // Xếp user-row, caption, music theo cột
+                    gap: 8px; // Khoảng cách giữa các phần trong user-meta
+
+                    .user-row {
+                        display: flex; // Giữ user-names và follow-btn theo hàng
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 10px; // Khoảng cách giữa tên và nút follow
+                        flex-wrap: wrap; // Cho phép wrap nếu không đủ chỗ
+
+                        .user-names {
+                            flex-grow: 1; // Chiếm không gian còn lại
+                            .username {
+                                font-size: 17px;
+                                font-weight: 600;
+                            }
+                            .displayname {
+                                font-size: 14px;
+                                color: #666;
+                            }
+                        }
+
+                        .follow-btn {
+                            flex-shrink: 0; // Đảm bảo nút follow không co lại
+                            padding: 8px 18px;
+                            font-size: 15px;
+                            border-radius: 4px;
+                            // Thêm các style nút follow của bạn
+                        }
+                    }
+
+                    .caption {
+                        font-size: 16px;
+                        margin-top: 5px; // Khoảng cách trên caption
+                    }
+
+                    .music {
+                        font-size: 15px;
+                        margin-top: 8px; // Khoảng cách dưới caption, trên music
+                        margin-bottom: 15px; // Khoảng cách dưới phần nhạc nền, trên action buttons
+                    }
+                }
+            }
+
+            .action-buttons-horizontal {
+                // Đây là khối chính chứa các nút Like/Comment/Save và Share icons
+                // Đảm bảo nó nằm dưới phần nhạc nền
+                margin-top: 10px; // Khoảng cách từ phần user-info/music xuống
+                margin-bottom: 20px; // Khoảng cách tới video-link-wrapper
+                
+                display: flex; // Sử dụng flexbox cho chính nó
+                flex-direction: column; // Xếp action-group1 và action-group2 theo cột
+                align-items: flex-start; // Căn trái các nhóm nút
+                gap: 15px; // Khoảng cách giữa action-group1 và action-group2
+
+                .action-group1 {
+                    width: 100%; // Chiếm toàn bộ chiều rộng
+                    display: flex;
+                    justify-content: flex-start; // Căn trái các action-item (like, comment, save)
+                    gap: 25px; // Khoảng cách giữa các action-item
+                    align-items: center;
+
+                    .action-item {
+                        display: flex;
+                        flex-direction: column; // Xếp icon và số theo cột (giống TikTok)
+                        align-items: center;
+                        gap: 4px; // Khoảng cách giữa icon và số/chữ
+                        cursor: pointer;
+                        
+                        .icon-circle {
+                            width: 38px;
+                            height: 38px;
+                            border-radius: 50%;
+                            background-color: #f0f0f0; // Nền icon
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 20px;
+                            color: #333;
+                            transition: background-color 0.2s;
+
+                            &.heart.liked {
+                                background-color: #fe2c55;
+                                color: white;
+                            }
+                            &.bookmark.bookmarked {
+                                background-color: #20d5ec; // Màu xanh cho bookmark
+                                color: white;
+                            }
+                        }
+                        span {
+                            font-size: 16px;
+                            color: #666;
+                            font-weight: 500;
+                        }
+                    }
+                }
+
+                .action-group2 {
+                    width: 100%; // Chiếm toàn bộ chiều rộng
+                    display: flex;
+                    justify-content: flex-end; // Căn phải các icon chia sẻ
+                    gap: 12px; // Khoảng cách giữa các icon chia sẻ
+                    align-items: center;
+                    padding-right: 15px; // Điều chỉnh để căn sát mép phải hơn nếu cần
+
+                    .icon-circle {
+                        width: 28px; // Kích thước nhỏ hơn cho share icons
+                        height: 28px;
+                        font-size: 14px;
+                        background-color: #f0f0f0;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #333;
+                        cursor: pointer;
+
+                        &.yellow { background-color: #fe2c55; color: white; } // Ví dụ cho màu custom
+                        &.dark { background-color: #222; color: white; }
+                        &.pink { background-color: #ff4081; color: white; }
+                        &.facebook { background-color: #1877f2; color: white; }
+                        &.whatsapp { background-color: #25d366; color: white; }
+                    }
+                }
+            }
+
+            .video-link-wrapper {
+                padding: 6px 12px; // Giảm padding
+                font-size: 13px; // Giảm cỡ chữ
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background-color: #f9f9f9;
+                width: 100%;
+                box-sizing: border-box;
+
+                .video-link {
+                    flex-grow: 1;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    font-size: 13px;
+                    color: #555;
+                }
+
+                .copy-link-button {
+                    flex-shrink: 0;
+                    background-color: #e0e0e0;
+                    border: none;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+
+                    &:hover {
+                        background-color: #d0d0d0;
+                    }
+                }
+            }
+
+            .tabs {
+                padding: 0 8px; // Giảm padding ngang
+                margin-top: 20px; // Khoảng cách trên tabs
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                border-bottom: 1px solid #eee;
+
+                button {
+                    flex: 1;
+                    padding: 10px 0;
+                    background: none;
+                    border: none;
+                    font-size: 15px;
+                    color: #888;
+                    cursor: pointer;
+                    position: relative;
+                    transition: color 0.2s;
+
+                    &.active {
+                        color: #333;
+                        font-weight: 600;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -1px;
+                            left: 0;
+                            width: 100%;
+                            height: 2px;
+                            background-color: #333;
+                        }
+                    }
+                }
+            }
+
+            .comments-section {
+                padding-bottom: 120px; // Đảm bảo có đủ không gian để cuộn qua input comment
+                padding-top: 15px; // Padding trên comments section
+            }
+
+            .comment-input-wrapper {
+                position: sticky; // Giữ input comment ở dưới cùng khi cuộn
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: #fff; // Đảm bảo nền trắng khi sticky
+                padding: 10px 15px; // Đảm bảo padding không bị cắt
+                border-top: 1px solid #ddd;
+                z-index: 2; // Đảm bảo nó nằm trên các comment
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .comment-input {
+                    flex-grow: 1;
+                    padding: 10px 12px;
+                    border: 1px solid #ddd;
+                    border-radius: 20px;
+                    outline: none;
+                    font-size: 14px;
+                }
+
+                button {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: #666;
+                    padding: 5px; // Để icon dễ click hơn
+
+                    &.send-button {
+                        background-color: #fe2c55;
+                        color: white;
+                        border-radius: 20px;
+                        padding: 8px 15px;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// --- Media Query cho Mobile (ví dụ: màn hình nhỏ hơn 480px) ---
+@media (max-width: 480px) {
+    .video-detail-wrapper {
+        .video-section {
+            height: 60vh; // Tăng chiều cao video một chút trên mobile (vẫn chừa chỗ)
+            min-height: 250px;
+            padding-bottom: 0px; // TĂNG padding dưới cho mobile
+
+            .video-control {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+
+                &.close-btn {
+                    width: 38px;
+                    height: 38px;
+                    font-size: 17px;
+                    top: 8px;
+                    left: 8px;
+                }
+
+                &.menu-btn {
+                    width: 34px;
+                    height: 34px;
+                    font-size: 17px;
+                    top: 8px;
+                    right: 8px;
+                }
+            }
+
+            .bottom-right-controls {
+                bottom: 10px;
+                right: 10px;
+                gap: 6px;
+            }
+
+            .volume-slider-vertical {
+                bottom: 50px;
+                right: 10px;
+                height: 80px;
+                right: -18px;
+
+                input[type='range'] {
+                    width: 60px;
+                }
+            }
+        }
+
+        .info-section.light-mode {
+            height: auto; // Tự động điều chỉnh chiều cao
+            min-height: 300px;
+            padding: 10px; // Giảm padding tổng thể
+            margin-top: 0; // Đảm bảo không kéo lên che video controls
+
+            .user-info {
+                padding: 8px;
+                gap: 10px; // Giảm khoảng cách giữa avatar và user-meta
+
+                .avatar {
+                    width: 45px;
+                    height: 45px;
+                }
+
+                .user-meta {
+                    gap: 6px; // Giảm gap cho mobile
+
+                    .user-row {
+                        gap: 8px;
+
+                        .user-names {
+                            .username {
+                                font-size: 16px;
+                            }
+                            .displayname {
+                                font-size: 13px;
+                            }
+                        }
+                        .follow-btn {
+                            padding: 6px 15px;
+                            font-size: 14px;
+                        }
+                    }
+                    .caption {
+                        font-size: 15px;
+                    }
+                    .music {
+                        font-size: 14px;
+                        margin-bottom: 10px; // Giảm khoảng cách dưới nhạc nền cho mobile
+                    }
+                }
+            }
+
+            .action-buttons-horizontal {
+                margin-top: 8px; // Khoảng cách từ nhạc nền xuống cho mobile
+                margin-bottom: 15px; // Khoảng cách tới video-link-wrapper cho mobile
+
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px; // Khoảng cách giữa group1 và group2 trên mobile
+
+                .action-group1 {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-start;
+                    gap: 30px; // Giảm khoảng cách giữa các action-item
+                    align-items: center;
+
+                    .action-item {
+                        .icon-circle {
+                            width: 35px;
+                            height: 35px;
+                            font-size: 18px;
+                        }
+                        span {
+                            font-size: 15px;
+                        }
+                    }
+                }
+
+                .action-group2 {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 10px; // Giảm khoảng cách giữa các icon chia sẻ
+                    align-items: center;
+                    display: none;
+
+                    .icon-circle {
+                        width: 26px; // Kích thước nhỏ hơn nữa cho mobile
+                        height: 26px;
+                        font-size: 13px;
+                    }
+                }
+            }
+
+            .video-link-wrapper {
+                padding: 5px 10px;
+                font-size: 12px;
+
+                .video-link {
+                    font-size: 12px;
+                }
+
+                .copy-link-button {
+                    padding: 5px 8px;
+                    font-size: 12px;
+                }
+            }
+
+            .tabs {
+                button {
+                    font-size: 14px;
+                    padding-bottom: 6px;
+                }
+            }
+
+            .comments-section {
+                .full-comment {
+                    padding: 8px 0;
+                    .comment-avatar {
+                        width: 40px;
+                        height: 40px;
+                    }
+                    .comment-body {
+                        .comment-top {
+                            .comment-main {
+                                .comment-user {
+                                    font-size: 16px;
+                                }
+                                .comment-text {
+                                    font-size: 14px;
+                                }
+                                .comment-actions {
+                                    font-size: 11px;
+                                    gap: 10px;
+                                }
+                            }
+                            .comment-like-icon {
+                                svg {
+                                    font-size: 16px;
+                                }
+                                span {
+                                    font-size: 11px;
+                                }
+                            }
+                        }
+                        .view-reply {
+                            font-size: 12px;
+                        }
+                        .reply-comment {
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
+
+            .comment-input-wrapper {
+                padding: 8px 10px; // Giảm padding cho input
+                .comment-input {
+                    padding: 8px 10px;
+                    font-size: 13px;
+                }
+                button { // Nút emoji
+                    svg {
+                        width: 18px;
+                        height: 18px;
+                    }
+                }
+                .send-button {
+                    padding: 6px 12px;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+    .emoji-picker {
+        bottom: 60px; // Điều chỉnh vị trí emoji picker
+        right: 10px;
+    }
+
+    .mini-bookmark-msg,
+    .mini-copy-msg {
+        font-size: 16px;
+        padding: 10px 20px;
+        top: 25px;
+    }
+}

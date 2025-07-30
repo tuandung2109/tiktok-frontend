@@ -226,3 +226,201 @@
     background: #e0e0e1;
     color: black;
 }
+
+
+
+
+/* --- BẮT ĐẦU CÁC ĐIỀU CHỈNH RESPONSIVE MỚI (CHỈ CÁC MEDIA QUERIES) --- */
+
+/* Màn hình rất nhỏ (dưới 480px) - Điện thoại di động */
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 15px; /* Giảm padding tổng thể */
+        font-size: 1em; /* Giảm kích thước font chung */
+    }
+
+    .profile-header {
+        flex-direction: column; /* Xếp avatar và thông tin xuống dòng */
+        align-items: center; /* Căn giữa theo chiều ngang */
+        text-align: center; /* Căn giữa văn bản trong header */
+        gap: 15px; /* Giảm khoảng cách */
+    }
+
+    .avatars {
+        width: 100px; /* Giảm kích thước avatar */
+        height: 100px;
+    }
+
+    .username {
+        font-size: 20px; /* Giảm kích thước username */
+        word-break: break-word; /* Ngắt từ dài để tránh tràn */
+    }
+
+    .handle {
+        font-size: 14px; /* Giảm kích thước handle */
+        margin-bottom: 8px;
+        word-break: break-all; /* Ngắt từ dài để tránh tràn */
+    }
+
+    .btn-group {
+        flex-direction: row; /* **GIỮ NÚT TRÊN 1 HÀNG** */
+        flex-wrap: nowrap; /* **QUAN TRỌNG: Ngăn không cho các nút xuống dòng** */
+        justify-content: center; /* Căn giữa các nút trên một hàng */
+        gap: 8px; /* Giảm gap một chút để chúng vừa hơn */
+        margin-bottom: 10px;
+        width: auto; /* Để nhóm nút tự co theo nội dung */
+
+        /* Áp dụng cho cả button và Link (nút Message) */
+        button, a.message-btn {
+            width: auto; /* Tự co theo nội dung */
+            padding: 6px 10px; /* Giảm padding một chút cho nút nhỏ hơn */
+            font-size: 14px; /* Giảm font size của chữ trong nút */
+        }
+    }
+
+    .stats {
+        flex-wrap: wrap; /* Cho phép các mục thống kê xuống dòng */
+        justify-content: center; /* Căn giữa các mục thống kê */
+        gap: 15px; /* Giảm khoảng cách giữa các mục */
+        font-size: 14px; /* Giảm kích thước font của stats */
+    }
+
+    .bio {
+        font-size: 14px; /* Giảm kích thước font của bio */
+        text-align: center; /* Căn giữa bio */
+        word-break: break-word; /* Ngắt từ dài trong bio */
+    }
+
+    .profile-tabs {
+        gap: 15px; /* Giảm khoảng cách giữa các tab */
+        margin-top: 20px;
+        padding-bottom: 8px;
+        font-size: 16px;
+        overflow-x: auto; /* Cho phép cuộn ngang nếu có nhiều tab */
+        justify-content: flex-start; /* Căn trái các tab khi cuộn */
+        -webkit-overflow-scrolling: touch; /* Tăng cường trải nghiệm cuộn trên iOS */
+        scrollbar-width: none; /* Ẩn scrollbar cho Firefox */
+        -ms-overflow-style: none; /* Ẩn scrollbar cho IE/Edge */
+    }
+
+    /* Ẩn scrollbar cho Webkit (Chrome, Safari) */
+    .profile-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .profile-tabs button {
+        font-size: 16px; /* Giảm kích thước font của tab */
+        padding-bottom: 6px;
+        flex-shrink: 0; /* Ngăn các nút tab bị co lại */
+    }
+
+    .video-grid.grid-layout {
+        grid-template-columns: repeat(2, 1fr); /* 2 cột cho điện thoại */
+        gap: 15px; /* Giảm khoảng cách giữa các video */
+        padding-bottom: 0; /* Bớt padding dưới */
+    }
+
+    .video-item {
+        max-width: unset; /* Bỏ giới hạn max-width để thích ứng với grid */
+        padding: 8px; /* Giảm padding item video */
+    }
+
+    .video-item video {
+        height: 200px; /* Giảm chiều cao video trên di động */
+    }
+}
+
+/* Màn hình trung bình (481px đến 768px) - Máy tính bảng dọc */
+@media (min-width: 481px) and (max-width: 768px) {
+    .profile-container {
+        padding: 20px; /* Điều chỉnh padding */
+    }
+
+    .profile-header {
+        gap: 20px; /* Điều chỉnh khoảng cách */
+    }
+
+    .avatars {
+        width: 120px; /* Điều chỉnh kích thước avatar */
+        height: 120px;
+    }
+
+    .username {
+        font-size: 22px; /* Điều chỉnh kích thước username */
+    }
+
+    .handle {
+        font-size: 15px; /* Điều chỉnh kích thước handle */
+    }
+
+    .btn-group {
+        flex-direction: row; /* **GIỮ NÚT TRÊN 1 HÀNG** */
+        flex-wrap: nowrap; /* **QUAN TRỌNG: Ngăn không cho các nút xuống dòng** */
+        justify-content: center; /* Căn giữa các nút trên một hàng */
+        gap: 10px; /* Điều chỉnh gap phù hợp */
+        width: auto; /* Để nhóm nút tự co theo nội dung */
+
+        button, a.message-btn {
+            width: auto;
+            padding: 7px 14px; /* Điều chỉnh padding cho tablet */
+            font-size: 15px; /* Điều chỉnh font size */
+        }
+    }
+
+    .stats {
+        gap: 20px; /* Điều chỉnh khoảng cách giữa các mục stats */
+        font-size: 15px; /* Điều chỉnh kích thước font của stats */
+    }
+
+    .bio {
+        font-size: 15px; /* Điều chỉnh kích thước font của bio */
+    }
+
+    .profile-tabs {
+        gap: 25px; /* Điều chỉnh khoảng cách giữa các tab */
+        margin-top: 30px;
+    }
+
+    .profile-tabs button {
+        font-size: 17px; /* Điều chỉnh kích thước font của tab */
+    }
+
+    .video-grid.grid-layout {
+        grid-template-columns: repeat(3, 1fr); /* 3 cột cho máy tính bảng */
+        gap: 20px; /* Điều chỉnh khoảng cách giữa các video */
+    }
+
+    .video-item {
+        max-width: unset; /* Bỏ giới hạn max-width */
+        padding: 9px;
+    }
+
+    .video-item video {
+        height: 240px; /* Điều chỉnh chiều cao video trên tablet */
+    }
+}
+
+/* Lưu ý: Màn hình lớn hơn 768px sẽ sử dụng các kiểu dáng ban đầu bạn đã định nghĩa. */
+
+
+
+
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 15px; /* Giảm padding tổng thể */
+        font-size: 1em; /* Giảm kích thước font chung */
+        // margin-top: 48px; /* Thêm khoảng cách phía trên để dịch xuống */
+    }
+
+    /* ... các kiểu dáng khác cho mobile ... */
+}
+
+/* Màn hình trung bình (481px đến 768px) - Máy tính bảng dọc */
+@media (min-width: 481px) and (max-width: 768px) {
+    .profile-container {
+        padding: 20px; /* Điều chỉnh padding */
+        /* Bạn có thể thêm margin-top ở đây nếu muốn dịch xuống ở tablet cũng được */
+    }
+
+    /* ... các kiểu dáng khác cho tablet ... */
+}

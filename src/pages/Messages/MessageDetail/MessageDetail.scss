@@ -137,3 +137,130 @@
     }
   }
 }
+
+
+/* --- Responsive Styles --- */
+
+/* For Tablets (e.g., max-width 768px) */
+@media (max-width: 768px) {
+  .chat-header {
+    padding: 12px;
+    font-size: 16px;
+
+    .chat-avatar {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .chat-messages {
+    padding: 12px;
+
+    .message {
+      padding: 8px 12px;
+      font-size: 13px;
+
+      img.sent-image {
+        max-width: 150px;
+        max-height: 150px;
+      }
+    }
+  }
+
+  .chat-input {
+    padding: 10px;
+    gap: 6px;
+
+    input[type="text"] {
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    button {
+      padding: 4px;
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .send-btn {
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+
+    .emoji-picker {
+      bottom: 50px;
+      right: 10px;
+      .EmojiPickerReact {
+        width: 100% !important;
+        max-width: 300px;
+      }
+    }
+  }
+}
+
+/* For Mobile Devices (e.g., max-width 480px) */
+@media (max-width: 480px) {
+  .chat-header {
+    padding: 10px;
+    font-size: 14px;
+
+    .chat-avatar {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .chat-messages {
+    padding: 8px;
+    gap: 8px;
+
+    .message {
+      padding: 6px 10px;
+      font-size: 12px;
+      max-width: 80%;
+
+      img.sent-image {
+        max-width: 120px;
+        max-height: 120px;
+      }
+    }
+  }
+
+  .chat-input {
+    padding: 8px;
+    gap: 4px;
+
+    input[type="text"] {
+      padding: 6px 8px;
+      font-size: 12px;
+    }
+
+    button {
+      padding: 2px;
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .send-btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .emoji-picker {
+      bottom: 45px;
+      right: 5px;
+      .EmojiPickerReact {
+        width: 100% !important;
+        max-width: 280px;
+      }
+    }
+  }
+  .image-overlay .zoomed-image {
+    max-width: 95%;
+    max-height: 95%;
+  }
+}

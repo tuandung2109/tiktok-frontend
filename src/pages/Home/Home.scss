@@ -236,11 +236,8 @@
     padding-bottom: 2rem;
 
 
-    //   .video-info-icon {
-    //     display: none;
-    // }
     .video-player {
-      max-width: 80%;
+      max-width: 65%;
       height: auto;
     }
 
@@ -252,17 +249,6 @@
         display: none !important;
     }
 
-    /* Đưa action-sidebar xuống dưới video */
-    // .action-sidebar {
-    //   position: static !important;
-    //   margin-top: 1.5rem;
-    //   flex-direction: row;
-    //   justify-content: center;
-    //   gap: 2rem;
-    //   right: auto;
-    //   top: auto;
-    //   transform: none;
-    // }
         .action-sidebar {
       position: static !important;
       /* giảm margin-top từ 1.5rem xuống 1rem để lên cao hơn */
@@ -273,6 +259,11 @@
       transform: translateY(-0.5rem); /* đẩy lên thêm 0.5rem */
     }
   }
+  .plus-icon {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 10px !important;
+  }
 }
 
 /* Mobile nhỏ (<=480px) */
@@ -282,11 +273,12 @@
 
 
     .video-player {
-      max-width: 100%;
+      max-width: 85%;
     }
     
     .video-player.fit-cover {
-        margin-top: -10rem !important;
+        margin-top: -7rem !important;
+        height: 65%;
     }
   }
 
@@ -322,9 +314,23 @@
       height: 36px;
     }
     .plus-icon {
-      width: 24px;
-      height: 24px;
-      font-size: 14px;
+      width: 16px !important;
+      height: 16px !important;
+      font-size: 9px !important;
     }
   }
+    $header-height: 60px;
+
+    .bookmark-message {
+        // top: 50%; <-- Thay đổi dòng này
+        top: calc($header-height + (100vh - $header-height) / 2); /* Tính toán vị trí top mới */
+        left: 30%;
+        top: 30px; /* Đẩy lên 10px từ đầu trang */
+        // transform: translate(-70%, -50%); /* Vẫn căn giữa hoàn toàn */
+
+        padding: 10px 20px;
+        font-size: 16px;
+        max-width: 80%;
+    }
 }
+

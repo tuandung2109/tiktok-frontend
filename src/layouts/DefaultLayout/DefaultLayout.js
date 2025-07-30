@@ -27,7 +27,8 @@
 // export default DefaultLayout;
 
 
-// src/layouts/DefaultLayout/DefaultLayout.js
+
+
 
 import PropTypes from 'prop-types';
 import { useState } from 'react';

@@ -242,3 +242,31 @@
 }
 
 }
+
+
+// Ẩn nút scroll và mở rộng vùng scroll trên mobile & tablet
+@media (max-width: 768px) {
+  .sendto-carousel {
+    .scroll-btn {
+      display: none !important; // ẩn nút trái/phải
+    }
+
+    .user-list,
+    .share-options {
+      width: 100% !important;      // đảm bảo full chiều ngang
+      padding: 0 8px;              // thêm chút padding nếu cần
+      justify-content: start;      // để item không bị căn giữa
+    }
+
+    .user-avatar,
+    .share-item {
+      scroll-snap-align: none;     // loại bỏ snapping nếu gây khó chịu
+    }
+  }
+
+  .sendto-modal {
+    width: 95vw;                   // modal co lại cho mobile
+    height: auto;                  // chiều cao tự động
+    padding: 16px;
+  }
+}

@@ -112,7 +112,7 @@ $bp-tablet: 1024px;  // 769–1024px: tablet
   width: 320px;
   padding: 20px 0 26px 8px;
   margin-left: 0;
-  height: 97vh;
+  height: 96vh;
   overflow-y: auto;
   background-color: #fff;
   scrollbar-width: thin; // Firefox
@@ -152,6 +152,7 @@ $bp-tablet: 1024px;  // 769–1024px: tablet
   &.open {
     @media (max-width: $bp-tablet) {
       transform: translateX(0);
+      z-index: 99999;
     }
   }
 

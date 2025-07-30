@@ -21,7 +21,8 @@ export default function Messages() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("${process.env.REACT_APP_API_BASE}/users");
+          const res = await axios.get(`${process.env.REACT_APP_API_BASE}/users`);
+        // const res = await axios.get("${process.env.REACT_APP_API_BASE}/users");
         setUsers(res.data);
       } catch (err) {
         console.error("Lỗi khi lấy user:", err);

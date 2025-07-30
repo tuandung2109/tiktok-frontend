@@ -40,7 +40,9 @@ function Profile() {
 
     useEffect(() => {
         if (!isCurrentUserProfile && storedUserId && userId) {
-            axios.post('${process.env.REACT_APP_API_BASE}/follows/check', {
+
+            axios.post(`${process.env.REACT_APP_API_BASE}/follows/check`, {
+            // axios.post('${process.env.REACT_APP_API_BASE}/follows/check', {
                 followerId: storedUserId,
                 followingId: userId,
             })
@@ -78,7 +80,8 @@ function Profile() {
         }
 
         axios
-            .get('${process.env.REACT_APP_API_BASE}/videos', { params })
+            .get(`${process.env.REACT_APP_API_BASE}/videos`, { params })
+            // .get('${process.env.REACT_APP_API_BASE}/videos', { params })
             .then(res => setVideos(res.data))
             .catch(err => console.error('❌ Lỗi khi lấy video:', err));
         }, [userId, storedUserId]);
@@ -119,7 +122,9 @@ function Profile() {
         if (!storedUserId || !userId) return;
 
         if (isFollowing) {
-            axios.delete('${process.env.REACT_APP_API_BASE}/follows', {
+
+            axios.delete(`${process.env.REACT_APP_API_BASE}/follows`, {
+            // axios.delete('${process.env.REACT_APP_API_BASE}/follows', {
                 data: { followerId: storedUserId, followingId: userId },
             })
             .then(() => setIsFollowing(false))
