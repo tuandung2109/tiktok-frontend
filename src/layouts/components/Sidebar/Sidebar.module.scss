@@ -1,66 +1,24 @@
-// .wrapper {
-//     width: 320px;
-//     padding: 20px 0 26px 8px;
-//     margin-left: -18px;
-//     height: 100vh; // Đảm bảo Sidebar chiếm toàn bộ chiều cao màn hình
-//     overflow-y: auto; // Thêm thanh cuộn dọc
-//     scrollbar-width: thin; // Làm thanh cuộn mỏng hơn (Firefox)
-// }
-
-// /* Tùy chỉnh thanh cuộn (Chrome, Edge) */
-// .wrapper::-webkit-scrollbar {
-//     width: 8px;
-// }
-
-// .wrapper::-webkit-scrollbar-thumb {
-//     background-color: rgba(0, 0, 0, 0.0); // Màu mờ hơn khi không cuộn
-//     border-radius: 4px;
-//     transition: background-color 0.3s ease; // Hiệu ứng chuyển đổi màu
-// }
-
-// .wrapper::-webkit-scrollbar-thumb:hover {
-//     background-color: rgba(0, 0, 0, 0.4); // Màu đậm hơn khi cuộn hoặc hover
-// }
-
-// .wrapper::-webkit-scrollbar-track {
-//     background-color: transparent;
-// }
-
-// .icon-wrapper {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     width: 24px;
-//     height: 24px;
-// }
-
-// .suggested-block {
-//     margin-left: 2px; // Dịch toàn bộ block sang phải
-// }
-
-
-
-
-
-// // Sidebar.module.scss
-// $breakpoint-mobile: 768px;
+// // Breakpoints
+// $bp-mobile: 768px;   // ≤768px: mobile
+// $bp-tablet: 1024px;  // 769–1024px: tablet
 
 // .wrapper {
-//   // Kích thước & scrollbar cho desktop
-//   width: 240px;
+//   // --- Desktop (≥1025px) ---
+//   width: 320px;
 //   padding: 20px 0 26px 8px;
-//   margin-left: -18px;
-//   height: 100vh;         // luôn cao full screen
-//   overflow-y: auto;      // scroll dọc
+//   margin-left: 0;
+//   height: 96vh;
+//   overflow-y: auto;
+//   background-color: #fff;
 //   scrollbar-width: thin; // Firefox
 
 //   &::-webkit-scrollbar {
-//     width: 8px;
+//     width: 8px;          // Chrome, Edge
 //   }
 //   &::-webkit-scrollbar-thumb {
-//     background-color: rgba(0, 0, 0, 0.0);
+//     background-color: rgba(0, 0, 0, 0.1);
 //     border-radius: 4px;
-//     transition: background-color 0.3s;
+//     transition: background-color 0.3s ease;
 //   }
 //   &::-webkit-scrollbar-thumb:hover {
 //     background-color: rgba(0, 0, 0, 0.4);
@@ -69,6 +27,31 @@
 //     background-color: transparent;
 //   }
 
+//   // --- Tablet (≤1024px) ---
+//   @media (max-width: $bp-tablet) {
+//     width: 280px;
+//     position: fixed;
+//     top: var(--default-layout-header-height);
+//     left: 0;
+//     transform: translateX(-100%);
+//     transition: transform 0.3s ease-in-out;
+//     z-index: 1000;
+//   }
+
+//   // --- Mobile (≤768px) ---
+//   @media (max-width: $bp-mobile) {
+//     width: 240px;
+//   }
+
+//   // Khi sidebar được mở (có class .open)
+//   &.open {
+//     @media (max-width: $bp-tablet) {
+//       transform: translateX(0);
+//       z-index: 99999;
+//     }
+//   }
+
+//   // Các selector con
 //   .icon-wrapper {
 //     display: flex;
 //     align-items: center;
@@ -80,28 +63,9 @@
 //   .suggested-block {
 //     margin-left: 2px;
 //   }
-
-//   // Trên mobile <= 768px: ẩn sidebar theo mặc định
-//   @media (max-width: $breakpoint-mobile) {
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     transform: translateX(-100%);
-//     transition: transform 0.3s ease-in-out;
-//     z-index: 1000;
-//     background-color: #fff; // nếu muốn nền trắng
-//   }
-
-//   // Khi có class .open thì slide vào
-//   &.open {
-//     @media (max-width: $breakpoint-mobile) {
-//       transform: translateX(0);
-//     }
-//   }
 // }
 
 
-/* src/layouts/components/Sidebar/Sidebar.module.scss */
 
 // Breakpoints
 $bp-mobile: 768px;   // ≤768px: mobile
@@ -115,21 +79,34 @@ $bp-tablet: 1024px;  // 769–1024px: tablet
   height: 96vh;
   overflow-y: auto;
   background-color: #fff;
-  scrollbar-width: thin; // Firefox
+
+  // 1) Ẩn scrollbar mặc định
+  -ms-overflow-style: none;    // IE, Edge
+  scrollbar-width: none;       // Firefox
 
   &::-webkit-scrollbar {
-    width: 8px;          // Chrome, Edge
+    width: 0;                  // Chrome, Safari, Opera
   }
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
+
+  // 2) Khi hover vào sidebar thì show scrollbar
+  &:hover {
+    -ms-overflow-style: auto;  // IE, Edge
+    scrollbar-width: thin;     // Firefox
+
+    &::-webkit-scrollbar {
+      width: 8px;              // Chiều rộng scrollbar
+    }
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
   }
 
   // --- Tablet (≤1024px) ---
@@ -156,7 +133,7 @@ $bp-tablet: 1024px;  // 769–1024px: tablet
     }
   }
 
-  // Các selector con
+  // --- Các selector con ---
   .icon-wrapper {
     display: flex;
     align-items: center;
@@ -169,4 +146,3 @@ $bp-tablet: 1024px;  // 769–1024px: tablet
     margin-left: 2px;
   }
 }
-

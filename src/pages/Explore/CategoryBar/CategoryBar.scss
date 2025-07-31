@@ -1,3 +1,168 @@
+// .bar-wrapper {
+//     position: sticky; // ✅ Dính khi cuộn
+//     top: 1px; // ✅ Dính ở vị trí trên cùng
+//     height: 60px;
+//     background-color: white; // ✅ Có nền để che video bên dưới
+//     z-index: 1000; // ✅ Đảm bảo nằm trên video
+//     padding: 0 25px; // Chỉ padding ngang, không padding trên/dưới
+//     display: flex;
+//     align-items: center;
+//     overflow: hidden;
+//     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); // Nếu muốn, hoặc bỏ đi
+//     // border: 1px solid #000000;
+// }
+
+
+// .bar-scroll {
+//     display: flex;
+//     overflow-x: auto;
+//     scroll-behavior: smooth;
+//     gap: 20px;
+//     scrollbar-width: none;
+//     -ms-overflow-style: none;
+// }
+
+// .bar-scroll::-webkit-scrollbar {
+//     display: none;
+// }
+
+// // .item {
+// //     flex-shrink: 0;
+// //     padding: 8px 16px;
+// //     background: #eee;
+// //     border-radius: 20px;
+// //     font-size: 14px;
+// //     cursor: pointer;
+// //     white-space: nowrap;
+// //     transition: 0.2s;
+// // }
+
+// .item {
+//     flex-shrink: 0;
+//     padding: 10px 18px;      // ⬅ nhỏ hơn chút so với trước
+//     background: #eee;
+//     border-radius: 20px;
+//     font-size: 15px;         // ⬅ cũng giảm nhẹ
+//     cursor: pointer;
+//     white-space: nowrap;
+//     transition: 0.2s;
+// }
+
+
+
+// .item.active {
+//     background: black;
+//     color: white;
+//     font-weight: bold;      // ⬅ làm đậm chữ nếu thích
+// }
+
+
+// .arrow {
+//     display: flex; // ✅ Căn giữa icon
+//     align-items: center;
+//     justify-content: center;
+//     width: 100px; // ✅ width = height
+//     height: 40px;
+//     border-radius: 50%; // ✅ Bo tròn hoàn toàn
+//     font-size: 18px;
+//     background: white;
+//     border: none;
+//     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+//     cursor: pointer;
+//     padding: 0; // ✅ Xóa padding nếu có
+// }
+
+// .arrow.left {
+//     margin-right: 10px; // 👈 cách ra bên phải
+//     border : 1px solid #d2d2d2;
+// }
+
+// .arrow.right {
+//     margin-left: 10px; // 👈 cách ra bên trái
+//     border : 1px solid #d2d2d2;
+// }
+
+// // --- MEDIA QUERIES ---
+
+// // Đối với các thiết bị di động (điện thoại thông minh, chiều rộng tối đa 768px)
+// @media (max-width: 1024px) {
+//     .bar-wrapper {
+//         height: 50px;
+//         padding: 0 15px;
+//         top: 0; // Dính sát mép trên hơn
+//         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); // Bóng đổ nhẹ hơn
+//     }
+
+//     .item {
+//         padding: 8px 14px;
+//         font-size: 14px;
+//         border-radius: 18px;
+//     }
+
+//     .bar-scroll {
+//         gap: 10px;
+//     }
+
+//     .arrow {
+//         width: 35px;
+//         height: 35px;
+//         font-size: 16px;
+//         margin: 0 5px;
+//         // Nếu muốn ẩn mũi tên trên mobile, bỏ comment dòng dưới:
+//         // display: none;
+//     }
+//     .arrow.left,
+//     .arrow.right {
+//         width: 70px;
+//     }
+// }
+
+// // Đối với các thiết bị di động nhỏ hơn (small phones, chiều rộng tối đa 480px)
+// @media (max-width: 480px) {
+//     .bar-wrapper {
+//         padding: 0 10px;
+//         height: 45px;
+//     }
+
+//     .item {
+//         padding: 6px 12px;
+//         font-size: 13px;
+//         border-radius: 16px;
+//     }
+
+//     .arrow {
+//         width: 30px;
+//         height: 30px;
+//         font-size: 14px;
+//         margin: 0 3px;
+//     }
+
+//     .arrow.left,
+//     .arrow.right {
+//         width: 106px;
+//     }
+// }
+
+// // Đối với Tablet (chiều rộng từ 769px đến 1024px)
+// @media (min-width: 769px) and (max-width: 1024px) {
+//     .bar-wrapper {
+//         padding: 0 20px;
+//     }
+
+//     .item {
+//         padding: 9px 16px;
+//         font-size: 14.5px;
+//     }
+
+//     .arrow {
+//         width: 38px;
+//         height: 38px;
+//         font-size: 17px;
+//     }
+// }
+
+
+
 .bar-wrapper {
     position: sticky; // ✅ Dính khi cuộn
     top: 1px; // ✅ Dính ở vị trí trên cùng
@@ -12,7 +177,6 @@
     // border: 1px solid #000000;
 }
 
-
 .bar-scroll {
     display: flex;
     overflow-x: auto;
@@ -26,36 +190,22 @@
     display: none;
 }
 
-// .item {
-//     flex-shrink: 0;
-//     padding: 8px 16px;
-//     background: #eee;
-//     border-radius: 20px;
-//     font-size: 14px;
-//     cursor: pointer;
-//     white-space: nowrap;
-//     transition: 0.2s;
-// }
-
 .item {
     flex-shrink: 0;
-    padding: 10px 18px;      // ⬅ nhỏ hơn chút so với trước
+    padding: 10px 18px; // ⬅ nhỏ hơn chút so với trước
     background: #eee;
     border-radius: 20px;
-    font-size: 15px;         // ⬅ cũng giảm nhẹ
+    font-size: 15px; // ⬅ cũng giảm nhẹ
     cursor: pointer;
     white-space: nowrap;
     transition: 0.2s;
 }
 
-
-
 .item.active {
     background: black;
     color: white;
-    font-weight: bold;      // ⬅ làm đậm chữ nếu thích
+    font-weight: bold; // ⬅ làm đậm chữ nếu thích
 }
-
 
 .arrow {
     display: flex; // ✅ Căn giữa icon
@@ -73,29 +223,67 @@
 }
 
 .arrow.left {
+    width: 8%;
     margin-right: 10px; // 👈 cách ra bên phải
     border : 1px solid #d2d2d2;
 }
 
 .arrow.right {
+    width: 8%;
     margin-left: 10px; // 👈 cách ra bên trái
     border : 1px solid #d2d2d2;
 }
 
-.card video {
-    border-radius: 16px;
-    overflow: hidden;
+/* ======================================================= */
+/* Cập nhật CSS cho responsive và tỉ lệ ảnh */
+/* ======================================================= */
+
+.card.image-card { /* Sử dụng class 'image-card' đã thêm ở trên */
+    position: relative; /* Quan trọng để ảnh bên trong có thể dùng position: absolute */
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Cố định tỉ lệ khung hình cho card */
+    /* Tôi chọn tỉ lệ 1:1 (hình vuông) để dễ quản lý nhất khi ảnh có tỉ lệ khác nhau. */
+    /* Bạn có thể thay đổi: */
+    /* padding-top: 100%;  => Tỉ lệ 1:1 (ảnh vuông) */
+    /* padding-top: 75%;   => Tỉ lệ 4:3 (chiều cao = 75% chiều rộng) */
+    padding-top: 56.25%; /* => Tỉ lệ 16:9 (chiều cao = 56.25% chiều rộng) */
+                         /* Đây là tỉ lệ phổ biến cho video, cũng tốt cho ảnh ngang */
+
+    height: 0; /* Đặt height về 0 vì padding-top đã tạo ra chiều cao ảo */
+    overflow: hidden; /* Đảm bảo không có gì tràn ra ngoài khung cố định */
+    border-radius: 16px; /* Giữ bo tròn cho card */
+    /* Bạn có thể thêm box-shadow hoặc border cho .card nếu muốn */
 }
+
+.card.image-card:hover {
+    transform: scale(1.03); // Nổi lên một chút
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); // Thêm bóng đổ
+}
+
+
+.image-card img {
+    position: absolute; /* Đặt ảnh vào vị trí tuyệt đối so với .image-card */
+    top: 0;
+    left: 0;
+    width: 100%; /* Lấp đầy chiều rộng của .image-card */
+    height: 100%; /* Lấp đầy chiều cao của .image-card (do padding-top tạo ra) */
+    object-fit: contain; /* Đảm bảo toàn bộ ảnh hiển thị, không bị cắt xén */
+                         /* Nếu ảnh không khớp tỉ lệ, sẽ có khoảng trống (letterboxing/pillarboxing) */
+    background-color: #f0f0f0; /* Màu nền cho khoảng trống nếu có, bạn có thể thay đổi */
+}
+
 
 // --- MEDIA QUERIES ---
 
-// Đối với các thiết bị di động (điện thoại thông minh, chiều rộng tối đa 768px)
+// Đối với các thiết bị di động (chiều rộng tối đa 1024px)
 @media (max-width: 1024px) {
     .bar-wrapper {
         height: 50px;
         padding: 0 15px;
-        top: 0; // Dính sát mép trên hơn
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); // Bóng đổ nhẹ hơn
+        top: 0;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     }
 
     .item {
@@ -113,8 +301,6 @@
         height: 35px;
         font-size: 16px;
         margin: 0 5px;
-        // Nếu muốn ẩn mũi tên trên mobile, bỏ comment dòng dưới:
-        // display: none;
     }
     .arrow.left,
     .arrow.right {
@@ -122,7 +308,7 @@
     }
 }
 
-// Đối với các thiết bị di động nhỏ hơn (small phones, chiều rộng tối đa 480px)
+// Đối với các thiết bị di động nhỏ hơn (chiều rộng tối đa 480px)
 @media (max-width: 480px) {
     .bar-wrapper {
         padding: 0 10px;
@@ -165,14 +351,3 @@
         font-size: 17px;
     }
 }
-
-// --- Gợi ý cho Responsive ảnh (file React): ---
-// Trong file Explore.js, phần Bootstrap bạn đã có sẵn:
-// <div className="col-md-4 mb-4" key={i}>
-// `col-md-4` nghĩa là trên màn hình medium (768px) trở lên, mỗi ảnh chiếm 4 cột (3 ảnh/hàng).
-// Để responsive tốt hơn cho mobile, bạn có thể thêm:
-// - `col-6` (2 ảnh/hàng trên màn hình extra small/small)
-// - `col-sm-6` (2 ảnh/hàng trên màn hình small trở lên)
-// Ví dụ:
-// <div className="col-6 col-sm-6 col-md-4 mb-4" key={i}>
-// Điều này sẽ hiển thị 2 ảnh/hàng trên mobile và 3 ảnh/hàng trên tablet/desktop.

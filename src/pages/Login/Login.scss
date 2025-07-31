@@ -125,3 +125,85 @@
     width: 100px;
     z-index: 100;
 }
+
+@media (max-width: 992px) {
+    .login-container {
+        width: 800px; /* Slightly smaller container for tablets */
+        height: auto; /* Adjust height automatically */
+        flex-direction: column; /* Stack elements vertically */
+    }
+
+    .login-left {
+        display: none; /* Hide the left section on tablets and smaller to save space */
+    }
+
+    .login-right {
+        padding: 40px; /* Reduce padding */
+        width: 100%; /* Take full width */
+    }
+
+    .login-right form {
+        max-width: 400px; /* Allow form to be a bit wider if needed */
+    }
+
+    .login-logo {
+        position: static; /* Remove absolute positioning */
+        margin: 20px auto 0; /* Center the logo and add top margin */
+        display: block; /* Ensure it takes up its own block space */
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        display: none; /* This will hide the entire AccountItem */
+    }
+
+    .login-wrapper {
+        background-color: #fff; /* White background for mobile */
+    }
+
+    .login-container {
+        width: 100%; /* Full width for mobile */
+        height: 100vh; /* Full viewport height for mobile */
+        border-radius: 0; /* No border-radius for full screen */
+        box-shadow: none; /* No shadow for full screen */
+    }
+
+    .login-right {
+        padding: 30px 20px; /* Adjust padding for smaller screens */
+        justify-content: flex-start; /* Align content to the top */
+        padding-top: 80px; /* Add more top padding to push content down */
+    }
+
+    .login-right form {
+        max-width: 100%; /* Form takes full width */
+    }
+
+    .login-right h2 {
+        font-size: 28px; /* Slightly smaller heading */
+        margin-bottom: 20px;
+    }
+
+    .input-wrapper .toggle-password {
+        right: 8px; /* Adjust icon position for smaller screens */
+        font-size: 16px;
+    }
+
+    .login-logo {
+        margin: 0 auto; /* Center logo */
+        top: 20px; /* Position it at the top */
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        width: 80px; /* Smaller logo */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-right {
+        padding: 20px 15px; /* Further reduce padding for very small screens */
+    }
+
+    .login-right h2 {
+        font-size: 24px; /* Even smaller heading */
+    }
+}

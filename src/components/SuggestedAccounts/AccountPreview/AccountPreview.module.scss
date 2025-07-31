@@ -58,3 +58,8 @@
     border: 1px solid #ccc;
 }
 
+@media (max-width: 1024px) {
+    .wrapper {
+        display: none; /* This will hide the entire AccountItem */
+    }
+}
