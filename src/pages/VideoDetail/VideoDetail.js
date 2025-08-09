@@ -122,7 +122,7 @@ export default function VideoDetail() {
   const checkFollowStatus = async (v, userId) => {
     if (!userId || !v.userId?._id || userId === v.userId._id) return false;
     try {
-      const res = await fetch('${process.env.REACT_APP_API_BASE}/follows/check', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/follows/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ followerId: userId, followingId: v.userId._id }),
@@ -222,7 +222,7 @@ export default function VideoDetail() {
   const handleSendComment = async () => {
     if (!commentInputText.trim() || !userId || !video._id) return;
     try {
-      const res = await fetch('${process.env.REACT_APP_API_BASE}/comments', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, videoId: video._id, content: commentInputText })
@@ -279,7 +279,7 @@ export default function VideoDetail() {
     const isCurrentlyBookmarked = bookmarked;
     try {
       const method = isCurrentlyBookmarked ? 'DELETE' : 'POST';
-      const endpoint = '${process.env.REACT_APP_API_BASE}/bookmarks';
+      const endpoint = `${process.env.REACT_APP_API_BASE}/bookmarks`;
       const res = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -446,7 +446,7 @@ export default function VideoDetail() {
                   const method = isFollowing ? 'DELETE' : 'POST';
 
                   try {
-                    await fetch('${process.env.REACT_APP_API_BASE}/follows', {
+                    await fetch(`${process.env.REACT_APP_API_BASE}/follows`, {
                       method,
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({

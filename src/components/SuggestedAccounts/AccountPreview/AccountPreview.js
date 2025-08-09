@@ -50,7 +50,7 @@ function AccountPreview({ data }) {
     const handleFollowToggle = () => {
         if (!storedUserId || !userId) return;
 
-        const url = '${process.env.REACT_APP_API_BASE}/follows';
+        const url = `${process.env.REACT_APP_API_BASE}/follows`;
         const method = isFollowing ? 'DELETE' : 'POST';
 
         fetch(url, {

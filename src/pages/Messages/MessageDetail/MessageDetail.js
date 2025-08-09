@@ -48,7 +48,7 @@ export default function MessageDetail() {
 
       // Nếu chưa có hội thoại, tạo mới
       if (!conversationId) {
-        const resNewConv = await axios.post("${process.env.REACT_APP_API_BASE}/api/conversations", {
+        const resNewConv = await axios.post(`${process.env.REACT_APP_API_BASE}/api/conversations`, {
           senderId: currentUserId,
           receiverId: partnerId,
         });
@@ -63,7 +63,7 @@ export default function MessageDetail() {
         type: 'text'
       };
 
-      const res = await axios.post("${process.env.REACT_APP_API_BASE}/api/messages", newMsg);
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/messages`, newMsg);
       setMessages((prev) => [...prev, res.data]);
       setInput('');
     } catch (err) {
@@ -86,7 +86,7 @@ const handleImageSend = async (e) => {
     );
     const imageUrl = response.data.secure_url;
 
-    const res = await axios.post('${process.env.REACT_APP_API_BASE}/api/messages', {
+    const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/messages`, {
       conversationId,
       senderId: currentUserId,
       type: 'image',

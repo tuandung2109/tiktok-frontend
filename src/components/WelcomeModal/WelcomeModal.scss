@@ -1,0 +1,116 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  
+  /* Thêm hiệu ứng transition cho fade */
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  pointer-events: none; /* Ngăn chặn tương tác khi ẩn */
+}
+
+/* Class để hiển thị modal */
+.modal-overlay.is-visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  width: 90%; 
+  max-width: 650px;
+  padding: 40px;
+  text-align: center;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  border: 1px solid #333;
+
+  /* Thêm hiệu ứng transition cho scale */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: scale(0.9); /* Thu nhỏ mặc định */
+}
+
+/* Hiệu ứng phóng to khi modal hiện */
+.modal-overlay.is-visible .modal-box {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 25px;
+}
+
+.modal-content {
+  p {
+    font-size: 1.3rem;
+    line-height: 2;
+    color: #e0e0e0;
+    margin-bottom: 25px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin: 20px 0;
+    li {
+      font-size: 1.2rem;
+      color: #bbb;
+      margin-bottom: 10px;
+      &::before {
+        content: '•';
+        color: #fe2c55;
+        font-weight: bold;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1.2em;
+      }
+    }
+  }
+}
+
+.welcome-image {
+  max-width: 100%;
+  max-height: 500px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.modal-footer {
+  margin-top: 40px;
+  button {
+    background: #fe2c55;
+    color: #fff;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #d11a3d;
+    }
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  .modal-overlay {
+    /* Đảm bảo class is-visible không ghi đè display: none */
+    display: none !important; 
+  }
+}

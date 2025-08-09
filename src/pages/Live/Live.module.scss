@@ -1,0 +1,85 @@
+/* File: src/pages/Live/Live.module.css */
+
+/* Keyframes cho hiệu ứng nhún nhảy */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Keyframes cho hiệu ứng mờ dần */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container chính, chiếm toàn bộ màn hình và căn giữa nội dung */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Card thông báo */
+.notificationCard {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  animation: fadeIn 0.8s ease-out; /* Áp dụng hiệu ứng mờ dần */
+}
+
+/* Icon wrapper - giờ sẽ chứa emoji */
+.iconWrapper {
+  font-size: 60px; /* Kích thước lớn hơn cho emoji */
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Áp dụng hiệu ứng nhún nhảy */
+  animation: bounce 1.5s infinite; /* Nhảy liên tục */
+}
+
+/* Tiêu đề */
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #161823;
+  margin-bottom: 12px;
+}
+
+/* Mô tả */
+.description {
+  font-size: 16px;
+  color: #6a6a6a;
+  line-height: 1.5;
+}
+
+/* Đảm bảo responsive */
+@media (max-width: 768px) {
+  .notificationCard {
+    padding: 30px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .description {
+    font-size: 14px;
+  }
+  .iconWrapper {
+    font-size: 50px;
+  }
+}

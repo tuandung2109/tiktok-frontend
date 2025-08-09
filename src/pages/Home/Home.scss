@@ -28,7 +28,7 @@
         width: 23px;
         height: 25px;
         top: 25px;
-        right: 135px;
+        right: 240px;
         z-index: 10;
         font-size: 10px;
         color: white;
@@ -60,6 +60,38 @@
     }
 
 }
+
+
+.video-player-wrapper {
+  position: relative;        // làm khung tham chiếu cho absolute con bên trong
+  display: inline-block;     // hoặc block tuỳ layout
+}
+
+.video-player-wrapper .video-info-icon {
+  position: absolute;
+  top: 8px;                  // khoảng cách từ đỉnh video
+  right: 8px;                // khoảng cách từ mép phải video
+  width: 28px;               // điều chỉnh kích thước icon cho phù hợp
+  height: 28px;
+  background: rgb(255 255 255 / 60%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 10;   
+  svg {
+    color: #ddd;
+  }
+}
+
+.video-player-wrapper .video-info-icon:hover {
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 12px rgba(216, 8, 8, 0.7);
+}
+
+
 
 .action-sidebar {
     position: absolute;
@@ -333,4 +365,6 @@
         max-width: 80%;
     }
 }
+
+
 

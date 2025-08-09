@@ -130,7 +130,7 @@ function Profile() {
             .then(() => setIsFollowing(false))
             .catch((err) => console.error('❌ Lỗi khi unfollow:', err));
         } else {
-            axios.post('${process.env.REACT_APP_API_BASE}/follows', {
+            axios.post(`${process.env.REACT_APP_API_BASE}/follows`, {
                 followerId: storedUserId,
                 followingId: userId,
             })
@@ -177,7 +177,16 @@ function Profile() {
                     <div className="btn-group">
                         {isCurrentUserProfile ? (
                             <>
-                                <button className="edit-btn" onClick={() => setShowEditModal(true)}>Edit profile</button>
+                                {/* <button className="edit-btn" onClick={() => setShowEditModal(true)}>Edit profile</button> */}
+                                <button
+                                    className="edit-btn"
+                                    onClick={() => {
+                                        console.log('Button clicked! showEditModal should be true now.');
+                                        setShowEditModal(true);
+                                    }}
+                                >
+                                    Edit profile
+                                </button>
                                 <button className="promote-btn">Promote post</button>
                             </>
                         ) : (
@@ -238,21 +247,6 @@ function Profile() {
                     <FontAwesomeIcon icon={faHeart} style={{ marginRight: '8px' }} />
                     Liked
                 </button>
-
-
-                {/* <button
-                    className={activeTab === 'favorites' ? 'active-tab' : ''}
-                    onClick={() => setActiveTab('favorites')}
-                >
-                    
-                    Favorites
-                </button>
-                <button
-                    className={activeTab === 'liked' ? 'active-tab' : ''}
-                    onClick={() => setActiveTab('liked')}
-                >
-                    Liked
-                </button> */}
             </div>
 
             <div className="video-grid grid-layout">
@@ -295,15 +289,9 @@ function Profile() {
                 <EditProfileModal
                     user={user}
                     onClose={() => setShowEditModal(false)}
-                    // onSave={(updatedData) => {
-                    //     // TODO: Gọi API PUT ở đây
-                    //     console.log('🔁 Dữ liệu cập nhật:', updatedData);
-                    //     setShowEditModal(false);
-                    // }}
             onSave={async (updatedData) => {
                 try {
                     await axios.put(`${process.env.REACT_APP_API_BASE}/users/${userId}`, updatedData);
-
                     if (userId === storedUserId) {
                         localStorage.setItem('user', JSON.stringify({
                             ...storedUser,

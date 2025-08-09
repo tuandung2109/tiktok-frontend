@@ -96,7 +96,7 @@ const handleUpload = async () => {
         const videoUrl = cloudinaryRes.data.secure_url;
 
         // Gửi video mới về backend
-        const res = await axios.post('${process.env.REACT_APP_API_BASE}/videos', {
+        const res = await axios.post(`${process.env.REACT_APP_API_BASE}/videos`, {
             videoUrl,
             caption,
             hashtags: hashtags.split(' ').filter(tag => tag.startsWith('#')),

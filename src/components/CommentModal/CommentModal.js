@@ -117,7 +117,7 @@ function CommentModal({ isOpen, onClose, videoId, onCommentAdded }) {
 
     try {
       setIsSubmitting(true);
-      const res = await fetch('${process.env.REACT_APP_API_BASE}/comments', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
